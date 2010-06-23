@@ -1,0 +1,18 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+	<form id="id_password" method="post" action="/login/">{% csrf_token %}
+		<ul>
+			<li>
+				{{form.username}} {{form.username.errors}}
+			</li>
+			<li>
+				{{form.password}} {{form.password.errors}}
+			</li>
+		</ul>
+		
+		<button type="submit" class=""><span>check it</span></button>
+	</form>
+</body>
+</html>

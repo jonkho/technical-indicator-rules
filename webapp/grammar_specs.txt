@@ -1,0 +1,54 @@
+select days where macd(17,8) - macd_signal(17,8,9) 2 days_ago >= 1
+select days where macd(17,8) - macd_signal(17,8,9) <= 1
+select days where macd(17,8) is_crossing macd_signal(17,8,9)
+select days where macd(17,8) 1 days_ago |-| macd(17,8) > 1
+select days where macd(17,8) speed >= macd(17,8) speed 1 days_ago
+select days where macd(17,8) <= macd(17,8) 1 days_ago
+select days where slow_stochastic(10,3) is_crossing 20	
+select days where rsi(14) speed >= 1
+select days where rsi(14) is_crossing 50
+
+select days where rsi(14) >= rsi(20)
+select days where rsi(14) speed >= rsi(20) speed
+select days where macd(17,8) - macd_signal(17,8,9) 2 days_ago >= 1
+macd(17,8) is_increasing
+
+
+
+<expression> -> <operand> <booloperator> <operand>
+			 -> <operand> <booloperator>
+			
+<operand> -> <indicator> [<modifier>]
+		  -> <indicator> [<modifier>] <arithoperator> <operand>
+		  -> <unit>
+
+<booloperator> -> >=
+			   -> <=
+			   -> is_crossing
+			   -> is_increasing
+
+<arithoperator> -> -
+				-> |-|
+
+<indicator> -> macd(<number>,<number>)
+			-> macd_signal(<number>,<number>,<number>)
+			-> sma(<number>)
+			-> ema(<number>)
+			-> stochastic(<number>)
+			-> stochastic_signal(<number>, <number>)
+			-> slow_stochastic(<number>, <number>)
+			-> slow_stochastic_signal(<number>,<number>,<number>)
+			-> rsi(<number>)
+			-> price
+
+		
+<modifier> -> speed [<days_ago>]
+		   -> <days_ago>
+
+<days_ago> -> <number> days_ago
+
+<unit> -> <float>
+
+<float> -> all floats
+
+<number> -> 1,2,3,4,5...		

@@ -1,0 +1,397 @@
+[Tue Jun 15 03:01:40 2010] [error] [client 173.203.90.149] Target WSGI script not found or unable to stat: /home/developer/sparrow.com/sparrow/apache/plerts.wsgi
+[Tue Jun 15 03:01:41 2010] [error] [client 173.203.90.149] Target WSGI script not found or unable to stat: /home/developer/sparrow.com/sparrow/apache/plerts.wsgi, referer: http://173.203.90.149/
+[Tue Jun 15 03:02:03 2010] [error] [client 75.92.46.156] Target WSGI script not found or unable to stat: /home/developer/sparrow.com/sparrow/apache/plerts.wsgi
+[Tue Jun 15 03:02:03 2010] [error] [client 75.92.46.156] Target WSGI script not found or unable to stat: /home/developer/sparrow.com/sparrow/apache/plerts.wsgi, referer: http://173.203.90.149:8080/
+[Tue Jun 15 03:09:29 2010] [error] [client 173.203.90.149] Target WSGI script not found or unable to stat: /home/developer/sparrow.com/sparrow/apache/plerts.wsgi
+[Tue Jun 15 03:10:01 2010] [error] [client 173.203.90.149] Target WSGI script not found or unable to stat: /home/developer/sparrow.com/sparrow/apache/plerts.wsgi
+[Tue Jun 15 03:13:00 2010] [error] [client 173.203.90.149] Target WSGI script not found or unable to stat: /home/developer/sparrow.com/sparrow/apache/plerts.wsgi
+[Tue Jun 15 03:13:03 2010] [error] [client 173.203.90.149] Target WSGI script not found or unable to stat: /home/developer/sparrow.com/sparrow/apache/plerts.wsgi
+[Tue Jun 15 03:17:15 2010] [error] [client 173.203.90.149] Target WSGI script not found or unable to stat: /home/developer/sparrow.com/sparrow/apache/plerts.wsgi
+[Tue Jun 15 03:17:20 2010] [error] [client 173.203.90.149] Target WSGI script not found or unable to stat: /home/developer/sparrow.com/sparrow/apache/plerts.wsgi
+[Tue Jun 15 03:19:19 2010] [error] [client 173.203.90.149] Target WSGI script not found or unable to stat: /home/developer/sparrow.com/sparrow/apache/plerts.wsgi
+[Tue Jun 15 03:19:35 2010] [error] monitor (pid=29925): Starting change monitor.
+[Tue Jun 15 03:34:25 2010] [error] monitor (pid=30083): Starting change monitor.
+[Mon Jun 14 22:34:52 2010] [error] monitor (pid=30083): Change detected to '/home/developer/sparrow.com/sparrow/settings.py'.
+[Mon Jun 14 22:34:52 2010] [error] monitor (pid=30083): Triggering process restart.
+[Tue Jun 15 03:34:56 2010] [error] monitor (pid=30225): Starting change monitor.
+[Mon Jun 14 23:03:39 2010] [error] monitor (pid=30225): Change detected to '/home/developer/sparrow.com/sparrow/webapp/models.py'.
+[Mon Jun 14 23:03:39 2010] [error] monitor (pid=30225): Triggering process restart.
+[Wed Jun 16 14:17:27 2010] [error] monitor (pid=30402): Starting change monitor.
+[Thu Jun 17 13:11:49 2010] [error] monitor (pid=30402): Starting change monitor.
+[Sun Jun 20 01:44:28 2010] [error] monitor (pid=30402): Change detected to '/home/developer/sparrow.com/sparrow/webapp/models.py'.
+[Sun Jun 20 01:44:28 2010] [error] monitor (pid=30402): Triggering process restart.
+[Sun Jun 20 16:51:51 2010] [error] monitor (pid=24122): Starting change monitor.
+[Sun Jun 20 11:56:41 2010] [error] monitor (pid=24122): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 11:56:41 2010] [error] monitor (pid=24122): Triggering process restart.
+[Sun Jun 20 16:56:59 2010] [error] monitor (pid=25512): Starting change monitor.
+[Sun Jun 20 11:57:41 2010] [error] monitor (pid=25512): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 11:57:41 2010] [error] monitor (pid=25512): Triggering process restart.
+[Sun Jun 20 16:57:53 2010] [error] monitor (pid=25544): Starting change monitor.
+[Sun Jun 20 11:59:08 2010] [error] monitor (pid=25544): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 11:59:08 2010] [error] monitor (pid=25544): Triggering process restart.
+[Sun Jun 20 16:59:15 2010] [error] monitor (pid=25576): Starting change monitor.
+[Sun Jun 20 12:06:37 2010] [error] monitor (pid=25576): Change detected to '/home/developer/sparrow.com/sparrow/urls.py'.
+[Sun Jun 20 12:06:37 2010] [error] monitor (pid=25576): Triggering process restart.
+[Sun Jun 20 17:17:49 2010] [error] monitor (pid=25680): Starting change monitor.
+[Sun Jun 20 17:17:49 2010] [error] [client 173.203.90.149] mod_wsgi (pid=25680): Exception occurred processing WSGI script '/home/developer/sparrow.com/sparrow/apache/sparrow.wsgi'.
+[Sun Jun 20 17:17:49 2010] [error] [client 173.203.90.149] Traceback (most recent call last):
+[Sun Jun 20 17:17:49 2010] [error] [client 173.203.90.149]   File "/home/developer/denv/lib/python2.6/site-packages/Django-1.2.1-py2.6.egg/django/core/handlers/wsgi.py", line 230, in __call__
+[Sun Jun 20 17:17:49 2010] [error] [client 173.203.90.149]     self.load_middleware()
+[Sun Jun 20 17:17:49 2010] [error] [client 173.203.90.149]   File "/home/developer/denv/lib/python2.6/site-packages/Django-1.2.1-py2.6.egg/django/core/handlers/base.py", line 33, in load_middleware
+[Sun Jun 20 17:17:49 2010] [error] [client 173.203.90.149]     for middleware_path in settings.MIDDLEWARE_CLASSES:
+[Sun Jun 20 17:17:49 2010] [error] [client 173.203.90.149]   File "/home/developer/denv/lib/python2.6/site-packages/Django-1.2.1-py2.6.egg/django/utils/functional.py", line 276, in __getattr__
+[Sun Jun 20 17:17:49 2010] [error] [client 173.203.90.149]     self._setup()
+[Sun Jun 20 17:17:49 2010] [error] [client 173.203.90.149]   File "/home/developer/denv/lib/python2.6/site-packages/Django-1.2.1-py2.6.egg/django/conf/__init__.py", line 40, in _setup
+[Sun Jun 20 17:17:49 2010] [error] [client 173.203.90.149]     self._wrapped = Settings(settings_module)
+[Sun Jun 20 17:17:49 2010] [error] [client 173.203.90.149]   File "/home/developer/denv/lib/python2.6/site-packages/Django-1.2.1-py2.6.egg/django/conf/__init__.py", line 73, in __init__
+[Sun Jun 20 17:17:49 2010] [error] [client 173.203.90.149]     mod = importlib.import_module(self.SETTINGS_MODULE)
+[Sun Jun 20 17:17:49 2010] [error] [client 173.203.90.149]   File "/home/developer/denv/lib/python2.6/site-packages/Django-1.2.1-py2.6.egg/django/utils/importlib.py", line 35, in import_module
+[Sun Jun 20 17:17:49 2010] [error] [client 173.203.90.149]     __import__(name)
+[Sun Jun 20 17:17:49 2010] [error] [client 173.203.90.149]   File "/home/developer/sparrow.com/sparrow/settings.py", line 5, in <module>
+[Sun Jun 20 17:17:49 2010] [error] [client 173.203.90.149]     SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+[Sun Jun 20 17:17:49 2010] [error] [client 173.203.90.149] NameError: name 'os' is not defined
+[Sun Jun 20 17:24:00 2010] [error] monitor (pid=25845): Starting change monitor.
+[Sun Jun 20 12:24:22 2010] [error] monitor (pid=25845): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 12:24:22 2010] [error] monitor (pid=25845): Triggering process restart.
+[Sun Jun 20 17:24:34 2010] [error] monitor (pid=25933): Starting change monitor.
+[Sun Jun 20 12:28:42 2010] [error] /home/developer/denv/lib/python2.6/site-packages/Django-1.2.1-py2.6.egg/django/template/defaulttags.py:52: UserWarning: A {% csrf_token %} was used in a template, but the context did not provide the value.  This is usually caused by not using RequestContext.
+[Sun Jun 20 12:28:42 2010] [error]   warnings.warn("A {% csrf_token %} was used in a template, but the context did not provide the value.  This is usually caused by not using RequestContext.")
+[Sun Jun 20 12:29:05 2010] [error] monitor (pid=25933): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 12:29:05 2010] [error] monitor (pid=25933): Triggering process restart.
+[Sun Jun 20 17:29:11 2010] [error] monitor (pid=25972): Starting change monitor.
+[Sun Jun 20 12:29:50 2010] [error] monitor (pid=25972): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 12:29:50 2010] [error] monitor (pid=25972): Triggering process restart.
+[Sun Jun 20 17:30:07 2010] [error] monitor (pid=26004): Starting change monitor.
+[Sun Jun 20 12:31:22 2010] [error] monitor (pid=26004): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 12:31:22 2010] [error] monitor (pid=26004): Triggering process restart.
+[Sun Jun 20 17:31:28 2010] [error] monitor (pid=26037): Starting change monitor.
+[Sun Jun 20 12:32:32 2010] [error] monitor (pid=26037): Change detected to '/home/developer/sparrow.com/sparrow/urls.py'.
+[Sun Jun 20 12:32:32 2010] [error] monitor (pid=26037): Triggering process restart.
+[Sun Jun 20 17:33:43 2010] [error] monitor (pid=26069): Starting change monitor.
+[Sun Jun 20 12:36:17 2010] [error] monitor (pid=26069): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 12:36:17 2010] [error] monitor (pid=26069): Triggering process restart.
+[Sun Jun 20 19:57:28 2010] [error] monitor (pid=26107): Starting change monitor.
+[Sun Jun 20 14:59:54 2010] [error] monitor (pid=26107): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 14:59:54 2010] [error] monitor (pid=26107): Triggering process restart.
+[Sun Jun 20 20:00:02 2010] [error] monitor (pid=26657): Starting change monitor.
+[Sun Jun 20 15:00:22 2010] [error] monitor (pid=26657): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 15:00:22 2010] [error] monitor (pid=26657): Triggering process restart.
+[Sun Jun 20 20:00:26 2010] [error] monitor (pid=26688): Starting change monitor.
+[Sun Jun 20 15:01:04 2010] [error] monitor (pid=26688): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 15:01:04 2010] [error] monitor (pid=26688): Triggering process restart.
+[Sun Jun 20 20:01:21 2010] [error] monitor (pid=26720): Starting change monitor.
+[Sun Jun 20 15:02:39 2010] [error] monitor (pid=26720): Change detected to '/home/developer/sparrow.com/sparrow/webapp/forms.py'.
+[Sun Jun 20 15:02:39 2010] [error] monitor (pid=26720): Triggering process restart.
+[Sun Jun 20 21:41:15 2010] [error] monitor (pid=26805): Starting change monitor.
+[Sun Jun 20 16:42:57 2010] [error] monitor (pid=26805): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 16:42:57 2010] [error] monitor (pid=26805): Triggering process restart.
+[Sun Jun 20 21:43:19 2010] [error] monitor (pid=27105): Starting change monitor.
+[Sun Jun 20 16:45:35 2010] [error] monitor (pid=27105): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 16:45:35 2010] [error] monitor (pid=27105): Triggering process restart.
+[Sun Jun 20 21:45:57 2010] [error] monitor (pid=27141): Starting change monitor.
+[Sun Jun 20 16:48:26 2010] [error] monitor (pid=27141): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 16:48:26 2010] [error] monitor (pid=27141): Triggering process restart.
+[Sun Jun 20 21:48:48 2010] [error] monitor (pid=27176): Starting change monitor.
+[Sun Jun 20 16:49:30 2010] [error] monitor (pid=27176): Change detected to '/home/developer/sparrow.com/sparrow/urls.py'.
+[Sun Jun 20 16:49:30 2010] [error] monitor (pid=27176): Triggering process restart.
+[Sun Jun 20 21:49:39 2010] [error] monitor (pid=27210): Starting change monitor.
+[Sun Jun 20 16:50:26 2010] [error] monitor (pid=27210): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 16:50:26 2010] [error] monitor (pid=27210): Triggering process restart.
+[Sun Jun 20 21:50:34 2010] [error] monitor (pid=27246): Starting change monitor.
+[Sun Jun 20 16:55:03 2010] [error] monitor (pid=27246): Change detected to '/home/developer/sparrow.com/sparrow/settings.py'.
+[Sun Jun 20 16:55:03 2010] [error] monitor (pid=27246): Triggering process restart.
+[Sun Jun 20 21:56:46 2010] [error] monitor (pid=27287): Starting change monitor.
+[Sun Jun 20 16:58:00 2010] [error] monitor (pid=27287): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 16:58:00 2010] [error] monitor (pid=27287): Triggering process restart.
+[Sun Jun 20 21:59:20 2010] [error] monitor (pid=27327): Starting change monitor.
+[Sun Jun 20 17:08:39 2010] [error] monitor (pid=27327): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 17:08:39 2010] [error] monitor (pid=27327): Triggering process restart.
+[Sun Jun 20 22:08:57 2010] [error] monitor (pid=27443): Starting change monitor.
+[Sun Jun 20 17:13:39 2010] [error] monitor (pid=27443): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 17:13:39 2010] [error] monitor (pid=27443): Triggering process restart.
+[Sun Jun 20 22:13:44 2010] [error] monitor (pid=27548): Starting change monitor.
+[Sun Jun 20 17:14:06 2010] [error] monitor (pid=27548): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 17:14:06 2010] [error] monitor (pid=27548): Triggering process restart.
+[Sun Jun 20 22:14:17 2010] [error] monitor (pid=27580): Starting change monitor.
+[Sun Jun 20 17:14:43 2010] [error] monitor (pid=27580): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 17:14:43 2010] [error] monitor (pid=27580): Triggering process restart.
+[Sun Jun 20 22:14:48 2010] [error] monitor (pid=27611): Starting change monitor.
+[Sun Jun 20 17:15:33 2010] [error] monitor (pid=27611): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 17:15:33 2010] [error] monitor (pid=27611): Triggering process restart.
+[Sun Jun 20 22:15:41 2010] [error] monitor (pid=27643): Starting change monitor.
+[Sun Jun 20 17:16:04 2010] [error] monitor (pid=27643): Change detected to '/home/developer/sparrow.com/sparrow/urls.py'.
+[Sun Jun 20 17:16:04 2010] [error] monitor (pid=27643): Triggering process restart.
+[Sun Jun 20 22:16:40 2010] [error] monitor (pid=27674): Starting change monitor.
+[Sun Jun 20 17:20:03 2010] [error] monitor (pid=27674): Change detected to '/home/developer/sparrow.com/sparrow/webapp/forms.py'.
+[Sun Jun 20 17:20:03 2010] [error] monitor (pid=27674): Triggering process restart.
+[Sun Jun 20 22:23:50 2010] [error] monitor (pid=27716): Starting change monitor.
+[Sun Jun 20 17:28:09 2010] [error] monitor (pid=27716): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 17:28:09 2010] [error] monitor (pid=27716): Triggering process restart.
+[Sun Jun 20 22:42:33 2010] [error] monitor (pid=27764): Starting change monitor.
+[Sun Jun 20 17:44:09 2010] [error] monitor (pid=27764): Change detected to '/home/developer/sparrow.com/sparrow/webapp/forms.py'.
+[Sun Jun 20 17:44:09 2010] [error] monitor (pid=27764): Triggering process restart.
+[Sun Jun 20 22:44:18 2010] [error] monitor (pid=27914): Starting change monitor.
+[Sun Jun 20 19:03:22 2010] [error] monitor (pid=27914): Change detected to '/home/developer/sparrow.com/sparrow/webapp/forms.py'.
+[Sun Jun 20 19:03:22 2010] [error] monitor (pid=27914): Triggering process restart.
+[Mon Jun 21 00:12:39 2010] [error] monitor (pid=28166): Starting change monitor.
+[Sun Jun 20 19:14:22 2010] [error] monitor (pid=28166): Change detected to '/home/developer/sparrow.com/sparrow/webapp/models.py'.
+[Sun Jun 20 19:14:22 2010] [error] monitor (pid=28166): Triggering process restart.
+[Mon Jun 21 00:24:59 2010] [error] monitor (pid=28308): Starting change monitor.
+[Sun Jun 20 19:40:31 2010] [error] monitor (pid=28308): Change detected to '/home/developer/sparrow.com/sparrow/webapp/views.py'.
+[Sun Jun 20 19:40:31 2010] [error] monitor (pid=28308): Triggering process restart.
+[Mon Jun 21 00:40:38 2010] [error] monitor (pid=28484): Starting change monitor.
+[Sun Jun 20 20:13:43 2010] [error] monitor (pid=28484): Change detected to '/home/developer/sparrow.com/sparrow/webapp/forms.py'.
+[Sun Jun 20 20:13:43 2010] [error] monitor (pid=28484): Triggering process restart.
+[Mon Jun 21 03:56:10 2010] [error] monitor (pid=28669): Starting change monitor.
+[Mon Jun 21 00:54:35 2010] [error] monitor (pid=28669): Change detected to '/home/developer/sparrow.com/sparrow/webapp/library.py'.
+[Mon Jun 21 00:54:35 2010] [error] monitor (pid=28669): Triggering process restart.
+[Mon Jun 21 06:54:52 2010] [error] monitor (pid=29594): Starting change monitor.
+[Mon Jun 21 02:14:05 2010] [error] monitor (pid=29594): Change detected to '/home/developer/sparrow.com/sparrow/webapp/library.py'.
+[Mon Jun 21 02:14:05 2010] [error] monitor (pid=29594): Triggering process restart.
+[Mon Jun 21 07:56:55 2010] [error] monitor (pid=30397): Starting change monitor.
+[Mon Jun 21 21:15:47 2010] [error] monitor (pid=30397): Change detected to '/home/developer/sparrow.com/sparrow/webapp/library.py'.
+[Mon Jun 21 21:15:47 2010] [error] monitor (pid=30397): Triggering process restart.
+[Tue Jun 22 02:16:21 2010] [error] monitor (pid=2556): Starting change monitor.
+[Mon Jun 21 21:20:51 2010] [error] monitor (pid=2556): Change detected to '/home/developer/sparrow.com/sparrow/webapp/parser.py'.
+[Mon Jun 21 21:20:51 2010] [error] monitor (pid=2556): Triggering process restart.
+[Tue Jun 22 03:17:46 2010] [error] monitor (pid=2658): Starting change monitor.
+[Tue Jun 22 03:02:37 2010] [error] monitor (pid=2658): Change detected to '/home/developer/sparrow.com/sparrow/webapp/library.py'.
+[Tue Jun 22 03:02:37 2010] [error] monitor (pid=2658): Triggering process restart.
+[Tue Jun 22 08:04:30 2010] [error] monitor (pid=3943): Starting change monitor.
+[Tue Jun 22 03:12:21 2010] [error] monitor (pid=3943): Change detected to '/home/developer/sparrow.com/sparrow/webapp/parser.py'.
+[Tue Jun 22 03:12:21 2010] [error] monitor (pid=3943): Triggering process restart.
+[Tue Jun 22 08:12:33 2010] [error] monitor (pid=4055): Starting change monitor.
+[Tue Jun 22 03:22:38 2010] [error] monitor (pid=4055): Change detected to '/home/developer/sparrow.com/sparrow/webapp/library.py'.
+[Tue Jun 22 03:22:38 2010] [error] monitor (pid=4055): Triggering process restart.
+[Tue Jun 22 08:22:58 2010] [error] monitor (pid=4243): Starting change monitor.
+[Tue Jun 22 03:31:07 2010] [error] monitor (pid=4243): Change detected to '/home/developer/sparrow.com/sparrow/webapp/library.py'.
+[Tue Jun 22 03:31:07 2010] [error] monitor (pid=4243): Triggering process restart.
+[Tue Jun 22 08:52:02 2010] [error] monitor (pid=4296): Starting change monitor.
+[Tue Jun 22 03:52:51 2010] [error] monitor (pid=4296): Change detected to '/home/developer/sparrow.com/sparrow/webapp/library.py'.
+[Tue Jun 22 03:52:51 2010] [error] monitor (pid=4296): Triggering process restart.
+[Tue Jun 22 08:54:37 2010] [error] monitor (pid=4444): Starting change monitor.
+[Tue Jun 22 03:56:26 2010] [error] monitor (pid=4444): Change detected to '/home/developer/sparrow.com/sparrow/webapp/library.py'.
+[Tue Jun 22 03:56:26 2010] [error] monitor (pid=4444): Triggering process restart.
+[Tue Jun 22 09:38:22 2010] [error] monitor (pid=4492): Starting change monitor.
+[Tue Jun 22 04:38:43 2010] [error] monitor (pid=4492): Change detected to '/home/developer/sparrow.com/sparrow/webapp/models.py'.
+[Tue Jun 22 04:38:43 2010] [error] monitor (pid=4492): Triggering process restart.
+[Tue Jun 22 09:39:00 2010] [error] monitor (pid=4797): Starting change monitor.
+[Tue Jun 22 11:45:38 2010] [error] monitor (pid=4797): Starting change monitor.
+[Tue Jun 22 17:36:41 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:36:41 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:36:41 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:36:41 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 658, in __call__
+[Tue Jun 22 17:36:41 2010] [error]     yesterday_operand1 = self.operand1(past_data[:-1], latest_record=past_data[-1], memo=memo)
+[Tue Jun 22 17:36:41 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:36:48 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:36:48 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:36:48 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:36:48 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 657, in __call__
+[Tue Jun 22 17:36:48 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:36:48 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 556, in __call__
+[Tue Jun 22 17:36:48 2010] [error]     speed = abs(self.operand(past_data, latest_record, memo) - self.operand(past_data[:-1], past_data[-1], memo))
+[Tue Jun 22 17:36:48 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:36:48 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:36:48 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:36:48 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:36:48 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 658, in __call__
+[Tue Jun 22 17:36:48 2010] [error]     yesterday_operand1 = self.operand1(past_data[:-1], latest_record=past_data[-1], memo=memo)
+[Tue Jun 22 17:36:48 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 556, in __call__
+[Tue Jun 22 17:36:48 2010] [error]     speed = abs(self.operand(past_data, latest_record, memo) - self.operand(past_data[:-1], past_data[-1], memo))
+[Tue Jun 22 17:36:48 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 657, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 556, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     speed = abs(self.operand(past_data, latest_record, memo) - self.operand(past_data[:-1], past_data[-1], memo))
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 658, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     yesterday_operand1 = self.operand1(past_data[:-1], latest_record=past_data[-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 556, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     speed = abs(self.operand(past_data, latest_record, memo) - self.operand(past_data[:-1], past_data[-1], memo))
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 640, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 166, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     long_term_ema_result = ema(past_data=prices, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 126, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     latest_ema = sma_compute(past_data=past_data[0:self.period-1], latest_record=past_data[self.period-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 640, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 166, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     long_term_ema_result = ema(past_data=prices, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 126, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     latest_ema = sma_compute(past_data=past_data[0:self.period-1], latest_record=past_data[self.period-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 640, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 166, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     long_term_ema_result = ema(past_data=prices, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 126, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     latest_ema = sma_compute(past_data=past_data[0:self.period-1], latest_record=past_data[self.period-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 640, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 166, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     long_term_ema_result = ema(past_data=prices, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 126, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     latest_ema = sma_compute(past_data=past_data[0:self.period-1], latest_record=past_data[self.period-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 640, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 166, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     long_term_ema_result = ema(past_data=prices, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 126, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     latest_ema = sma_compute(past_data=past_data[0:self.period-1], latest_record=past_data[self.period-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 640, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 166, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     long_term_ema_result = ema(past_data=prices, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 126, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     latest_ema = sma_compute(past_data=past_data[0:self.period-1], latest_record=past_data[self.period-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 640, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 166, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     long_term_ema_result = ema(past_data=prices, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 126, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     latest_ema = sma_compute(past_data=past_data[0:self.period-1], latest_record=past_data[self.period-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 640, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 166, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     long_term_ema_result = ema(past_data=prices, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 126, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     latest_ema = sma_compute(past_data=past_data[0:self.period-1], latest_record=past_data[self.period-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 640, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 166, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     long_term_ema_result = ema(past_data=prices, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 126, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     latest_ema = sma_compute(past_data=past_data[0:self.period-1], latest_record=past_data[self.period-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 640, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 166, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     long_term_ema_result = ema(past_data=prices, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 126, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     latest_ema = sma_compute(past_data=past_data[0:self.period-1], latest_record=past_data[self.period-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 640, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 166, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     long_term_ema_result = ema(past_data=prices, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 126, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     latest_ema = sma_compute(past_data=past_data[0:self.period-1], latest_record=past_data[self.period-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 640, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 166, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     long_term_ema_result = ema(past_data=prices, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 126, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     latest_ema = sma_compute(past_data=past_data[0:self.period-1], latest_record=past_data[self.period-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 640, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 166, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     long_term_ema_result = ema(past_data=prices, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 126, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     latest_ema = sma_compute(past_data=past_data[0:self.period-1], latest_record=past_data[self.period-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 640, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 166, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     long_term_ema_result = ema(past_data=prices, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 126, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     latest_ema = sma_compute(past_data=past_data[0:self.period-1], latest_record=past_data[self.period-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 640, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 166, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     long_term_ema_result = ema(past_data=prices, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 126, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     latest_ema = sma_compute(past_data=past_data[0:self.period-1], latest_record=past_data[self.period-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 640, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 166, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     long_term_ema_result = ema(past_data=prices, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 126, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     latest_ema = sma_compute(past_data=past_data[0:self.period-1], latest_record=past_data[self.period-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 640, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 166, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     long_term_ema_result = ema(past_data=prices, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 126, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     latest_ema = sma_compute(past_data=past_data[0:self.period-1], latest_record=past_data[self.period-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
+[Tue Jun 22 17:37:05 2010] [error] Traceback (most recent call last):
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/models.py", line 20, in run
+[Tue Jun 22 17:37:05 2010] [error]     result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 641, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     yesterday_operand1 = self.operand1(past_data[:-1], latest_record=past_data[-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 166, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     long_term_ema_result = ema(past_data=prices, latest_record=latest_record, memo=memo)
+[Tue Jun 22 17:37:05 2010] [error]   File "/home/developer/sparrow.com/sparrow/webapp/library.py", line 126, in __call__
+[Tue Jun 22 17:37:05 2010] [error]     latest_ema = sma_compute(past_data=past_data[0:self.period-1], latest_record=past_data[self.period-1], memo=memo)
+[Tue Jun 22 17:37:05 2010] [error] IndexError: list index out of range
