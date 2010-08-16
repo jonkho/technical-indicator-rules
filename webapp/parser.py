@@ -22,8 +22,12 @@ class Tokenizer(object):
 		return len(self.tokens) > 0
 		
 class Parser(object):
-	INDICATORS = ["macd", "macd_signal", "sma", "ema", "stochastic", "stochastic_signal", "slow_stochastic", "slow_stochastic_signal", "rsi", "price"]
+	INDICATORS = ["macd", "macd_signal", "sma", "ema", "stochastic", "stochastic_signal", "slow_stochastic", "slow_stochastic_signal", "rsi", "price", "volume"]
 	ARITHOPERATOR = ["-", "|-|"]
+	
+	def __init__(self, full_data=None):
+		self.full_data = full_data
+		super(Parser, self).__init__()
 		
 	def parse_query(self, tokenizer):
 		if not tokenizer.has_tokens():
@@ -98,6 +102,8 @@ class Parser(object):
 			indicator = Ema(period)	
 		elif token == "price":
 			indicator = Price()		
+		elif token == "volume":
+			indicator = Volume()	
 		elif token == "rsi":
 			period = self.parse_number(tokenizer)
 			indicator = Rsi(period)
@@ -115,14 +121,24 @@ class Parser(object):
 			tokenizer.consume()
 			token = tokenizer.peek()	
 		if self.is_number(token):
-			modified_operand = self.parse_days_ago(tokenizer, modified_operand)
+			#number = self.parse_number(tokenizer)
+			modified_operand = self.parse_day_displacement(tokenizer, modified_operand)
 		return modified_operand
-			
-	def parse_days_ago(self, tokenizer, operand):
-		token = tokenizer.peek()
+		
+	def parse_day_displacement(self, tokenizer, operand):
 		number = self.parse_number(tokenizer)
+		token = tokenizer.peek()
 		tokenizer.consume()
-		return Past(operand, days_ago=number)		
+		if token == "days_ago":
+			return Past(operand, days_ago=number)
+		elif token == "days_later":
+			return Future(operand, days_later=number, future_data=self.full_data)	
+			
+# 	def parse_days_ago(self, tokenizer, operand):
+# 		token = tokenizer.peek()
+# 		number = self.parse_number(tokenizer)
+# 		tokenizer.consume()
+# 		return Past(operand, days_ago=number)		
 
 	def parse_unit(self, tokenizer):
 		float_value = self.parse_float(tokenizer)
@@ -138,7 +154,9 @@ class Parser(object):
 		elif booloperator == ">=":	
 			return Is_Greater_Than_Or_Equal_To
 		elif booloperator == "is_increasing":
-			return Is_Increasing	
+			return Is_Increasing
+		elif booloperator == "is_decreasing":
+			return Is_Decreasing		
 	
 	def parse_arithoperator(self, tokenizer):
 		token = tokenizer.peek()

@@ -18,4 +18,7 @@ urlpatterns = patterns('sparrow.webapp.views',
     (r'^login/$', 'login'),
     (r'^logout/$', 'logout'),
     (r'^demo/$', 'demo'),
+    (r'^ticker/$', 'ticker_data'),
+    (r'^indicator/$', 'indicator_data'),
+    (r'^chart/$', 'chart'),
 )

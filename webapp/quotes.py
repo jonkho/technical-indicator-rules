@@ -29,6 +29,18 @@ def __request(symbol, stat):
     url = 'http://finance.yahoo.com/d/quotes.csv?s=%s&f=%s' % (symbol, stat)
     return urllib.urlopen(url).read().strip().strip('"')
 
+def get_quote(symbol):
+	values = __request(symbol,'d2ohgb3vl1').split(',')
+	return values
+# 	data = {}
+# 	data["date"] = values[0]
+# 	data["open"] = values[1]
+# 	data["high"] = values[2]
+# 	data["low"] = values[3]
+# 	data["realtime"] = values[4]
+# 	data["volume"] = values[5]
+# 	data["delayed"] = values[6]
+# 	return data
 
 def get_all(symbol):
     """
@@ -156,7 +168,7 @@ def get_historical_prices(symbol, start_date, end_date):
           'a=%s&' % str(int(start_date[4:6]) - 1) + \
           'b=%s&' % str(int(start_date[6:8])) + \
           'c=%s&' % str(int(start_date[0:4])) + \
-          'ignore=.csv'
+          'ignore=.csv'      
     days = urllib.urlopen(url).readlines()
     data = [day[:-2].split(',') for day in days]
     return data

@@ -3,9 +3,11 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidde
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib import auth
 from models import *
 from forms import *
+import jsonpickle
 
 def login(request):
 	if request.method == "POST":
@@ -34,3 +36,65 @@ def demo(request):
 def logout(request):
 	auth.logout(request)
 	return HttpResponseRedirect("/login/")	
+
+
+def chart(request):
+	if request.method == "POST":
+		pass
+	else:
+		return render_to_response("demo.html", context_instance=RequestContext(request))
+
+
+@csrf_exempt
+def ticker_data(request):
+	if request.method == "POST":
+		raise Http404
+	else:
+		
+		try:
+			symbol = request.GET["symbol"]
+			start_date = request.GET["start_date"]
+			end_date = request.GET["end_date"]
+		except Exception as e:
+			return HttpResponse(jsonpickle.encode(Return_Code(value="1001", contents=e)))	
+		
+		data = get_historical_prices(symbol=symbol, start_date=start_date, end_date=end_date)
+ 		data.reverse()
+ 		
+ 		try:
+ 			data = data[:-1]
+ 		except:
+ 			data = None
+ 		
+ 		return HttpResponse(jsonpickle.encode(Return_Code(value="1000", contents=data)))
+ 		
+ 		
+@csrf_exempt
+def indicator_data(request):
+	if request.method == "POST":
+		raise Http404
+	else:
+		try:
+			symbol = request.GET["symbol"]
+			start_date = request.GET["start_date"]
+			end_date = request.GET["end_date"]
+			indicator = request.GET["indicator"]
+		except Exception as e:
+			return HttpResponse(jsonpickle.encode(Return_Code(value="2001", contents=e)))	
+		
+		utils = Utils()
+		# back date one year to converge to true values by the time we reach the start date
+		runway_start_date = utils.one_year_earlier(start_date)
+		data = get_historical_prices(symbol=symbol, start_date=runway_start_date, end_date=end_date)
+ 		data.reverse()
+ 		data = data[:-1]
+ 		
+		indicator_history = Indicator_History()
+  		indicator_data = indicator_history(indicator, data)
+  		#print indicator_data
+  		final_data = utils.remove_runway(indicator_data, start_date)
+  		
+ 		return HttpResponse(jsonpickle.encode(Return_Code(value="2000", contents=final_data)))
+		
+		
+		

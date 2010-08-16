@@ -1,16 +1,18 @@
-select days where macd(17,8) - macd_signal(17,8,9) 2 days_ago >= 1
-select days where macd(17,8) - macd_signal(17,8,9) <= 1
-select days where macd(17,8) is_crossing macd_signal(17,8,9)
-select days where macd(17,8) 1 days_ago |-| macd(17,8) > 1
-select days where macd(17,8) speed >= macd(17,8) speed 1 days_ago
-select days where macd(17,8) <= macd(17,8) 1 days_ago
-select days where slow_stochastic(10,3) is_crossing 20	
-select days where rsi(14) speed >= 1
-select days where rsi(14) is_crossing 50
+Examples:
 
-select days where rsi(14) >= rsi(20)
-select days where rsi(14) speed >= rsi(20) speed
-select days where macd(17,8) - macd_signal(17,8,9) 2 days_ago >= 1
+macd(17,8) - macd_signal(17,8,9) 2 days_ago >= 1
+macd(17,8) - macd_signal(17,8,9) <= 1
+macd(17,8) is_crossing macd_signal(17,8,9)
+macd(17,8) 1 days_ago |-| macd(17,8) > 1
+macd(17,8) speed >= macd(17,8) speed 1 days_ago
+macd(17,8) <= macd(17,8) 1 days_ago
+slow_stochastic(10,3) is_crossing 20	
+rsi(14) speed >= 1
+rsi(14) is_crossing 50
+
+rsi(14) >= rsi(20)
+rsi(14) speed >= rsi(20) speed
+macd(17,8) - macd_signal(17,8,9) 2 days_ago >= 1
 macd(17,8) is_increasing
 
 
@@ -30,22 +32,24 @@ macd(17,8) is_increasing
 <arithoperator> -> -
 				-> |-|
 
-<indicator> -> macd(<number>,<number>)
-			-> macd_signal(<number>,<number>,<number>)
+<indicator> -> macd(<number>,<number>) #commentary: parameters are long-term moving average, short-term moving average
+			-> macd_signal(<number>,<number>,<number>) #commentary: parameters are long-term moving average, short-term moving average, period
 			-> sma(<number>)
 			-> ema(<number>)
 			-> stochastic(<number>)
-			-> stochastic_signal(<number>, <number>)
-			-> slow_stochastic(<number>, <number>)
-			-> slow_stochastic_signal(<number>,<number>,<number>)
+			-> stochastic_signal(<number>, <number>) #commentary: parameters are n, smoothing
+			-> slow_stochastic(<number>, <number>) #commentary: parameters are n, moving average
+			-> slow_stochastic_signal(<number>,<number>,<number>) #commentary: parameters are n, moving average, smoothing
 			-> rsi(<number>)
 			-> price
 
 		
-<modifier> -> speed [<days_ago>]
-		   -> <days_ago>
+<modifier> -> speed [<day_displacement>]
+		   -> gradient [<day_displacement>]
+		   -> <day_displacement>
 
-<days_ago> -> <number> days_ago
+<day_displacement> -> <number> days_ago
+				   -> <number> days_later
 
 <unit> -> <float>
 

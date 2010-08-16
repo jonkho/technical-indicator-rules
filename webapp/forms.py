@@ -23,9 +23,11 @@ class DemoForm(forms.Form):
 	def save(self):
 		data = get_historical_prices(symbol=self.cleaned_data["symbol"], start_date=self.cleaned_data["from_date"], end_date=self.cleaned_data["to_date"])
  		data.reverse()
+ 		data = data[:-1]
  		
  		box = Query_Execution_Box(data)
 		result = box(self.cleaned_data["expression1"])(self.cleaned_data["expression2"])(self.cleaned_data["expression3"])(self.cleaned_data["expression4"])(self.cleaned_data["expression5"])(self.cleaned_data["expression6"])(self.cleaned_data["expression7"])(self.cleaned_data["expression8"])
+
 		return result.data
 
 		

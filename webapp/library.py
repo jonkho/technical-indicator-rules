@@ -13,19 +13,29 @@
 #-----------------------PRICE---------------------------
 class Price(object):
 	def __call__(self, past_data, latest_record, memo={}):
-		#print(latest_record[1])
 		return float(latest_record[1])
 		
 	def cut_data(self, unformatted_data):
 		formatted_records = [(record[0], record[4]) for record in unformatted_data]
-		return formatted_records[:-1]
+		#return formatted_records[:-1]
+		return formatted_records
+		
+#-----------------------VOLUME--------------------------
+
+class Volume(object):
+	def __call__(self, past_data, latest_record, memo={}):
+		return float(latest_record[1])
+		
+	def cut_data(self, unformatted_data):
+		formatted_records = [(record[0], record[5]) for record in unformatted_data]
+		return formatted_records		
 
 #---------------------SMA FORMULAS-----------------------
 
 class SmaDataFormatter(object):
 	def cut(self, unformatted_records):
 		formatted_records = [(record[0], record[4]) for record in unformatted_records]
-		formatted_records = formatted_records[:-1]
+		#formatted_records = formatted_records[:-1]
 		return formatted_records
 
 
@@ -75,7 +85,7 @@ class Sma(object):
 class EmaDataFormatter(object):
 	def cut(self, unformatted_records):
 		formatted_records = [(record[0], record[4]) for record in unformatted_records]
-		formatted_records = formatted_records[:-1]
+		#formatted_records = formatted_records[:-1]
 		return formatted_records
 
 def ema_derive_key(pre_key, period):
@@ -141,7 +151,7 @@ class Ema(object):
 class MacdDataFormatter(object):
 	def cut(self, unformatted_records):
 		formatted_records = [(record[0], record[4]) for record in unformatted_records]
-		formatted_records = formatted_records[:-1]
+		#formatted_records = formatted_records[:-1]
 		return formatted_records
 
 	
@@ -266,7 +276,7 @@ def stochastic_derive_key(pre_key, n, ma=None, ss_smoothing=None):
 class StochasticDataFormatter(object):
 	def cut(self, unformatted_records):
 		formatted_records = [(record[0], record[2], record[3], record[4]) for record in unformatted_records]
-		formatted_records = formatted_records[:-1]
+		#formatted_records = formatted_records[:-1]
 		return formatted_records
 
 class Stochastic(object):
@@ -428,7 +438,7 @@ class Slow_Stochastic_Signal(object):
 class RsiDataFormatter(object):
 	def cut(self, unformatted_records):
 		formatted_records = [(record[0], record[1], record[2], record[3], record[4]) for record in unformatted_records]
-		formatted_records = formatted_records[:-1]
+		#formatted_records = formatted_records[:-1]
 		return formatted_records		
 	
 		
@@ -520,7 +530,6 @@ class Rsi(object):
 
 #--------------------MODIFIERS---------------------
 
-
 class Unit(object):
 	def __init__(self, value):
 		self.value = value
@@ -544,6 +553,30 @@ class Past(object):
 			return self.operand.cut_data(raw_data)
 		except Exception as e:	
 			raise e	
+			
+class Future(object):
+	def __init__(self, operand, days_later, future_data):
+		self.operand = operand
+		self.days_later = days_later
+		self.future_data = future_data
+		
+	def __call__(self, past_data, latest_record, memo={}):
+		look_ahead_length = len(past_data) + self.days_later
+# 		print "past data length %s" % len(past_data)
+# 		print "look ahead length %s" % look_ahead_length
+		if look_ahead_length > len(self.future_data) - 1:
+			raise RuntimeError
+		else:	
+			data = self.future_data[:look_ahead_length + 1]
+	# 		print "data with future length %s" % len(data)
+			data = self.cut_data(data)
+			return self.operand(data[:-1], latest_record=data[-1], memo=memo)
+		
+	def cut_data(self, raw_data):			
+		try:
+			return self.operand.cut_data(raw_data)
+		except Exception as e:	
+			raise e					
 		
 class Speed(object):
 	def __init__(self, operand):	
@@ -629,6 +662,8 @@ class Is_Greater_Than_Or_Equal_To(Base_Operator):
 		super(Is_Greater_Than_Or_Equal_To, self).__init__(operand1, operand2)
 
 	def __call__(self, past_data, latest_record, memo={}):
+# 		print("%s %s %s %s" % (latest_record[0], self.operand1(past_data, latest_record, memo), self.operand2(past_data, latest_record, memo),
+# 		self.operand1(past_data, latest_record, memo) >= self.operand2(past_data, latest_record, memo)))
 		return self.operand1(past_data, latest_record, memo) >= self.operand2(past_data, latest_record, memo)
 		
 	
@@ -659,6 +694,14 @@ class Is_Increasing(Base_Operator):
 		#print("%s %s %s" % (latest_record[0], current_operand1, yesterday_operand1))
 		return current_operand1 > yesterday_operand1
 							
+class Is_Decreasing(Base_Operator):
+	def __init__(self, operand1):
+		super(Is_Decreasing, self).__init__(operand1, None)
+		
+	def __call__(self, past_data, latest_record, memo={}):
+		is_increasing = Is_Increasing(self.operand1)
+		return not is_increasing(past_data, latest_record, memo=memo)
+	
 		
 class And(Base_Operator):
 	def __init__(self, operand1, operand2):

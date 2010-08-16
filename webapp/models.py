@@ -1,13 +1,84 @@
 from django.db import models
 from django.contrib.auth.models import User, UserManager
 import sys, traceback
+from datetime import datetime, timedelta
 from parser import *
+from webapp.quotes import *
 # Create your models here.
 
+class Utils(object):
+	def one_year_earlier(self, start_date):
+		year = int(start_date[:4])
+		year_earlier = year - 1
+		return "%s%s" % (year_earlier, start_date[4:]) 
+		
+	def remove_runway(self, data, start_date):
+		date_string_to_search = "%s-%s-%s" % (start_date[:4], start_date[4:6], start_date[6:8])
+		for (counter, record) in enumerate(data):
+			if record[0] >= date_string_to_search:
+				return data[counter:]
+				
+		raise RuntimeError
+		
+	def yesterday(self, start_date):
+		date_string = "%s-%s-%s" % (start_date[:4], start_date[4:6], start_date[6:8])
+		start_datetime = datetime.strptime(date_string, "%Y-%m-%d")
+		start_datetime = start_datetime - timedelta(days=1)
+		return start_datetime.strftime("%Y%m%d")
+			
 
+
+class Return_Code(object):
+	value = ""
+	contents = None
 	
+	def __init__(self, value, contents=None):
+		super(Return_Code, self).__init__()
+		self.value = value
+		self.contents = contents
 
+class Indicator_History(object):
+	def __init__(self):
+		self.memo = {}
+		super(Indicator_History, self).__init__()
+		
+	def __call__(self, indicator, data):
+		final_list = []
+		parser = Parser()
+ 		tokenizer = Tokenizer(indicator)
+		indicator = parser.parse_indicator(tokenizer)
+		formatted_data = indicator.cut_data(data)
+		
+		for (counter, point) in enumerate(formatted_data):
+			date = data[counter][0]
+			
+			try:
+				indicator_value = indicator(formatted_data[:counter], formatted_data[counter], self.memo)
+				date_value_pair = (date, indicator_value)
+			except:
+				date_value_pair = (date, None)
+				
+			final_list.append(date_value_pair)	
+		
+		return final_list	
 
+class Expression_Evaluator(object):
+	def is_true(self, symbol, expression, today):
+		utils = Utils()
+		runway_start_date = utils.one_year_earlier(today)
+		yesterday = utils.yesterday(today)
+		runway_data = get_historical_prices(symbol=symbol, start_date=runway_start_date, end_date=yesterday)
+ 		runway_data.reverse()
+ 		runway_data = runway_data[:-1]
+ 		formatted_runway_data = expression.cut_data(runway_data)
+ 		#print formatted_runway_data
+ 		
+ 		latest_record = get_quote(symbol)
+ 		formatted_record = expression.cut_data([latest_record])
+ 		#print formatted_record
+ 		result = expression(past_data=formatted_runway_data, latest_record=formatted_record[0])
+		return result
+ 		
 
 class Scanner(object):		
 	# this class evaluates the expression on all the past data points
@@ -19,7 +90,7 @@ class Scanner(object):
 			try:
 				result = expression(past_data=past_data[:counter], latest_record=past_data[counter], memo=memo)
 			except Exception as e:
-				traceback.print_exc()
+				#traceback.print_exc()
 				result = None
 	
 			if result: 
@@ -30,6 +101,7 @@ class Scanner(object):
 class Query_Execution_Box(object):	
 	# this class creates the execution environment by cutting the data
 	# then running the scan
+	
 	def __init__(self, data, full_data=None):
 		# data holds the parent (or previous) query result
 		# full_data holds the raw data for reference when fluent chaining
@@ -40,9 +112,10 @@ class Query_Execution_Box(object):
 		self._full_data = full_data
 		if full_data is None:
 			self._full_data = data
+		super(Query_Execution_Box, self).__init__()	
 		
 	def __call__(self, query_string):
-		parser = Parser()
+		parser = Parser(self._full_data)
  		tokenizer = Tokenizer(query_text=query_string)
  		expression = parser.parse_query(tokenizer)
 		return self.exe(expression)
@@ -81,7 +154,6 @@ class Query_Execution_Box(object):
 		return result
 		
 
-		
 		
 
 
