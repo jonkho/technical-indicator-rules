@@ -28,7 +28,7 @@ class test_bed(TestCase):
 		expression_evaluator = Expression_Evaluator()
 		expression = Is_Greater_Than_Or_Equal_To(operand1=Price(), operand2=Unit(120))
 		result = expression_evaluator.is_true(symbol="gld", expression=expression, today="20100703")
-		print result
+		#print result
 # 		result = get_quote("gld")
 # 		print result
 		
