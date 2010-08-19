@@ -1,69 +1,72 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <link rel="stylesheet" href="css/finance.css" type="text/css" media="screen" charset="utf-8">
-  <link rel="stylesheet" href="css/styles.css" type="text/css" media="screen" charset="utf-8">
+  <link rel="stylesheet" href="/css/finance.css" type="text/css" media="screen" charset="utf-8">
+  <link rel="stylesheet" href="/css/styles.css" type="text/css" media="screen" charset="utf-8">
   
-  <!--[if IE]><script language="javascript" type="text/javascript" src="js/flotr/excanvas.js"></script><![endif]-->
-  <script language="javascript" type="text/javascript" src="js/prototype.js"></script>
-  <script language="javascript" type="text/javascript" src="js/flotr/base64.js"></script>
-  <script language="javascript" type="text/javascript" src="js/flotr/canvas2image.js"></script>
-  <script language="javascript" type="text/javascript" src="js/flotr/canvastext.js"></script>
-  <script language="javascript" type="text/javascript" src="js/flotr/flotr.js"></script>
+  <!--[if IE]><script language="javascript" type="text/javascript" src="/js/flotr/excanvas.js"></script><![endif]-->
+  <script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/flotr/base64.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/flotr/canvas2image.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/flotr/canvastext.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/flotr/flotr.js"></script>
   
   
-  <script type="text/javascript" src="js/humble/HumbleFinance.js"></script>
+  <script type="text/javascript" src="/js/humble/HumbleFinance.js"></script>
   
-  <script type="text/javascript" src="js/charting.js"></script>
+  <script type="text/javascript" src="/js/charting.js"></script>
   <script type="text/javascript" >
-   js = {{ result|safe }};
-   chartData(js);
+
+  document.observe("dom:loaded", function() {
+    
+    Event.observe('chartform', 'submit', function(event) {
+
+        $('chartform').request({
+            onFailure: function() {
+              alert("fail");
+            },
+            onSuccess: function(t) {
+              eval("rdata = "+t.responseText);
+              //$('jsondiv').update(rdata);
+              chartData(rdata);
+            }
+        });
+        Event.stop(event); // stop the form from submitting
+    });
+  });
+   
   </script>
 </head>
 <body>
-	<form id="id_password" method="post" action="/demo/">{% csrf_token %}
+	<form id="chartform" method="GET" action="/query/">{% csrf_token %}
 		<ul>
 			<li>
 				{{form.symbol}} {{form.symbol.errors}} symbol
 			</li>
 			<li>
-				{{form.from_date}} {{form.from_date.errors}} from date (YYYYMMDD)
+				{{form.start_date}} {{form.start_date.errors}} from date (YYYYMMDD)
 			</li>
 			<li>
-				{{form.to_date}} {{form.to_date.errors}} to date (YYYYMMDD)
+				{{form.end_date}} {{form.end_date.errors}} to date (YYYYMMDD)
 			</li>
 			<li>
-				{{form.expression1}} {{form.expression1.errors}} exp1
-			</li>
-			<li>
-				{{form.expression2}} {{form.expression1.error2}} exp2
-			</li>
-			<li>
-				{{form.expression3}} {{form.expression1.error3}} exp3
-			</li>
-			<li>
-				{{form.expression4}} {{form.expression1.error4}} exp4
-			</li>
-			<li>
-				{{form.expression5}} {{form.expression1.error5}} exp5
-			</li>
-			<li>
-				{{form.expression6}} {{form.expression1.error6}} exp6
-			</li>
-			<li>
-				{{form.expression7}} {{form.expression1.error7}} exp7
-			</li>
-			<li>
-				{{form.expression8}} {{form.expression1.error8}} exp8
+				{{form.query}} {{form.query.errors}} query
 			</li>
 		</ul>
 		
 		<button type="submit" class=""><span>results?</span></button>
 	</form>
 
-	<div>
-		{{result}}
-	</div>
-	
+  <div id="graphcontainer">
+  <div id="finance">
+      <div id="labels">
+          <div id="dateRange">&nbsp;</div>
+      </div>
+  </div>
+  </div>
+  
+  <div id="jsondiv">
+    
+  </div>
 	
 </body>
 </html>

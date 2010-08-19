@@ -16,7 +16,7 @@ function chartData(rawJsonData) {
     //process the raw json into our needed arrays
     for (i = 0; i < rawJsonData.length; i++) {
       r = rawJsonData[i];
-      jsonData[i] = {date:r[0],open:r[1],high:r[2],low:r[3],close:r[4],volume:r[5],aclose:r[6]};
+      jsonData[i] = {date:r[0],open:r[1],high:r[2],low:r[3],close:r[4],volume:r[5],aclose:r[6],flag:r[7]};
     }
 
 

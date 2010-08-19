@@ -6,10 +6,15 @@ class LoginForm(forms.Form):
 	username = forms.CharField(max_length=255, required=True)
 	password = forms.CharField(widget=forms.PasswordInput(), required=True)
 
+class ChartForm(forms.Form):
+	start_date = forms.CharField(max_length=255, required=True)
+	end_date = forms.CharField(max_length=255, required=True)
+	symbol = forms.CharField(max_length=255, required=True)
+	query = forms.CharField(max_length=255, required=False)
 
 class DemoForm(forms.Form):
-	from_date = forms.CharField(max_length=255, required=True)
-	to_date = forms.CharField(max_length=255, required=True)
+	start_date = forms.CharField(max_length=255, required=True)
+	end_date = forms.CharField(max_length=255, required=True)
 	symbol = forms.CharField(max_length=255, required=True)
 	expression1 = forms.CharField(max_length=255, required=False)
 	expression2 = forms.CharField(max_length=255, required=False)
