@@ -4,7 +4,6 @@ import sys, traceback
 from datetime import datetime, timedelta
 from parser import *
 from webapp.quotes import *
-import copy
 # Create your models here.
 
 class Utils(object):
@@ -103,115 +102,57 @@ class Query_Execution_Box(object):
 	# this class creates the execution environment by cutting the data
 	# then running the scan
 	
-	def __init__(self, data):
+	def __init__(self, data, full_data=None):
 		# data holds the parent (or previous) query result
 		# full_data holds the raw data for reference when fluent chaining
 		# if full_data is None, this implies this class instance is the root and thus data holds the full raw data
-		# number_of_points is the running count of the resulting number of points that is evaluated True
 		# memo is the dictionary for memoization that must be passed to the scanner 
 		self.memo = {}
 		self.data = data
-		
-# 		if full_data is None:
-# 			self._full_data = data
-# 		else:
-# 			self._full_data = None
-			
+		self._full_data = full_data
+		if full_data is None:
+			self._full_data = data
 		super(Query_Execution_Box, self).__init__()	
 		
 	def __call__(self, query_string):
-#		parser = Parser(self._full_data)
-		parser = Parser(self.data)
+		parser = Parser(self._full_data)
  		tokenizer = Tokenizer(query_text=query_string)
  		expression = parser.parse_query(tokenizer)
 		return self.exe(expression)
 		
 	def exe(self, expression):
 		# always cut and scan from the full raw data
-		formatted_data = expression.cut_data(self.data)
+		formatted_data = expression.cut_data(self._full_data)
 		scanner = Scanner()
 		indexes = scanner.run(expression, formatted_data, self.memo)
 		
-		# mark the records for this query's results
-		this_querys_results = copy.deepcopy(self.data)
-		for record in this_querys_results:
-			record[-1] = False
-						
-		for index in indexes:
-			this_querys_results[index][-1] = True	
-			
-		# apply logical AND	
-		result = self.logical_and(this_querys_results, self.data)	
-
-		# return	
-		return Query_Execution_Box(data=result)	
-			
+		# retrieve the resulting records
+		query_data = [self._full_data[index] for index in indexes]
 		
 		# find the intersection between the current query results and the parent query results to get the FINAL result
-		#query_result = self.intersection(self.data, query_data)
-		#return Query_Execution_Box(data=query_result, full_data=self._full_data)	
-	
-	@property
-	def number_of_points(self):
-		count = 0
-		for record in self.data:
-			if record[-1]:
-				count += 1
-		return count
+		query_result = self.intersection(self.data, query_data)
+		return Query_Execution_Box(data=query_result, full_data=self._full_data)	
 		
-	@property	
-	def marked_days(self):
-		result = []
-		for record in self.data:
-			if record[-1]:
-				result.append(record)
-		return result	
+	def intersection(self, data1, data2):
 		
-	def logical_and(self, data1, data2):
+		# make lists of dates for easier set operations
+		data1_set = set([record[0] for record in data1])
+		data2_set = set([record[0] for record in data2])		
+		records_in_common = data1_set.intersection(data2_set)
+		result_dates = list(records_in_common)
+		result_dates.sort()
+		
+		# retrieve the records from data1 that corresponds to the result dates
 		result = []
-		for (counter, record) in enumerate(data1):
-			new_record = copy.deepcopy(record)
-			if record[-1] == None and data2[counter][-1] == None:
-				new_record[-1] = False
-				#print("%s) branch 1, new record is set to: %s and %s = %s" % (counter,record[-1], data2[counter][-1], new_record[-1]))
+		data1_dict = {} # make a data1 dictionary keyed by date for O(n) performance
+		for record in data1:
+			data1_dict[record[0]] = record 
+		
+		for date in result_dates:
+			result.append(data1_dict[date])
 				
-			elif record[-1] == None and data2[counter][-1] != None:
-				new_record[-1] = data2[counter][-1]	
-				#print("%s) branch 2, new record is set to: %s and %s = %s" % (counter,record[-1], data2[counter][-1], new_record[-1]))	
-			
-			elif record[-1] != None and data2[counter][-1] == None:
-				new_record[-1] = record[-1]
-				#print("%s) branch 3, new record is set to: %s and %s = %s" % (counter,record[-1], data2[counter][-1], new_record[-1]))
-			
-			else:
-				new_record[-1] = record[-1] and data2[counter][-1]
-				#print("%s) branch 4, new record is set to: %s and %s = %s" % (counter,record[-1], data2[counter][-1], new_record[-1]))
-			
-			result.append(new_record)
+		return result
 		
-		return result	
-			
-		
-# 	def intersection(self, data1, data2):
-# 		
-# 		# make lists of dates for easier set operations
-# 		data1_set = set([record[0] for record in data1])
-# 		data2_set = set([record[0] for record in data2])		
-# 		records_in_common = data1_set.intersection(data2_set)
-# 		result_dates = list(records_in_common)
-# 		result_dates.sort()
-# 		
-# 		# retrieve the records from data1 that corresponds to the result dates
-# 		result = []
-# 		data1_dict = {} # make a data1 dictionary keyed by date for O(n) performance
-# 		for record in data1:
-# 			data1_dict[record[0]] = record 
-# 		
-# 		for date in result_dates:
-# 			result.append(data1_dict[date])
-# 				
-# 		return result
-# 		
 
 		
 

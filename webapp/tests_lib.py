@@ -261,8 +261,8 @@ class Price_Test(TestCase):
 		price = Price()
 		rule = Is_Greater_Than_Or_Equal_To(operand1=price, operand2=Sma(20))
 		
-		scanner = Scanner()
-		result = scanner.run(expression=rule, past_data=prices)
+		back_test = Scanner()
+		result = back_test.run(expression=rule, past_data=prices)
 		self.failUnlessEqual(len(result), 179)
 		
 
@@ -285,16 +285,12 @@ class Volume_Test(TestCase):
 # 			print(volumes[point][0])
 		self.failUnlessEqual(len(result), 18)
 		
-		data_with_flag = []
-		for record in data:
-  			record.append(None)
-  			data_with_flag.append(record)
-		parser = Parser(data_with_flag)
+		parser = Parser()
  		tokenizer = Tokenizer(query_text="volume >= 30000000")
  		rule = parser.parse_query(tokenizer)
  		exe_box = Query_Execution_Box(data)
  		result_box = exe_box.exe(rule)
- 		self.failUnlessEqual(result_box.number_of_points, 18)	
+ 		self.failUnlessEqual(len(result_box.data), 18)	
 
 				
 		
@@ -465,47 +461,43 @@ class Execution_Env_Test(TestCase):
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		data = data[:-1]
-		data_with_flag = []
-		for record in data:
-  			record.append(None)
-  			data_with_flag.append(record)
-		parser = Parser(data_with_flag)
+		parser = Parser(data)
 		
 
 		ss = Slow_Stochastic(n=10, ma=3) # Note: first 13 entries are useless (have None's).  Start at the 14th record
 		rule = Is_Crossing(operand1=ss, operand2=Unit(20))
- 		exe_box = Query_Execution_Box(data_with_flag)
+ 		exe_box = Query_Execution_Box(data)
  		result = exe_box.exe(rule)
- 		self.failUnlessEqual(result.number_of_points, 20) 		
+ 		self.failUnlessEqual(len(result.data), 20) 		
  		
  		
 		tokenizer = Tokenizer(query_text="macd(17,8) speed >= macd(17,8) speed 1 days_ago")
 		rule = parser.parse_query(tokenizer)
 		result = exe_box.exe(rule)
-		self.failUnlessEqual(result.number_of_points, 128)
+		self.failUnlessEqual(len(result.data), 128)
 		
 		
 		tokenizer = Tokenizer(query_text="rsi(14) is_crossing 50")
 		rule = parser.parse_query(tokenizer)	
 		result = exe_box.exe(rule)
-		self.failUnlessEqual(result.number_of_points, 41)
+		self.failUnlessEqual(len(result.data), 41)
 		
 		#very long test
 		tokenizer = Tokenizer(query_text="macd(17,8) is_crossing macd_signal(17,8,9)")
 		rule = parser.parse_query(tokenizer)	
 		result = exe_box.exe(rule)
-		self.failUnlessEqual(result.number_of_points, 25)
+		self.failUnlessEqual(len(result.data), 25)
 
 		tokenizer = Tokenizer(query_text="slow_stochastic(10,3) is_crossing 20")
 		rule = parser.parse_query(tokenizer)	
  		result = exe_box.exe(rule)
- 		self.failUnlessEqual(result.number_of_points, 20)
+ 		self.failUnlessEqual(len(result.data), 20)
   		
  		#very long test
  		tokenizer = Tokenizer(query_text="slow_stochastic(10,3) is_crossing slow_stochastic_signal(10,3,10)")
 		rule = parser.parse_query(tokenizer)	
   		result = exe_box.exe(rule)
-  		self.failUnlessEqual(result.number_of_points, 46)
+  		self.failUnlessEqual(len(result.data), 46)
  		#print(result.data)
 #  		
 
@@ -514,42 +506,29 @@ class Execution_Env_Test(TestCase):
 		rule = parser.parse_query(tokenizer)
 		result = exe_box.exe(rule)
 		#print(result.data)
-		self.failUnlessEqual(result.number_of_points, 168)
-			
-	def test_execution_box_logical_and(self):
-		exe_box = Query_Execution_Box(None)
-		result = exe_box.logical_and([["something", None], ["something", False], ["something", True]], [["something", None], ["something", True], ["something", True]])	
-		self.failUnlessEqual(len(result), 3)
-		self.failUnlessEqual(result[0][-1], False)
-		self.failUnlessEqual(result[1][-1], False)
-		self.failUnlessEqual(result[2][-1], True)	
+		self.failUnlessEqual(len(result.data), 168)
 			
 		
 	def test_execution_boxes_can_be_chained(self):
 		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
-		data = data[:-1]
-		data_with_flag = []
-		for record in data:
-  			record.append(None)
-  			data_with_flag.append(record)
-		parser = Parser(data_with_flag)
 		
+		
+ 		parser = Parser()
  		tokenizer = Tokenizer(query_text="macd(17,8) speed >= macd(17,8) speed 1 days_ago")
  		rule = parser.parse_query(tokenizer)
  		exe_box = Query_Execution_Box(data)
- 		result_box = exe_box.exe(rule)
-
-
+ 		result_box = exe_box.exe(rule)	
+		
 		tokenizer = Tokenizer(query_text="rsi(14) is_crossing 50")
 		rule = parser.parse_query(tokenizer)	
 		result = result_box.exe(rule)
-		self.failUnlessEqual(result.number_of_points, 23)
+		self.failUnlessEqual(len(result.data), 23)
 		#print(result.data)
 		
 		
- 		#fluent interface
+		#fluent interface
 		parser = Parser()
  		tokenizer = Tokenizer(query_text="macd(17,8) speed >= macd(17,8) speed 1 days_ago")
  		expression1 = parser.parse_query(tokenizer)
@@ -558,37 +537,31 @@ class Execution_Env_Test(TestCase):
 		
 		box = Query_Execution_Box(data)
 		results = box.exe(expression1).exe(expression2)
-		self.failUnlessEqual(results.number_of_points, 23)
+		self.failUnlessEqual(len(results.data), 23)
 		
 	def test_execution_box_can_accept_query_string(self):
 		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
-		data_with_flag = []
-		for record in data:
-  			record.append(None)
-  			data_with_flag.append(record)
 		
-		box = Query_Execution_Box(data_with_flag)
+		box = Query_Execution_Box(data)
  		result = box("macd(17,8) speed is_increasing")("rsi(14) is_crossing 50")(None)
-		self.failUnlessEqual(result.number_of_points, 23)
+		self.failUnlessEqual(len(result.data), 23)
 		
 		
 
 		data = get_historical_prices(symbol="gld", start_date="20090101", end_date="20100601")
 		data.reverse()
 		data = data[:-1]
-		data_with_flag = []
-		for record in data:
-  			record.append(None)
-  			data_with_flag.append(record)
-  			
-		box = Query_Execution_Box(data_with_flag)
+		box = Query_Execution_Box(data)
 		result = box("price 3 days_later >= price")
-		self.failUnlessEqual(result.number_of_points, 209)
+		self.failUnlessEqual(len(result.data), 209)
 
 		
-
+# 		data = get_historical_prices(symbol="aapl", start_date="20090101", end_date="20100601")
+#  		data.reverse()
+#  		box = Query_Execution_Box(data)
+# 		result = box("price >= 220")
 
 		
 class Technical_Data_Test(TestCase):
