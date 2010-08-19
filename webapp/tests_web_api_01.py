@@ -24,3 +24,10 @@ class Api_01_Test(TestCase):
 		self.failUnlessEqual(int(return_code["value"]), 2000)
 		self.failUnlessEqual(len(return_code["contents"]), 252)
 		#print return_code["contents"]
+		
+	
+	def test_api_query_results_success(self):
+		response = self.client.get("/query/", {"symbol":"gld", "start_date":"20090101", "end_date":"20100301", "query":"macd(17,8) is_crossing macd_signal(17,8,9)"})
+		return_code = json.loads(response.content)
+		self.failUnlessEqual(int(return_code["value"]), 3000)
+		self.failUnlessEqual(len(return_code["contents"]["data"]), 291)

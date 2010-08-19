@@ -30,14 +30,7 @@ def demo(request):
 	else:
 		form = DemoForm()
 		result = []
-		
-	resultclean = []
-	for r in result:
-	    tmp = [r[0], float(r[1]), float(r[2]), float(r[3]), float(r[4]), int(r[5]), float(r[6])]
-	    resultclean.append(tmp)
-	    
-	rs = jsonpickle.encode(resultclean)
-	return render_to_response("demo.html", {"form":form, "result":rs}, context_instance=RequestContext(request))		
+	return render_to_response("demo.html", {"form":form, "result":result}, context_instance=RequestContext(request))		
 	
 	
 def logout(request):
@@ -103,5 +96,32 @@ def indicator_data(request):
   		
  		return HttpResponse(jsonpickle.encode(Return_Code(value="2000", contents=final_data)))
 		
+@csrf_exempt
+def query_data(request):		
+	if request.method == "POST":
+		raise Http404
+	else:
+		try:
+			symbol = request.GET["symbol"]
+			start_date = request.GET["start_date"]
+			end_date = request.GET["end_date"]
+			query = request.GET["query"]
+		except Exception as e:
+			return HttpResponse(jsonpickle.encode(Return_Code(value="3001", contents=e)))
 		
-		
+		data = get_historical_prices(symbol=symbol, start_date=start_date, end_date=end_date)
+ 		data.reverse()
+ 		data = data[:-1]
+ 		
+ 		# add the extra flag for each record
+ 		data_with_flag = []
+		for record in data:
+  			record.append(None)
+  			data_with_flag.append(record)
+  			
+  		box = Query_Execution_Box(data_with_flag)
+ 		query_result = box(query)
+ 		
+ 		return HttpResponse(jsonpickle.encode(Return_Code(value="3000", contents=query_result)))	
+  			
+  			
