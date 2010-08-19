@@ -5,6 +5,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
+
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
 )
@@ -13,8 +14,8 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'sparrowdb',                      # Or path to database file if using sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': './local.db',                      # Or path to database file if using sqlite3.
         'USER': 'sparrowuser',                      # Not used with sqlite3.
         'PASSWORD': 'aust1nsparr0wtr8de',                  # Not used with sqlite3.
         'HOST': '173.203.90.149',                      # Set to empty string for localhost. Not used with sqlite3.

@@ -1,5 +1,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+  <link rel="stylesheet" href="/css/finance.css" type="text/css" media="screen" charset="utf-8">
+  <link rel="stylesheet" href="/css/styles.css" type="text/css" media="screen" charset="utf-8">
+  
+  <!--[if IE]><script language="javascript" type="text/javascript" src="/js/flotr/excanvas.js"></script><![endif]-->
+  <script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/flotr/base64.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/flotr/canvas2image.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/flotr/canvastext.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/flotr/flotr.js"></script>
+  
+  
+  <script type="text/javascript" src="/js/humble/HumbleFinance.js"></script>
+  
+  <script type="text/javascript" src="/js/charting.js"></script>
+  <script type="text/javascript" >
+  js = {{ result|safe }};
+  
+  document.observe("dom:loaded", function() {
+    chartData(js);
+  });
+   
+  </script>
 </head>
 <body>
 	<form id="id_password" method="post" action="/demo/">{% csrf_token %}
@@ -42,9 +64,13 @@
 		<button type="submit" class=""><span>results?</span></button>
 	</form>
 
-	<div>
-		{{result}}
-	</div>
+  <div id="graphcontainer">
+  <div id="finance">
+      <div id="labels">
+          <div id="dateRange">&nbsp;</div>
+      </div>
+  </div>
+  </div>
 	
 </body>
 </html>

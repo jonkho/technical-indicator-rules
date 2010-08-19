@@ -68,6 +68,7 @@ var HumbleFinance = {
      * @member Array
      */
     priceData: [],
+    
     /**
      * Array of data displayed in second graph
      * 
@@ -624,7 +625,8 @@ var HumbleFinance = {
             $('priceGraph'),
             [data],
             {
-                lines: {show: true, fill: true, fillOpacity: .1, lineWidth: 1},
+                lines: {show: false, fill: true, fillOpacity: .1, lineWidth: 1},
+                candles: {show: true, candleWidth:0.8, wickLineWidth: 1, barcharts: false, fillOpacity: 0.8},
                 yaxis: {min: ymin, max: ymax, tickFormatter: this.yTickFormatter, noTicks: 3, autoscaleMargin: .5,  tickDecimals: 0},
                 xaxis: {min: xmin, max: xmax, showLabels: false},
                 grid: {outlineWidth: 0, labelMargin: 0},

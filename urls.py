@@ -1,4 +1,6 @@
 from django.conf.urls.defaults import *
+import settings
+import os
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -22,3 +24,11 @@ urlpatterns = patterns('sparrow.webapp.views',
     (r'^indicator/$', 'indicator_data'),
     (r'^chart/$', 'chart'),
 )
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+    (r'^css/(?P<path>.*)$', 'django.views.static.serve',
+            {'document_root': os.path.join(settings.SITE_ROOT, "media/css"), 'show_indexes': True}),
+    (r'^js/(?P<path>.*)$', 'django.views.static.serve',
+            {'document_root': os.path.join(settings.SITE_ROOT, "media/js"), 'show_indexes': True}),
+    )

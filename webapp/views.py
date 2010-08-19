@@ -30,7 +30,14 @@ def demo(request):
 	else:
 		form = DemoForm()
 		result = []
-	return render_to_response("demo.html", {"form":form, "result":result}, context_instance=RequestContext(request))		
+		
+	resultclean = []
+	for r in result:
+	    tmp = [r[0], float(r[1]), float(r[2]), float(r[3]), float(r[4]), int(r[5]), float(r[6])]
+	    resultclean.append(tmp)
+	    
+	rs = jsonpickle.encode(resultclean)
+	return render_to_response("demo.html", {"form":form, "result":rs}, context_instance=RequestContext(request))		
 	
 	
 def logout(request):
