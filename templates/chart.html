@@ -29,7 +29,7 @@
               //$('#finance').update('');
               eval("rdata = "+t.responseText);
               //$('jsondiv').update(rdata);
-              chartData(rdata);
+              chartData(rdata["contents"]["data"]);
             }
         });
         Event.stop(event); // stop the form from submitting

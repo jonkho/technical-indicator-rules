@@ -122,6 +122,6 @@ def query_data(request):
   			
   		box = Query_Execution_Box(data_with_flag)
  		query_result = box(query)
- 		
- 		return HttpResponse(jsonpickle.encode(query_result.data))	
+ 		    
+ 		return HttpResponse(jsonpickle.encode(Return_Code(value="3000", contents=query_result)))	
   			
