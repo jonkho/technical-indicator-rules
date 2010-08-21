@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from django.test import TestCase
 from webapp.models import *
 from datetime import datetime, timedelta
