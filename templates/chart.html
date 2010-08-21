@@ -25,6 +25,8 @@
               alert("fail");
             },
             onSuccess: function(t) {
+              delete rdata;
+              //$('#finance').update('');
               eval("rdata = "+t.responseText);
               //$('jsondiv').update(rdata);
               chartData(rdata);
