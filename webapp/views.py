@@ -42,7 +42,8 @@ def chart(request):
 	if request.method == "POST":
 		pass
 	else:
-		return render_to_response("demo.html", context_instance=RequestContext(request))
+	    form = ChartForm()
+	return render_to_response("chart.html", {"form":form}, context_instance=RequestContext(request))
 
 
 @csrf_exempt
@@ -122,5 +123,5 @@ def query_data(request):
   		box = Query_Execution_Box(data_with_flag)
  		query_result = box(query)
  		
- 		return HttpResponse(jsonpickle.encode(Return_Code(value="3000", contents=query_result)))	
+ 		return HttpResponse(jsonpickle.encode(query_result.data))	
   			

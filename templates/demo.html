@@ -18,22 +18,36 @@
   js = {{ result|safe }};
   
   document.observe("dom:loaded", function() {
-    chartData(js);
+    //chartData(js);
+    
+    Event.observe('chartform', 'submit', function(event) {
+
+        $('chartform').request({
+            onFailure: function() {
+              alert("fail");
+            },
+            onSuccess: function(t) {
+                $('graphcontainer').update(t.responseText);
+            }
+        });
+        Event.stop(event); // stop the form from submitting
+
+    });
   });
    
   </script>
 </head>
 <body>
-	<form id="id_password" method="post" action="/demo/">{% csrf_token %}
+	<form id="chartform" method="GET" action="/query/">{% csrf_token %}
 		<ul>
 			<li>
 				{{form.symbol}} {{form.symbol.errors}} symbol
 			</li>
 			<li>
-				{{form.from_date}} {{form.from_date.errors}} from date (YYYYMMDD)
+				{{form.start_date}} {{form.start_date.errors}} from date (YYYYMMDD)
 			</li>
 			<li>
-				{{form.to_date}} {{form.to_date.errors}} to date (YYYYMMDD)
+				{{form.end_date}} {{form.end_date.errors}} to date (YYYYMMDD)
 			</li>
 			<li>
 				{{form.expression1}} {{form.expression1.errors}} exp1
