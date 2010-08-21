@@ -124,4 +124,3 @@ def query_data(request):
  		
  		return HttpResponse(jsonpickle.encode(Return_Code(value="3000", contents=query_result)))	
   			
-  			

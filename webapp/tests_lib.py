@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.test import TestCase
 from webapp.models import *
 from datetime import datetime, timedelta
@@ -633,5 +634,4 @@ class Utils_Test(TestCase):
 		result = utils.remove_runway(data, "20100301")
 		self.failUnlessEqual(len(result), 1)
 				
-
 from tests_web_api_01 import *

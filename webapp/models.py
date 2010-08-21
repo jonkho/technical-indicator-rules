@@ -212,9 +212,4 @@ class Query_Execution_Box(object):
 # 				
 # 		return result
 # 		
-
-		
-
-
-		
 			

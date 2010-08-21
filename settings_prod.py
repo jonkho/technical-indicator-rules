@@ -1,7 +1,9 @@
 # Django settings for sparrow project.
+import socket, os
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
+SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
@@ -11,11 +13,11 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'sparrowdb',                      # Or path to database file if using sqlite3.
+        'USER': 'sparrowuser',                      # Not used with sqlite3.
+        'PASSWORD': 'aust1nsparr0wtr8de',                  # Not used with sqlite3.
+        'HOST': '173.203.90.149',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
@@ -55,7 +57,7 @@ MEDIA_URL = ''
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
+ADMIN_MEDIA_PREFIX = '/media/admin/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'jty67-@r0u12(4ezw1s@&s+%qn(5^9#4q(h08+a!s)!-h8l-@&'
@@ -81,6 +83,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+	os.path.join(SITE_ROOT, 'templates'),   
 )
 
 INSTALLED_APPS = (
@@ -90,5 +93,14 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
+    'sparrow.webapp',
 )
+
+TEST_RUNNER = "sparrow.runners.run_tests"
+TEST_APPS = (
+    "webapp",
+)
+
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/logout/'
