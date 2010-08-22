@@ -1,2 +1,5 @@
 build/
 *.pyc
+.coverage
+coverage.xml
+sloccount.sc
