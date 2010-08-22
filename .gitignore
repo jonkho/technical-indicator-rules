@@ -3,3 +3,5 @@ build/
 .coverage
 coverage.xml
 sloccount.sc
+uwsgi.conf
+django_wsgi.py
