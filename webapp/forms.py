@@ -7,8 +7,8 @@ class LoginForm(forms.Form):
 	password = forms.CharField(widget=forms.PasswordInput(), required=True)
 
 class ChartForm(forms.Form):
-	start_date = forms.CharField(max_length=255, required=True)
-	end_date = forms.CharField(max_length=255, required=True)
+	start_date = forms.CharField(max_length=255, required=True, initial="20100101")
+	end_date = forms.CharField(max_length=255, required=True, initial="20100601")
 	symbol = forms.CharField(max_length=255, required=True)
 	query = forms.CharField(max_length=255, required=False)
 

@@ -14,6 +14,7 @@ lowData = [];
 function chartData(rawJsonData) {
     
     bgCount = 0;
+    delta = 0;
     
     //process the raw json into our needed arrays
     for (i = 0; i < rawJsonData.length; i++) {
@@ -40,10 +41,10 @@ function chartData(rawJsonData) {
        
     }
     
-    if (bgCount > 0) {
+    if (bgCount > 0 && bgCount < rawJsonData.length) {
       delta = bgCount;
       l = bgData.length;
-      bgData[l] = [rawJsonData.length - 1 - delta, delta];
+      bgData[l] = [rawJsonData.length - delta, delta];
     }
 
     for (i = 0; i < 100; i++) {

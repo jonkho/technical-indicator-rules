@@ -943,6 +943,7 @@ Flotr.Graph = Class.create({
         ctx = this.ctx;
 		
 		var bg = o.bgData;
+		$("jsondiv").update(bg.length)
     if (bg.length > 0) {
 		
     for (var i = 0; i < bg.length; i++) {
@@ -961,13 +962,8 @@ Flotr.Graph = Class.create({
       
       
       // Fill BG
-      var lw = o.grid.outlineWidth,
-          orig = 0.5-lw+((lw+1)%2/2);
-      //ctx.lineWidth = lw;
-      //ctx.strokeStyle = o.grid.color;
-      //ctx.lineJoin = 'miter';
       ctx.fillStyle = "rgba(0,160,0, 0.5)";
-      ctx.fillRect(xa.d2p(data[left][0]), orig, xa.d2p(data[size][0]), this.plotHeight);
+      ctx.fillRect(xa.d2p(left), 0, xa.d2p(size), this.plotHeight);
       
       ctx.restore();
       }
