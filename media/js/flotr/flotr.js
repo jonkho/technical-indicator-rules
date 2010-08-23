@@ -186,6 +186,7 @@ Flotr.defaultOptions = {
 	HtmlText: true,          // => wether to draw the text using HTML or on the canvas
 	fontSize: 7.5,           // => canvas' text font size
 	resolution: 1,           // => resolution of the graph, to have printer-friendly graphs !
+	bgData: [],   // holds tuples of the ranges to color
 	legend: {
 		show: true,            // => setting to true will show the legend, hide otherwise
 		noColumns: 1,          // => number of colums in legend table // @todo: doesn't work for HtmlText = false
@@ -354,6 +355,8 @@ Flotr.Graph = Class.create({
 			y:  {options: this.options.yaxis,  n: 1}, 
 			y2: {options: this.options.y2axis, n: 2}
 		};
+		
+		this.bgData = this.options.bgData;
 		
 		// Initialize some variables used throughout this function.
 		var assignedColors = [],
@@ -920,6 +923,7 @@ Flotr.Graph = Class.create({
 		this.drawGrid();
 		this.drawLabels();
 		this.drawTitles();
+		this.drawBgShading();
     
 		if(this.series.length){
 			this.el.fire('flotr:beforedraw', [this.series, this]);
@@ -930,6 +934,46 @@ Flotr.Graph = Class.create({
 		}
 		this.drawOutline();
 		this.el.fire('flotr:afterdraw', [this.series, this]);
+	},
+	/**
+   * Draws a outline for the graph.
+   */
+	drawBgShading: function(){
+    var v, o = this.options,
+        ctx = this.ctx;
+		
+		var bg = o.bgData;
+    if (bg.length > 0) {
+		
+    for (var i = 0; i < bg.length; i++) {
+      var series = this.series[0];
+      var xa = series.xaxis;
+      var row = bg[i];
+      var left = row[0];
+      var size = row[1];
+      var data = series.data;
+      
+      ctx.save();
+      ctx.translate(this.plotOffset.left, this.plotOffset.top);
+      
+      var width = this.plotWidth;
+      var height = this.plotHeight;
+      
+      
+      // Fill BG
+      var lw = o.grid.outlineWidth,
+          orig = 0.5-lw+((lw+1)%2/2);
+      //ctx.lineWidth = lw;
+      //ctx.strokeStyle = o.grid.color;
+      //ctx.lineJoin = 'miter';
+      ctx.fillStyle = "rgba(0,160,0, 0.5)";
+      ctx.fillRect(xa.d2p(data[left][0]), orig, xa.d2p(data[size][0]), this.plotHeight);
+      
+      ctx.restore();
+      }
+    
+    
+    }
 	},
 	/**
 	 * Draws a grid for the graph.

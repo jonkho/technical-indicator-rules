@@ -3,14 +3,17 @@ priceData = [];
 volumeData = [];
 summaryData = [];
 jsonData = [];
+bgData = [];
 
 openData = [];
 closeData = [];
 highData = [];
 lowData = [];
 
+
 function chartData(rawJsonData) {
     
+    bgCount = 0;
     //prettyPrint();
     
     //process the raw json into our needed arrays
@@ -19,12 +22,23 @@ function chartData(rawJsonData) {
       jsonData[i] = {date:r[0],open:r[1],high:r[2],low:r[3],close:r[4],volume:r[5],aclose:r[6],flag:r[7]};
     }
 
-
     for (i = 0; i < jsonData.length; i++) {
       j = jsonData[i];
       priceData[i] = [i,j.open,j.high,j.low,j.close];
       volumeData[i] = [i,j.volume];
-
+      
+      //count the number of consecutive flags and use them to tell flotr which columns should be filled
+      if (j.flag) {
+        bgCount++;
+      } else {
+        if (bgCount > 0) {
+          delta = bgCount;
+          l = bgData.length;
+          bgData[l] = [i-delta, delta];
+          bgCount = 0;
+        }
+      }
+       
     }
 
     for (i = 0; i < 100; i++) {
@@ -63,7 +77,7 @@ function chartData(rawJsonData) {
         return date; 
     }
     
-    HumbleFinance.init('finance', priceData, volumeData, summaryData);
+    HumbleFinance.init('finance', priceData, volumeData, summaryData, bgData);
     //HumbleFinance.setFlags(flagData); 
     
     var xaxis = HumbleFinance.graphs.summary.axes.x;

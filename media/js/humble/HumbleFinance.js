@@ -87,6 +87,8 @@ var HumbleFinance = {
      * @member Array
      */
     flagData: [],
+    
+    bgData: [],
     /**
      * Formatter for x axis ticks
      * 
@@ -115,13 +117,14 @@ var HumbleFinance = {
      * @param Array volumeData
      * @param Array summaryData
      */
-    init: function(id, priceData, volumeData, summaryData) {
+    init: function(id, priceData, volumeData, summaryData, bgData) {
         
         // Set members
         this.id = id;
         this.priceData = priceData;
         this.volumeData = volumeData;
         this.summaryData = summaryData;
+        this.bgData = bgData;
         
         // Set bounds to scale automatically in the y direction
         this.bounds.xmin = 0;
@@ -215,7 +218,7 @@ var HumbleFinance = {
         
         var newBounds = {'xmin': xmin, 'xmax': xmax, 'ymin': null, 'ymax': null};
         
-        this.graphs.price = this.priceGraph(this.priceData.slice(xmin, xmax+1), newBounds);
+        this.graphs.price = this.priceGraph(this.priceData.slice(xmin, xmax+1), this.bgData.slice(xmin, xmax+1), newBounds);
         this.graphs.volume = this.volumeGraph(this.volumeData.slice(xmin, xmax+1), newBounds);
         
         this.drawFlags();
@@ -225,7 +228,7 @@ var HumbleFinance = {
      * Reset to null selection
      */
     reset: function () {
-        this.graphs.price = this.priceGraph(this.priceData, this.bounds);
+        this.graphs.price = this.priceGraph(this.priceData, this.bgData, this.bounds);
         this.graphs.volume = this.volumeGraph(this.volumeData, this.bounds);
         this.handles.left.hide();
         this.handles.right.hide();
@@ -614,7 +617,7 @@ var HumbleFinance = {
      * @param Array bounds
      * @return Flotr.Graph
      */
-    priceGraph: function (data, bounds) {
+    priceGraph: function (data, bgData, bounds) {
         
         var xmin = bounds.xmin;
         var xmax = bounds.xmax;
@@ -632,7 +635,8 @@ var HumbleFinance = {
                 grid: {outlineWidth: 0, labelMargin: 0},
                 mouse: {track: true, sensibility: 1, trackDecimals: 4, trackFormatter: this.trackFormatter, position: 'ne'},
                 shadowSize: false,
-                HtmlText: true
+                HtmlText: true,
+                bgData: bgData
             }
         );
         
