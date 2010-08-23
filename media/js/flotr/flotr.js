@@ -943,7 +943,7 @@ Flotr.Graph = Class.create({
         ctx = this.ctx;
 		
 		var bg = o.bgData;
-		$("jsondiv").update(bg.length)
+		
     if (bg.length > 0) {
 		
     for (var i = 0; i < bg.length; i++) {
