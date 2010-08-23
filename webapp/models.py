@@ -191,7 +191,24 @@ class Query_Execution_Box(object):
 		
 		return result	
 			
-		
+class Service(object):
+	def execute_query(self, symbol, start_date, end_date, query):
+		data = get_historical_prices(symbol=symbol, start_date=start_date, end_date=end_date)
+ 		data.reverse()
+ 		data = data[:-1]
+ 		
+ 		# add the extra flag for each record
+ 		data_with_flag = []
+		for record in data:
+  			record.append(None)
+  			data_with_flag.append(record)
+  			
+  		box = Query_Execution_Box(data_with_flag)
+ 		query_result = box(query)	
+ 		
+ 		return query_result
+ 		
+ 			
 # 	def intersection(self, data1, data2):
 # 		
 # 		# make lists of dates for easier set operations
@@ -212,4 +229,9 @@ class Query_Execution_Box(object):
 # 				
 # 		return result
 # 		
+
+		
+
+
+		
 			
