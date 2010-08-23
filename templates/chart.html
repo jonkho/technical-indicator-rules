@@ -19,14 +19,16 @@
   document.observe("dom:loaded", function() {
     
     Event.observe('chartform', 'submit', function(event) {
-
+        
+        $('finance').update("<div id=\"labels\"><div id=\"dateRange\">&nbsp;</div></div>");
+        
         $('chartform').request({
-            onFailure: function() {
+            onFailure: function(t) {
               alert("fail");
             },
             onSuccess: function(t) {
               delete rdata;
-              //$('#finance').inner_html = '<div id="labels"><div id="dateRange">&nbsp;</div></div>';
+              
               eval("rdata = "+t.responseText);
               //$('jsondiv').update(rdata);
               chartData(rdata["contents"]["data"]);
