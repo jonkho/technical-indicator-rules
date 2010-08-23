@@ -14,7 +14,6 @@ lowData = [];
 function chartData(rawJsonData) {
     
     bgCount = 0;
-    //prettyPrint();
     
     //process the raw json into our needed arrays
     for (i = 0; i < rawJsonData.length; i++) {
