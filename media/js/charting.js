@@ -40,6 +40,12 @@ function chartData(rawJsonData) {
       }
        
     }
+    
+    if (bgCount > 0) {
+      delta = bgCount;
+      l = bgData.length;
+      bgData[l] = [rawJsonData.length - 1 - delta, delta];
+    }
 
     for (i = 0; i < 100; i++) {
       j = Math.floor((i * jsonData.length) / 100);
