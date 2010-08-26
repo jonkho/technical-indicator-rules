@@ -16,12 +16,13 @@ def login(request):
 			user = auth.authenticate(username=request.POST["username"], password=request.POST["password"])
 			if user is not None and user.is_active:
 				auth.login(request, user)
-				return HttpResponseRedirect("/demo/")		
+				return HttpResponseRedirect("/index/")		
 	else:	
 		form = LoginForm()
 	return render_to_response("login.html", {"form":form}, context_instance=RequestContext(request))
 
-@login_required
+
+'''
 def demo(request):
 	if request.method == "POST":
 		form = DemoForm(request.POST)
@@ -31,8 +32,10 @@ def demo(request):
 		form = DemoForm()
 		result = []
 	return render_to_response("demo.html", {"form":form, "result":result}, context_instance=RequestContext(request))		
+'''
 	
 	
+@login_required
 def logout(request):
 	auth.logout(request)
 	return HttpResponseRedirect("/login/")	
@@ -44,6 +47,13 @@ def chart(request):
 	else:
 	    form = ChartForm()
 	return render_to_response("chart.html", {"form":form}, context_instance=RequestContext(request))
+
+
+def index(request):
+	if request.method == "POST":
+		pass
+	return render_to_response("index.html", context_instance=RequestContext(request))
+
 
 
 @csrf_exempt
