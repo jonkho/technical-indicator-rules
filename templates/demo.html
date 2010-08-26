@@ -1,90 +1,46 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <link rel="stylesheet" href="/css/finance.css" type="text/css" media="screen" charset="utf-8">
-  <link rel="stylesheet" href="/css/styles.css" type="text/css" media="screen" charset="utf-8">
-  
-  <!--[if IE]><script language="javascript" type="text/javascript" src="/js/flotr/excanvas.js"></script><![endif]-->
-  <script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
-  <script language="javascript" type="text/javascript" src="/js/flotr/base64.js"></script>
-  <script language="javascript" type="text/javascript" src="/js/flotr/canvas2image.js"></script>
-  <script language="javascript" type="text/javascript" src="/js/flotr/canvastext.js"></script>
-  <script language="javascript" type="text/javascript" src="/js/flotr/flotr.js"></script>
-  
-  
-  <script type="text/javascript" src="/js/humble/HumbleFinance.js"></script>
-  
-  <script type="text/javascript" src="/js/charting.js"></script>
-  <script type="text/javascript" >
-  js = {{ result|safe }};
-  
-  document.observe("dom:loaded", function() {
-    //chartData(js);
-    
-    Event.observe('chartform', 'submit', function(event) {
+	<head>
+		<link type="text/css" rel="stylesheet" href="/css/reset.css"/>
+		<link type="text/css" rel="stylesheet" href="/css/text.css"/>
+		<link type="text/css" rel="stylesheet" href="/css/26099.css"/>
+		<link type="text/css" rel="stylesheet" href="/css/sparrow.css"/>
+		<link rel="stylesheet" href="/css/finance.css" type="text/css" media="screen" charset="utf-8">
+		<link rel="stylesheet" href="/css/styles.css" type="text/css" media="screen" charset="utf-8">
 
-        $('chartform').request({
-            onFailure: function() {
-              alert("fail");
-            },
-            onSuccess: function(t) {
-                $('graphcontainer').update(t.responseText);
-            }
-        });
-        Event.stop(event); // stop the form from submitting
+		<!--[if IE]><script language="javascript" type="text/javascript" src="/js/flotr/excanvas.js"></script><![endif]-->
+		<script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
+		<script language="javascript" type="text/javascript" src="/js/flotr/base64.js"></script>
+		<script language="javascript" type="text/javascript" src="/js/flotr/canvas2image.js"></script>
+		<script language="javascript" type="text/javascript" src="/js/flotr/canvastext.js"></script>
+		<script language="javascript" type="text/javascript" src="/js/flotr/flotr.js"></script>
 
-    });
-  });
-   
-  </script>
+
+		<script type="text/javascript" src="/js/humble/HumbleFinance.js"></script>
+
+		<script type="text/javascript" src="/js/charting.js"></script>
+		<script type="text/javascript" >
+			js = {{ result|safe }};
+			document.observe("dom:loaded", function() {
+				if(js){
+					chartData(js.contents.data);
+				}
+			});
+
+</script>
 </head>
 <body>
-	<form id="chartform" method="GET" action="/query/">{% csrf_token %}
-		<ul>
-			<li>
-				{{form.symbol}} {{form.symbol.errors}} symbol
-			</li>
-			<li>
-				{{form.start_date}} {{form.start_date.errors}} from date (YYYYMMDD)
-			</li>
-			<li>
-				{{form.end_date}} {{form.end_date.errors}} to date (YYYYMMDD)
-			</li>
-			<li>
-				{{form.expression1}} {{form.expression1.errors}} exp1
-			</li>
-			<li>
-				{{form.expression2}} {{form.expression1.error2}} exp2
-			</li>
-			<li>
-				{{form.expression3}} {{form.expression1.error3}} exp3
-			</li>
-			<li>
-				{{form.expression4}} {{form.expression1.error4}} exp4
-			</li>
-			<li>
-				{{form.expression5}} {{form.expression1.error5}} exp5
-			</li>
-			<li>
-				{{form.expression6}} {{form.expression1.error6}} exp6
-			</li>
-			<li>
-				{{form.expression7}} {{form.expression1.error7}} exp7
-			</li>
-			<li>
-				{{form.expression8}} {{form.expression1.error8}} exp8
-			</li>
-		</ul>
-		
-		<button type="submit" class=""><span>results?</span></button>
-	</form>
+	<div class="container container_12 clearfix">
+		<div class="welcome_text grid_6 push_3">
+			<h1>Demo Chart</h1>
+			<div id="graphcontainer">
+				<div id="finance">
+					<div id="labels">
+						<div id="dateRange">&nbsp;</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-  <div id="graphcontainer">
-  <div id="finance">
-      <div id="labels">
-          <div id="dateRange">&nbsp;</div>
-      </div>
-  </div>
-  </div>
-	
+	</div>
 </body>
 </html>
