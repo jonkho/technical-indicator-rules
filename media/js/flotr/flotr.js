@@ -3389,11 +3389,11 @@ Flotr.addType('candles', {
 		
 		for(var i = 0; i < data.length; i++){
 			var d     = data[i],
-			    x     = d[0],
-			    open  = d[1],
-			    high  = d[2],
-			    low   = d[3],
-			    close = d[4];
+			    x     = parseInt(d[0]),
+			    open  = parseFloat(d[1]),
+			    high  = parseFloat(d[2]),
+			    low   = parseFloat(d[3]),
+			    close = parseFloat(d[4]);
 			
 			var left   = x - series.candles.candleWidth/2,
 			    right  = x + series.candles.candleWidth/2,

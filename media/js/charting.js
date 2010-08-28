@@ -4,11 +4,13 @@ volumeData = [];
 summaryData = [];
 jsonData = [];
 bgData = [];
+flagData = [];
 
 openData = [];
 closeData = [];
 highData = [];
 lowData = [];
+
 
 
 function chartData(rawJsonData) {
@@ -19,13 +21,27 @@ function chartData(rawJsonData) {
     //process the raw json into our needed arrays
     for (i = 0; i < rawJsonData.length; i++) {
       r = rawJsonData[i];
-      jsonData[i] = {date:r[0],open:r[1],high:r[2],low:r[3],close:r[4],volume:r[5],aclose:r[6],flag:r[7]};
+      jsonData[i] = {
+        date:r[0],
+        open:r[1],
+        high:r[2],
+        low:r[3],
+        close:r[4],
+        volume:r[5],
+        aclose:r[6],
+        flag:r[7]
+      };
     }
 
     for (i = 0; i < jsonData.length; i++) {
       j = jsonData[i];
       priceData[i] = [i,j.open,j.high,j.low,j.close];
       volumeData[i] = [i,j.volume];
+      summaryData[i] = [i, j.close];
+      
+      if (j.flag) {
+        flagData.push([i, 'flagtest']);
+      }
       
       //count the number of consecutive flags and use them to tell flotr which columns should be filled
       if (j.flag) {
@@ -47,10 +63,12 @@ function chartData(rawJsonData) {
       bgData[l] = [rawJsonData.length - delta, delta];
     }
 
+    /*
     for (i = 0; i < 100; i++) {
       j = Math.floor((i * jsonData.length) / 100);
       summaryData[i] = [i,jsonData[j].close];
     }
+    */
     
     HumbleFinance.trackFormatter = function (obj) {
         
@@ -88,9 +106,19 @@ function chartData(rawJsonData) {
     
     var xaxis = HumbleFinance.graphs.summary.axes.x;
     var prevSelection = HumbleFinance.graphs.summary.prevSelection;
-    var xmin = xaxis.p2d(prevSelection.first.x);
-    var xmax = xaxis.p2d(prevSelection.second.x);
-    xmax = 40;
+    //var xmin = xaxis.p2d(prevSelection.first.x);
+    //var xmax = xaxis.p2d(prevSelection.second.x);
+    //console.log(xmin+" "+xmax);
+    var xmin = 0;
+    var xmax = jsonData.length - 1;
+    var area = {
+        x1: xmin,
+        y1: 0,
+        x2: xmax,
+        y2: 0
+    };
+    
+    HumbleFinance.graphs.summary.setSelection(area);
     
     $('dateRange').update(jsonData[xmin].date + ' - ' + jsonData[xmax].date);
     
