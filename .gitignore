@@ -1,4 +1,5 @@
 build/
+logs/
 *.pyc
 .coverage
 coverage.xml
