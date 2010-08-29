@@ -62,5 +62,5 @@ class test_bed(TestCase):
 		print summary
 
 
-#from tests_web_api_01 import *
-#from tests_lib import *
+from tests_web_api_01 import *
+from tests_lib import *

@@ -618,7 +618,7 @@ class Service_Test(TestCase):
 	def test_execute_query_returns_expected_results(self):
 		service = Service()
 		result = service.execute_query("GLD", "20090101", "20100301", "rsi(14) is_crossing 50")
-		self.failUnlessEqual(result.number_of_points, 41)
+		self.failUnlessEqual(result.number_of_points, 42)
 
 
 class Backtester_Test(TestCase):
