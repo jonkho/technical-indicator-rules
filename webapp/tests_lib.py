@@ -8,7 +8,7 @@ from parser import *
 from functools import partial
 import os
  
-#use relative paths for portability
+#use relative paths for portability 
 APP_ROOT = os.path.realpath(os.path.dirname(__file__))
 
 class Sma_Test(TestCase):	
