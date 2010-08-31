@@ -371,6 +371,7 @@ class Slow_Stochastic(object):
 	def __call__(self, past_data, latest_record, memo={}):
 		slow_stochastic = Stochastic_Signal(smoothing=self.ma, n=self.n)
 		result = slow_stochastic(past_data, latest_record, memo)
+		#print "%s %s" % (latest_record[0], result)
 		return result
 		
 	def cut_data(self, unformatted_data):
@@ -588,6 +589,7 @@ class Speed(object):
 		#print("%s %s %s" % (latest_record[0], current_day, back_day))
 		speed = abs(self.operand(past_data, latest_record, memo) - self.operand(past_data[:-1], past_data[-1], memo))
 		#print("%s speed is: %s" % (latest_record[0], speed))
+		#speed = self.operand(past_data, latest_record, memo) - self.operand(past_data[:-1], past_data[-1], memo)
 		return speed
 			
 	def cut_data(self, raw_data):			
@@ -601,6 +603,7 @@ class Gradient(object):
 		self.operand = operand
 		
 	def __call__(self, past_data, latest_record, memo={}):
+# 		print("%s %s - %s = %s" % (latest_record[0], self.operand(past_data, latest_record, memo), self.operand(past_data[:-1], past_data[-1], memo), self.operand(past_data, latest_record, memo) - self.operand(past_data[:-1], past_data[-1], memo)))
 		return self.operand(past_data, latest_record, memo) - self.operand(past_data[:-1], past_data[-1], memo)
 			
 	def cut_data(self, raw_data):			
@@ -662,8 +665,8 @@ class Is_Greater_Than_Or_Equal_To(Base_Operator):
 		super(Is_Greater_Than_Or_Equal_To, self).__init__(operand1, operand2)
 
 	def __call__(self, past_data, latest_record, memo={}):
-# 		print("%s %s %s %s" % (latest_record[0], self.operand1(past_data, latest_record, memo), self.operand2(past_data, latest_record, memo),
-# 		self.operand1(past_data, latest_record, memo) >= self.operand2(past_data, latest_record, memo)))
+		print("%s %s %s %s" % (latest_record[0], self.operand1(past_data, latest_record, memo), self.operand2(past_data, latest_record, memo),
+		self.operand1(past_data, latest_record, memo) >= self.operand2(past_data, latest_record, memo)))
 		return self.operand1(past_data, latest_record, memo) >= self.operand2(past_data, latest_record, memo)
 		
 	
@@ -693,8 +696,20 @@ class Is_Increasing(Base_Operator):
 	def __call__(self, past_data, latest_record, memo={}):
 		current_operand1 = self.operand1(past_data, latest_record=latest_record, memo=memo)
 		yesterday_operand1 = self.operand1(past_data[:-1], latest_record=past_data[-1], memo=memo)
+		
+		if current_operand1 > 0 and yesterday_operand1 > 0:
 		#print("%s %s %s" % (latest_record[0], current_operand1, yesterday_operand1))
-		return current_operand1 > yesterday_operand1
+			return current_operand1 > yesterday_operand1
+		
+		if current_operand1 < 0 and yesterday_operand1 < 0:
+			return current_operand1 > yesterday_operand1
+		
+		if current_operand1 > 0 and yesterday_operand1 < 0:
+			return True
+			
+		if current_operand1 < 0 and yesterday_operand1 > 0:
+			return False		
+				
 							
 class Is_Decreasing(Base_Operator):
 	def __init__(self, operand1):

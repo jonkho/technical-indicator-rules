@@ -115,6 +115,7 @@ class Query_Execution_Box(object):
 	def __call__(self, query_string):
 		parser = Parser(self.data)
  		tokenizer = Tokenizer(query_text=query_string)
+ 		print tokenizer.tokens
  		expression = parser.parse_query(tokenizer)
 		return self.exe(expression)
 		
@@ -211,7 +212,7 @@ class Service(object):
  		
  			
 class Backtester(object):	
-	def execute(self, buy_points, sell_points):
+	def execute_long_strategy(self, buy_points, sell_points, account):
 		timeline = copy.deepcopy(buy_points)
 		
 		# buy points are marked as "buy".
@@ -228,9 +229,8 @@ class Backtester(object):
 			if sell_points[counter][-1]:
 				day[-1] = "sell"
 		
-		print timeline
+		#print timeline
 		looking_to = "buy"
-		account = Account(cash_balance=10000)
 		
 		for day in timeline:
 			if looking_to == "buy" and day[-1] == "buy":
@@ -242,11 +242,37 @@ class Backtester(object):
 				account.sell_at_price(day[-4])
 				looking_to = "buy"
 				print "%s sold at %s" % (day[0], day[4])
-				
-				
 				 		
 		return account.value(current_share_price=timeline[-1][4])
 		
+	def execute_short_strategy(self, short_points, cover_points, account):
+		timeline = copy.deepcopy(short_points)
+		
+		for day in timeline:
+			if day[-1]:
+				day[-1] = "short"
+			else:
+				day[-1] = None
+				
+		for (counter, day) in enumerate(timeline):
+			if cover_points[counter][-1]:
+				day[-1] = "cover"	
+				
+		looking_to = "short"
+		for day in timeline:
+			if looking_to == "short" and day[-1] == "short":
+				account.short_at_price(day[4])
+				looking_to = "cover"
+				print "%s shorted at %s" % (day[0], day[4])
+			
+			elif looking_to == "cover" and day[-1] == "cover":
+				account.cover_at_price(day[-4])
+				looking_to = "short"
+				print "%s covered at %s" % (day[0], day[4])
+				 		
+		return account.value(current_share_price=timeline[-1][4])
+							
+	
 		
 class Account(object):
 	def __init__(self, cash_balance=0, number_of_shares=0):
@@ -264,6 +290,18 @@ class Account(object):
 		self.cash_balance = self.number_of_shares * price
 		self.number_of_shares = 0
 		return self.cash_balance,  self.number_of_shares
+		
+	def short_at_price(self, price):
+		price = float(price)
+		self.cash_balance += 10000
+		self.number_of_shares = -10000 / price
+		return self.cash_balance, self.number_of_shares
+		
+	def cover_at_price(self, price):
+		price = float(price)
+		self.cash_balance = self.cash_balance + (self.number_of_shares * price)
+		self.number_of_shares = 0
+		return self.cash_balance, self.number_of_shares		
 		
 	def value(self, current_share_price):
 		current_share_price = float(current_share_price)

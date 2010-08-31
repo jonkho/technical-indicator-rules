@@ -49,18 +49,28 @@ class test_bed(TestCase):
 # 		result = exe_box.exe(rule)
 # 		self.failUnlessEqual(result.number_of_points, 25)
 
-
 		service = Service()
-		result = service.execute_query("GLD", "20090101", "20100301", "macd(17,8) is_crossing macd_signal(17,8,9)")
-		self.failUnlessEqual(result.number_of_points, 28)
+		buy_points = service.execute_query("DIG", "20080101", "20080820", "macd(17,8) gradient >= 0.5")		
+		#buy_points = service.execute_query("GLD", "20100101", "20100820", "macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0", "macd(17,8) <= 0")
+# 		buy_points = service.execute_query("DIG", "20080101", "20100820", "macd(17,8) speed is_increasing", "macd(17,8) gradient >= 0.5", "macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) <= 0", "slow_stochastic(5,3) gradient >= 0")
+		print buy_points.data
+ 		#sell_points = service.execute_query("GLD", "20100101", "20100820", "slow_stochastic(5,5) is_crossing 80", "slow_stochastic(5,5) gradient <= 0")
+ 		#sell_points = service.execute_query("DIG", "20100101", "20100820", "slow_stochastic(5,5) gradient 1 days_ago >= 0", "slow_stochastic(5,5) gradient <= 0")
+#  		sell_points = service.execute_query("DIG", "20080101", "20100820", "macd(17,8) speed is_decreasing", "slow_stochastic(5,3) speed is_decreasing")
+#  		backtester = Backtester()
+#  		account = Account(cash_balance=10000)
+#  		summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
+#  		print summary
+# 		
 		
-				
-		buy_points = service.execute_query("GLD", "20090101", "20100801", "macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0")
-		sell_points = service.execute_query("GLD", "20090101", "20100801", "macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient <= 0")
-		backtester = Backtester()
-		summary = backtester.execute(buy_points.data, sell_points.data)
-		print summary
+# 		short_points = service.execute_query("GLD", "20100101", "20100820", "macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient <= 0", "macd(17,8) >= 0")
+# 		print short_points.data
+# 		cover_points = service.execute_query("GLD", "20100101", "20100820", "slow_stochastic(5,5) speed is_decreasing")
+# 		backtester = Backtester()
+# 		account = Account(cash_balance=10000)
+# 		summary = backtester.execute_short_strategy(short_points.data, cover_points.data, account)
+# 		print summary
+		
 
-
-from tests_web_api_01 import *
-from tests_lib import *
+#from tests_web_api_01 import *
+#from tests_lib import *
