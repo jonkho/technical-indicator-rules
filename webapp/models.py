@@ -104,35 +104,27 @@ class Query_Execution_Box(object):
 	# then running the scan
 	
 	def __init__(self, data):
-		# data holds the parent (or previous) query result
-		# full_data holds the raw data for reference when fluent chaining
-		# if full_data is None, this implies this class instance is the root and thus data holds the full raw data
+		# data holds the running query result
 		# number_of_points is the running count of the resulting number of points that is evaluated True
 		# memo is the dictionary for memoization that must be passed to the scanner 
 		self.memo = {}
 		self.data = data
-		
-# 		if full_data is None:
-# 			self._full_data = data
-# 		else:
-# 			self._full_data = None
 			
 		super(Query_Execution_Box, self).__init__()	
 		
 	def __call__(self, query_string):
-#		parser = Parser(self._full_data)
 		parser = Parser(self.data)
  		tokenizer = Tokenizer(query_text=query_string)
+ 		print tokenizer.tokens
  		expression = parser.parse_query(tokenizer)
 		return self.exe(expression)
 		
 	def exe(self, expression):
-		# always cut and scan from the full raw data
 		formatted_data = expression.cut_data(self.data)
 		scanner = Scanner()
 		indexes = scanner.run(expression, formatted_data, self.memo)
 		
-		# mark the records for this query's results
+		# initialize the records for this query's results
 		this_querys_results = copy.deepcopy(self.data)
 		for record in this_querys_results:
 			record[-1] = False
@@ -140,7 +132,7 @@ class Query_Execution_Box(object):
 		for index in indexes:
 			this_querys_results[index][-1] = True	
 			
-		# apply logical AND	
+		# apply logical AND	to this query's results to the running result 
 		result = self.logical_and(this_querys_results, self.data)	
 
 		# return	
@@ -192,23 +184,130 @@ class Query_Execution_Box(object):
 		return result	
 			
 class Service(object):
-	def execute_query(self, symbol, start_date, end_date, query):
-		data = get_historical_prices(symbol=symbol, start_date=start_date, end_date=end_date)
- 		data.reverse()
- 		data = data[:-1]
+	def execute_query(self, symbol, start_date, end_date, *query):
+# 		data = get_historical_prices(symbol=symbol, start_date=start_date, end_date=end_date)
+#  		data.reverse()
+#  		data = data[:-1]
+
+		utils = Utils()
+		runway_start_date = utils.one_year_earlier(start_date)
+		runway_data = get_historical_prices(symbol=symbol, start_date=runway_start_date, end_date=end_date)
+ 		runway_data.reverse()
+ 		runway_data = runway_data[:-1]
+
  		
  		# add the extra flag for each record
  		data_with_flag = []
-		for record in data:
+		for record in runway_data:
   			record.append(None)
   			data_with_flag.append(record)
   			
   		box = Query_Execution_Box(data_with_flag)
- 		query_result = box(query)	
+  		
+  		for phrase in query:
+ 			box = box(phrase)	
  		
- 		return query_result
+ 		box.data = utils.remove_runway(box.data, start_date)
+ 		return box
  		
  			
+class Backtester(object):	
+	def execute_long_strategy(self, buy_points, sell_points, account):
+		timeline = copy.deepcopy(buy_points)
+		
+		# buy points are marked as "buy".
+		# normalize other points by marking as None
+		for day in timeline:
+			if day[-1]:
+				day[-1] = "buy"
+			
+			else:
+				day[-1] = None	
+		
+		# sell points are marked as "sell"
+		for (counter, day) in enumerate(timeline):
+			if sell_points[counter][-1]:
+				day[-1] = "sell"
+		
+		#print timeline
+		looking_to = "buy"
+		
+		for day in timeline:
+			if looking_to == "buy" and day[-1] == "buy":
+				account.buy_at_price(day[4])
+				looking_to = "sell"
+				print "%s bought at %s" % (day[0], day[4])
+			
+			elif looking_to == "sell" and day[-1] == "sell":
+				account.sell_at_price(day[-4])
+				looking_to = "buy"
+				print "%s sold at %s" % (day[0], day[4])
+				 		
+		return account.value(current_share_price=timeline[-1][4])
+		
+	def execute_short_strategy(self, short_points, cover_points, account):
+		timeline = copy.deepcopy(short_points)
+		
+		for day in timeline:
+			if day[-1]:
+				day[-1] = "short"
+			else:
+				day[-1] = None
+				
+		for (counter, day) in enumerate(timeline):
+			if cover_points[counter][-1]:
+				day[-1] = "cover"	
+				
+		looking_to = "short"
+		for day in timeline:
+			if looking_to == "short" and day[-1] == "short":
+				account.short_at_price(day[4])
+				looking_to = "cover"
+				print "%s shorted at %s" % (day[0], day[4])
+			
+			elif looking_to == "cover" and day[-1] == "cover":
+				account.cover_at_price(day[-4])
+				looking_to = "short"
+				print "%s covered at %s" % (day[0], day[4])
+				 		
+		return account.value(current_share_price=timeline[-1][4])
+							
+	
+		
+class Account(object):
+	def __init__(self, cash_balance=0, number_of_shares=0):
+		self.cash_balance = float(cash_balance)
+		self.number_of_shares = float(number_of_shares)
+		
+	def buy_at_price(self, price):
+		price = float(price)
+		self.number_of_shares = self.cash_balance / price
+		self.cash_balance = 0
+		return self.cash_balance, self.number_of_shares
+	
+	def sell_at_price(self, price):
+		price = float(price)
+		self.cash_balance = self.number_of_shares * price
+		self.number_of_shares = 0
+		return self.cash_balance,  self.number_of_shares
+		
+	def short_at_price(self, price):
+		price = float(price)
+		self.cash_balance += 10000
+		self.number_of_shares = -10000 / price
+		return self.cash_balance, self.number_of_shares
+		
+	def cover_at_price(self, price):
+		price = float(price)
+		self.cash_balance = self.cash_balance + (self.number_of_shares * price)
+		self.number_of_shares = 0
+		return self.cash_balance, self.number_of_shares		
+		
+	def value(self, current_share_price):
+		current_share_price = float(current_share_price)
+		return self.cash_balance + (self.number_of_shares * current_share_price)		
+					
+					
 # 	def intersection(self, data1, data2):
 # 		
 # 		# make lists of dates for easier set operations

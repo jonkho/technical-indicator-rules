@@ -215,11 +215,14 @@ var HumbleFinance = {
         var area = e.memo[0];
         xmin = Math.floor(area.x1);
         xmax = Math.ceil(area.x2);
+        ymin = Math.floor(area.y1);
+        ymax = Math.ceil(area.y2);
         
-        var newBounds = {'xmin': xmin, 'xmax': xmax, 'ymin': null, 'ymax': null};
+        var newBounds = {'xmin': xmin, 'xmax': xmax, 'ymin': ymin, 'ymax': ymax};
+        var volBounds = {'xmin': xmin, 'xmax': xmax, 'ymin': null, 'ymax': null};
         
         this.graphs.price = this.priceGraph(this.priceData.slice(xmin, xmax+1), this.bgData.slice(xmin, xmax+1), newBounds);
-        this.graphs.volume = this.volumeGraph(this.volumeData.slice(xmin, xmax+1), newBounds);
+        this.graphs.volume = this.volumeGraph(this.volumeData.slice(xmin, xmax+1), volBounds);
         
         this.drawFlags();
     },
