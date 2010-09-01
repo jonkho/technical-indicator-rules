@@ -25,7 +25,7 @@
     $$('.qbuilder_stmt').invoke('observe', 'click', function(event) {
       var elmt = $('id_query');
       var ct = elmt.value;
-      var st = elmt.value + ((elmt.value == "") ? "" : " ") + event.originalTarget.innerHTML;
+      var st = elmt.value + ((elmt.value == "") ? "" : " ") + event.target.innerHTML;
       elmt.value = st.unescapeHTML();
       elmt.focus();
     });
