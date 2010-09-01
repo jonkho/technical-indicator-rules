@@ -1,18 +1,3 @@
-
-priceData = [];
-volumeData = [];
-summaryData = [];
-jsonData = [];
-bgData = [];
-flagData = [];
-
-openData = [];
-closeData = [];
-highData = [];
-lowData = [];
-
-
-
 function chartData(rawJsonData) {
     
     bgCount = 0;
