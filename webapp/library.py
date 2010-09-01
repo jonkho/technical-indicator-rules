@@ -665,8 +665,8 @@ class Is_Greater_Than_Or_Equal_To(Base_Operator):
 		super(Is_Greater_Than_Or_Equal_To, self).__init__(operand1, operand2)
 
 	def __call__(self, past_data, latest_record, memo={}):
-		print("%s %s %s %s" % (latest_record[0], self.operand1(past_data, latest_record, memo), self.operand2(past_data, latest_record, memo),
-		self.operand1(past_data, latest_record, memo) >= self.operand2(past_data, latest_record, memo)))
+		#print("%s %s %s %s" % (latest_record[0], self.operand1(past_data, latest_record, memo), self.operand2(past_data, latest_record, memo),
+		#self.operand1(past_data, latest_record, memo) >= self.operand2(past_data, latest_record, memo)))
 		return self.operand1(past_data, latest_record, memo) >= self.operand2(past_data, latest_record, memo)
 		
 	

@@ -6,8 +6,11 @@ from webapp.quotes import *
 from webapp.library import *
 from parser import *
 from functools import partial
+import os
 
-
+#use relative paths for portability
+APP_ROOT = os.path.realpath(os.path.dirname(__file__))
+DATAFILE_PATH = APP_ROOT+"/test_data/data.txt"
 
 class Sma_Test(TestCase):	
 	def test_given_a_prices_and_period_When_sma_is_computed_Then_result_returns(self):
@@ -56,7 +59,7 @@ class Ema_Test(TestCase):
 		
 class Macd_Test(TestCase):
 	def test_given_a_long_term_ma_and_a_short_term_ma_When_macd_is_computed_Then_result_is_returned(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		prices = [(record[0], record[4]) for record in data]
@@ -67,7 +70,7 @@ class Macd_Test(TestCase):
 
 		
 	def test_given_macd_period_When_macd_signal_is_computed_Then_result_is_returned(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		prices = [(record[0], record[4]) for record in data]
@@ -78,7 +81,7 @@ class Macd_Test(TestCase):
 
 	
 	def test_given_a_price_and_price_history_Then_macd_speed_can_be_calculated_for_that_price(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		prices = [(record[0], record[4]) for record in data]
@@ -89,7 +92,7 @@ class Macd_Test(TestCase):
 		self.failUnlessEqual("%.6f" % result, str(0.609794-0.393803))
 		
 	def test_given_a_price_and_price_history_Then_is_macd_crossing_with_signal_can_be_queried_False(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		prices = [(record[0], record[4]) for record in data]
@@ -103,7 +106,7 @@ class Macd_Test(TestCase):
 		
 class Stochastic_Test(TestCase):
 	def test_given_a_price_and_price_history_Then_stochastic_can_be_calculated(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		prices = [(record[0], record[2], record[3], record[4]) for record in data]
@@ -114,7 +117,7 @@ class Stochastic_Test(TestCase):
 		self.failUnlessEqual("%.6f" % result, str(94.141689))
 		
 	def test_given_a_price_and_price_history_Then_stochastic_signal_can_be_calculated(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		prices = [(record[0], record[2], record[3], record[4]) for record in data]
@@ -125,7 +128,7 @@ class Stochastic_Test(TestCase):
 		self.failUnlessEqual("%.6f" % result, str(87.943864))	
 		
 	def test_given_a_price_and_price_history_Then_slow_stochastic_can_be_calculated(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		prices = [(record[0], record[2], record[3], record[4]) for record in data]
@@ -136,7 +139,7 @@ class Stochastic_Test(TestCase):
 		self.failUnlessEqual("%.6f" % result, str(87.943864))
 		
 	def test_given_a_price_and_price_history_Then_slow_stochastic_signal_can_be_calculated(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		prices = [(record[0], record[2], record[3], record[4]) for record in data]
@@ -149,7 +152,7 @@ class Stochastic_Test(TestCase):
 class Rsi_Test(TestCase):					
 	def test_given_a_price_and_price_history_Then_RSI_can_be_calculated(self):
 		#data = get_historical_prices(symbol="GLD", start_date="20050101", end_date="20100301")
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		prices = [(record[0], record[1], record[2], record[3], record[4]) for record in data]
@@ -161,7 +164,7 @@ class Rsi_Test(TestCase):
 	
 class Operator_Test(TestCase):		
 	def test_given_a_price_and_price_history_Then_macd_comparisons_can_be_made_between_two_days_and_prices_and_latest_record_can_be_supplied_separately(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		prices = [(record[0], record[4]) for record in data]
@@ -176,7 +179,7 @@ class Operator_Test(TestCase):
 		self.failUnlessEqual("%.6f" % result_2, str(0.393803))
 				
 	def test_a_comparison_rule_should_take_the_rule_settings_the_prices_and_the_comparison_days_ago_displacement_and_return_true_or_false(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		prices = [(record[0], record[4]) for record in data]
@@ -240,7 +243,7 @@ class Operator_Test(TestCase):
 class Price_Test(TestCase):
 	def test_price(self):
 		# here is price rule
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		prices = [(record[0], record[4]) for record in data]
@@ -252,7 +255,7 @@ class Price_Test(TestCase):
 		self.failUnlessEqual(result, True)
 		
 	def test_price_against_sma(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		data = data[:-1]
@@ -268,7 +271,7 @@ class Price_Test(TestCase):
 
 class Volume_Test(TestCase):
 	def test_volume(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		volumes = [(record[0], record[5]) for record in data]
@@ -300,7 +303,7 @@ class Volume_Test(TestCase):
 		
 class Modifier_Test(TestCase):
 	def test_Future_modifier(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		data = data[:-1]
@@ -319,7 +322,7 @@ class Modifier_Test(TestCase):
 			
 class Rule_Test(TestCase):	
 	def test_given_a_rule_and_a_data_set_When_the_rule_back_tests_the_data_set_Then_it_returns_the_points_where_the_rule_was_True(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		prices = [(record[0], record[4]) for record in data]
@@ -336,7 +339,7 @@ class Rule_Test(TestCase):
 		self.failUnlessEqual(len(result), 14) #should be 16 but long_term_ma buffer makes missing first 17 trading days
 		
 	def test_slow_stochastic_crossing_over_rule(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		prices = [(record[0], record[2], record[3], record[4]) for record in data]
@@ -357,7 +360,7 @@ class Rule_Test(TestCase):
 		
 		
 	def test_rsi_speed_rule(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		prices = [(record[0], record[1], record[2], record[3], record[4]) for record in data]
@@ -376,7 +379,7 @@ class Yahoo_Api_Test(TestCase):
 	def test_given_a_raw_dataset_Extract_prices_and_calculate_ema(self):
 		data = get_historical_prices(symbol="GLD", start_date="20090101", end_date="20100301")
 
-# 		#days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+# 		#days = open(DATAFILE_PATH).readlines()
 # 		data = [day[:-2].split(',') for day in days]
  		data.reverse()
 		prices = [(record[0], record[4]) for record in data]
@@ -410,7 +413,7 @@ class Parser_Test(TestCase):
 		rule = parser.parse_query(tokenizer)	
 		self.assert_(rule != None)
 		
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		prices = [(record[0], record[1], record[2], record[3], record[4]) for record in data]
@@ -425,7 +428,7 @@ class Parser_Test(TestCase):
 		# for point in result:
 # 			print(dates[point])
 		
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		prices = [(record[0], record[4]) for record in data]
@@ -461,7 +464,7 @@ class Parser_Test(TestCase):
 		
 class Execution_Env_Test(TestCase):
 	def test_Given_an_expression_and_uncut_data_When_it_is_executed_against_the_query_analyzer_Then_it_returns_the_result(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		data = data[:-1]
@@ -526,7 +529,7 @@ class Execution_Env_Test(TestCase):
 			
 		
 	def test_execution_boxes_can_be_chained(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		data = data[:-1]
@@ -561,7 +564,7 @@ class Execution_Env_Test(TestCase):
 		self.failUnlessEqual(results.number_of_points, 23)
 		
 	def test_execution_box_can_accept_query_string(self):
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		data_with_flag = []
@@ -637,7 +640,7 @@ class Utils_Test(TestCase):
 		self.failUnlessEqual(year, "19990101")
 		
 	def test_remove_runway_should_remove_runway_records_until_the_start_date_in_the_list(self):	
-		days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
+		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
 		data.reverse()
 		data = data[:-1]
