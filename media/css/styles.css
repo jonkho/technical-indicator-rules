@@ -9,9 +9,13 @@ body {
 #graphcontainer {
   border:1px solid #99CCFF;
   margin:40px 0;
-  margin-left: 200px;
+  margin-left: 100px;
   position:relative;
   width: 600px;
+}
+#chartform {
+  margin: 15px;
+  margin-left: 200px;
 }
 a {
 	border: none;
@@ -431,4 +435,79 @@ span.label {
 .fileItem .label {
     font-size: 12px;
     width: 120px; float: left;
+}
+/**
+ * Autocompleter
+ */
+ div.autocomplete {
+   margin:0px;  
+   padding:0px;  
+   width:350px !important;
+   background:#fff;
+   border:1px solid #888;
+   position:absolute;
+   font-size: .8em;
+ }
+
+ div.autocomplete ul {
+   margin:0px;
+   padding:0px;
+   list-style-type:none;
+ }
+
+ div.autocomplete ul li.selected { 
+   background-color:#ffb;
+ }
+
+ div.autocomplete ul li {
+   margin:0;
+   padding:2px;
+   height:32px;
+   display:block;
+   list-style-type:none;
+   cursor:pointer;
+ }
+/**
+ * Query Builder
+ */
+#querybuilder {
+  width: 450px;
+  float: right;
+  border: 1px solid gray;
+  margin: 15px;
+} 
+
+#querybuilder div {
+  width: 225px;
+} 
+
+.qbuilder_stmt {
+  margin: 5px;
+  padding: 3px;
+  display: block;
+  text-align: center;
+}
+
+#querybuilder #queries {
+  width: 450px;
+}
+
+#querybuilder #indicators {
+  float: left;
+}
+
+#querybuilder #operators {
+  float: left;
+}
+
+#querybuilder #queries .qbuilder_stmt {
+  background: #999;
+}
+
+#querybuilder #indicators .qbuilder_stmt {
+  background: #699;
+}
+
+#querybuilder #operators .qbuilder_stmt {
+  background: #996;
 }

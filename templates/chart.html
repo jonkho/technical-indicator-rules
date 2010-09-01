@@ -5,11 +5,15 @@
   
   <!--[if IE]><script language="javascript" type="text/javascript" src="/js/flotr/excanvas.js"></script><![endif]-->
   <script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/scriptaculous.js"></script>
   <script language="javascript" type="text/javascript" src="/js/flotr/base64.js"></script>
   <script language="javascript" type="text/javascript" src="/js/flotr/canvas2image.js"></script>
   <script language="javascript" type="text/javascript" src="/js/flotr/canvastext.js"></script>
   <script language="javascript" type="text/javascript" src="/js/flotr/flotr.js"></script>
-  
+  <script language="javascript" type="text/javascript"  src="/js/effects.js"></script> 
+  <script language="javascript" type="text/javascript"  src="/js/dragdrop.js"></script> 
+  <script language="javascript" type="text/javascript"  src="/js/controls.js"></script> 
+  <script language="javascript" type="text/javascript"  src="/js/builder.js"></script>
   
   <script type="text/javascript" src="/js/humble/HumbleFinance.js"></script>
   
@@ -17,6 +21,14 @@
   <script type="text/javascript" >
 
   document.observe("dom:loaded", function() {
+    
+    $$('.qbuilder_stmt').invoke('observe', 'click', function(event) {
+      var elmt = $('id_query');
+      var ct = elmt.value;
+      var st = elmt.value + ((elmt.value == "") ? "" : " ") + event.originalTarget.innerHTML;
+      elmt.value = st.unescapeHTML();
+      elmt.focus();
+    });
     
     Event.observe('chartform', 'submit', function(event) {
         
@@ -41,6 +53,26 @@
   </script>
 </head>
 <body>
+  <div id="querybuilder">
+    <div id="queries">
+      <a href="#" class="qbuilder_stmt">macd(17,8) is_crossing macd_signal(17,8,9)</a>
+      <a href="#" class="qbuilder_stmt">rsi(14) is_crossing 50</a>
+      <a href="#" class="qbuilder_stmt">macd(17,8) gradient >= 0</a>
+    </div>
+    <div id="indicators">
+      <a href="#" class="qbuilder_stmt">macd(17,8)</a>
+      <a href="#" class="qbuilder_stmt">macd_signal(17,8,9)</a>
+      <a href="#" class="qbuilder_stmt">rsi(14)</a>
+    </div>
+    <div id="operators">
+      <a href="#" class="qbuilder_stmt">>=</a>
+      <a href="#" class="qbuilder_stmt"><=</a>
+      <a href="#" class="qbuilder_stmt">is_crossing</a>
+      <a href="#" class="qbuilder_stmt">is_increasing</a>
+    </div>
+    <br clear="all"/>
+  </div>
+  
 	<form id="chartform" method="GET" action="/query/">{% csrf_token %}
 		<ul>
 			<li>
@@ -52,9 +84,9 @@
 			<li>
 				{{form.end_date}} {{form.end_date.errors}} to date (YYYYMMDD)
 			</li>
-			<li>
-				{{form.query}} {{form.query.errors}} query
-			</li>
+			<li> 
+      	<input id="id_query" type="text" name="query" maxlength="255" />  {{form.query.errors}} query
+      </li>
 		</ul>
 		
 		<button type="submit" class=""><span>results?</span></button>
@@ -66,10 +98,6 @@
           <div id="dateRange">&nbsp;</div>
       </div>
   </div>
-  </div>
-  
-  <div id="jsondiv">
-    
   </div>
 	
 </body>
