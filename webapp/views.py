@@ -21,19 +21,6 @@ def login(request):
 		form = LoginForm()
 	return render_to_response("login.html", {"form":form}, context_instance=RequestContext(request))
 
-
-'''
-def demo(request):
-	if request.method == "POST":
-		form = DemoForm(request.POST)
-		if form.is_valid():
-			result = form.save()
-	else:
-		form = DemoForm()
-		result = []
-	return render_to_response("demo.html", {"form":form, "result":result}, context_instance=RequestContext(request))		
-'''
-	
 	
 @login_required
 def logout(request):
@@ -57,8 +44,8 @@ def index(request):
 def demo(request):
 	symbol = request.GET['symbol']
 	service = Service()
-	result = service.execute_query(symbol, start_date="20090101", end_date="20100301", query="rsi(14) is_crossing 50")
-	return render_to_response("demo.html", {"result":jsonpickle.encode(Return_Code(value="3000", contents=result))}, context_instance=RequestContext(request))
+	result = service.execute_query(symbol, "20090101", "20100301", "rsi(14) is_crossing 50")
+	return render_to_response("demo.html", {'params': {'symbol':symbol, 'start_date': '20090101' ,'end_date': '20100301', 'query':'rsi(14) is_crossing 50'},"result":jsonpickle.encode(Return_Code(value="3000", contents=result))}, context_instance=RequestContext(request))
 
 
 

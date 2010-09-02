@@ -6,6 +6,7 @@ body {
     padding: 0px;
     margin: 0px;
 }
+/*
 #graphcontainer {
   border:1px solid #99CCFF;
   margin:40px 0;
@@ -13,6 +14,7 @@ body {
   position:relative;
   width: 600px;
 }
+	*/
 #chartform {
   margin: 15px;
   margin-left: 200px;
