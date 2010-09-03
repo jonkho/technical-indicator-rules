@@ -35,6 +35,8 @@
 			if(js){
 				chartData(js.contents.data);
 			}
+			var mydrag = new Draggable('querybank', { revert: true });
+
 			Event.observe('queryform', 'submit', function(event) {
 				priceData = [];
 				volumeData = [];
@@ -79,9 +81,7 @@
 					<input name="start_date" id="start_date" type="text" value="{{params.start_date}}"/>
 					<input name="end_date" id="end_date" type="text" value="{{params.end_date}}"/>
 				</div>
-				<textarea name="query" class="query_area">
-					{{params.query}}
-				</textarea>
+				<textarea name="query" class="query_area">{{params.query}}</textarea>
 				<input type="submit" value="Go!"/>
 			</form>
 			<div class="spacer"></div>
@@ -97,7 +97,7 @@
 	<div class="right_sidebar grid_3">
 		<div class="bull_queries">
 			<h2>Bull</h2>
-			<ul>
+			<ul id="querybank" class="query_bank">
 				<li>macd(17,8) gradient >= 0</li>
 				<li>macd(17,8) gradient >= 0</li>
 				<li>macd(17,8) gradient >= 0</li>
@@ -105,7 +105,7 @@
 		</div>
 		<div class="bear_queries">
 			<h2>Bear</h2>			
-			<ul>
+			<ul class="query_bank">
 				<li>macd(17,8) gradient >= 0</li>
 				<li>macd(17,8) gradient >= 0</li>
 				<li>macd(17,8) gradient >= 0</li>

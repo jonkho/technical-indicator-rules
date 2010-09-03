@@ -42,7 +42,10 @@ def index(request):
 	return render_to_response("index.html", context_instance=RequestContext(request))
 
 def demo(request):
-	symbol = request.GET['symbol']
+	try:
+		symbol = request.GET['symbol']
+	except Exception as e:
+		symbol = 'dow'
 	service = Service()
 	result = service.execute_query(symbol, "20090101", "20100301", "rsi(14) is_crossing 50")
 	return render_to_response("demo.html", {'params': {'symbol':symbol, 'start_date': '20090101' ,'end_date': '20100301', 'query':'rsi(14) is_crossing 50'},"result":jsonpickle.encode(Return_Code(value="3000", contents=result))}, context_instance=RequestContext(request))
