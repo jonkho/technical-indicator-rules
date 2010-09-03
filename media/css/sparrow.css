@@ -11,7 +11,6 @@ div.container{
 	text-align:center;
 }
 div.container h2{
-/*	color:#08526D; */
 	color:#C8400E;
 	font-size:1.6em;
 }
@@ -58,15 +57,17 @@ div.query_section input[type="text"]{
 	border:1px solid #C1D3D9;
 	font-size:1.3em;
 }
-div.query_section div.query_area{
+div.query_section .query_area{
 	-webkit-box-shadow:inset 1px 2px 2px #ccc;
 	-moz-box-shadow:inset 1px 2px 2px #ccc;
 	border:1px solid #C1D3D9;
 	margin:5px;
-	min-height:30%;
+	min-height:10%;
+	width:95%;
 }
 div#graphcontainer{
 	height:70%;
+	min-height:380px;
 	margin-top:10px;
 	border: 1px solid #C1D3D9;
 	-webkit-box-shadow:inset 1px 2px 2px #C1D3D9;
