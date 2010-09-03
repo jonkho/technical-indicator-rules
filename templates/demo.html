@@ -1,90 +1,115 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <link rel="stylesheet" href="/css/finance.css" type="text/css" media="screen" charset="utf-8">
-  <link rel="stylesheet" href="/css/styles.css" type="text/css" media="screen" charset="utf-8">
-  
-  <!--[if IE]><script language="javascript" type="text/javascript" src="/js/flotr/excanvas.js"></script><![endif]-->
-  <script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
-  <script language="javascript" type="text/javascript" src="/js/flotr/base64.js"></script>
-  <script language="javascript" type="text/javascript" src="/js/flotr/canvas2image.js"></script>
-  <script language="javascript" type="text/javascript" src="/js/flotr/canvastext.js"></script>
-  <script language="javascript" type="text/javascript" src="/js/flotr/flotr.js"></script>
-  
-  
-  <script type="text/javascript" src="/js/humble/HumbleFinance.js"></script>
-  
-  <script type="text/javascript" src="/js/charting.js"></script>
-  <script type="text/javascript" >
-  js = {{ result|safe }};
-  
-  document.observe("dom:loaded", function() {
-    //chartData(js);
-    
-    Event.observe('chartform', 'submit', function(event) {
+{% extends "layout.html" %}
+{% block css %}
+	<link rel="stylesheet" href="/css/finance.css" type="text/css" media="screen" charset="utf-8">
+	<!--	<link rel="stylesheet" href="/css/styles.css" type="text/css" media="screen" charset="utf-8"> -->
+{% endblock %}
 
-        $('chartform').request({
-            onFailure: function() {
-              alert("fail");
-            },
-            onSuccess: function(t) {
-                $('graphcontainer').update(t.responseText);
-            }
-        });
-        Event.stop(event); // stop the form from submitting
+{% block scripts %}
+	<!--[if IE]><script language="javascript" type="text/javascript" src="/js/flotr/excanvas.js"></script><![endif]-->
+	<script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
+	<script language="javascript" type="text/javascript" src="/js/scriptaculous.js"></script>
+	<script language="javascript" type="text/javascript" src="/js/flotr/base64.js"></script>
+	<script language="javascript" type="text/javascript" src="/js/flotr/canvas2image.js"></script>
+	<script language="javascript" type="text/javascript" src="/js/flotr/canvastext.js"></script>
+	<script language="javascript" type="text/javascript" src="/js/flotr/flotr.js"></script>
+	<script language="javascript" type="text/javascript"  src="/js/effects.js"></script> 
+	<script language="javascript" type="text/javascript"  src="/js/dragdrop.js"></script> 
+	<script language="javascript" type="text/javascript"  src="/js/controls.js"></script> 
+	<script language="javascript" type="text/javascript"  src="/js/builder.js"></script>
+	<script type="text/javascript" src="/js/humble/HumbleFinance.js"></script>
+	<script type="text/javascript" src="/js/charting.js"></script>
+	<script type="text/javascript" >
+		js = {{ result|safe }};
+		document.observe("dom:loaded", function() {
+			priceData = [];
+			volumeData = [];
+			summaryData = [];
+			jsonData = [];
+			bgData = [];
+			flagData = [];
 
-    });
-  });
-   
-  </script>
-</head>
-<body>
-	<form id="chartform" method="GET" action="/query/">{% csrf_token %}
-		<ul>
-			<li>
-				{{form.symbol}} {{form.symbol.errors}} symbol
-			</li>
-			<li>
-				{{form.start_date}} {{form.start_date.errors}} from date (YYYYMMDD)
-			</li>
-			<li>
-				{{form.end_date}} {{form.end_date.errors}} to date (YYYYMMDD)
-			</li>
-			<li>
-				{{form.expression1}} {{form.expression1.errors}} exp1
-			</li>
-			<li>
-				{{form.expression2}} {{form.expression1.error2}} exp2
-			</li>
-			<li>
-				{{form.expression3}} {{form.expression1.error3}} exp3
-			</li>
-			<li>
-				{{form.expression4}} {{form.expression1.error4}} exp4
-			</li>
-			<li>
-				{{form.expression5}} {{form.expression1.error5}} exp5
-			</li>
-			<li>
-				{{form.expression6}} {{form.expression1.error6}} exp6
-			</li>
-			<li>
-				{{form.expression7}} {{form.expression1.error7}} exp7
-			</li>
-			<li>
-				{{form.expression8}} {{form.expression1.error8}} exp8
-			</li>
-		</ul>
-		
-		<button type="submit" class=""><span>results?</span></button>
-	</form>
+			openData = [];
+			closeData = [];
+			highData = [];
+			lowData = [];
+			if(js){
+				chartData(js.contents.data);
+			}
+			Event.observe('queryform', 'submit', function(event) {
+				priceData = [];
+				volumeData = [];
+				summaryData = [];
+				jsonData = [];
+				bgData = [];
+				flagData = [];
 
-  <div id="graphcontainer">
-  <div id="finance">
-      <div id="labels">
-          <div id="dateRange">&nbsp;</div>
-      </div>
-  </div>
-  </div>
-	
-</body>
-</html>
+				openData = [];
+				closeData = [];
+				highData = [];
+				lowData = [];
+				
+				$('finance').update("<div id=\"labels\"><div id=\"dateRange\">&nbsp;</div></div>");
+				
+				$('queryform').request({
+					onFailure: function(t) {
+					  alert("fail");
+					},
+					onSuccess: function(t) {
+					  delete rdata;
+					  
+					  eval("rdata = "+t.responseText);
+					  //$('jsondiv').update(rdata);
+					  chartData(rdata["contents"]["data"]);
+					}
+				});
+				Event.stop(event); // stop the form from submitting
+			});
+
+		});
+	</script>
+{% endblock %}
+
+{% block content %}
+	<div class="left_main grid_9">
+		<div class="query_section">
+			<h2>Query</h2>
+			<form id="queryform" action="/query/" method="get">
+				<div class="query_input">
+					<input name="symbol" id="symbol" type="text" value="{{params.symbol}}"/>
+					<input name="start_date" id="start_date" type="text" value="{{params.start_date}}"/>
+					<input name="end_date" id="end_date" type="text" value="{{params.end_date}}"/>
+				</div>
+				<textarea name="query" class="query_area">
+					{{params.query}}
+				</textarea>
+				<input type="submit" value="Go!"/>
+			</form>
+			<div class="spacer"></div>
+		</div>
+		<div id="graphcontainer">
+			<div id="finance">
+				<div id="labels">
+					<div id="dateRange">&nbsp;</div>
+				</div>
+			</div>
+		</div>
+	</div> <!-- close left main -->
+	<div class="right_sidebar grid_3">
+		<div class="bull_queries">
+			<h2>Bull</h2>
+			<ul>
+				<li>macd(17,8) gradient >= 0</li>
+				<li>macd(17,8) gradient >= 0</li>
+				<li>macd(17,8) gradient >= 0</li>
+			</ul>	
+		</div>
+		<div class="bear_queries">
+			<h2>Bear</h2>			
+			<ul>
+				<li>macd(17,8) gradient >= 0</li>
+				<li>macd(17,8) gradient >= 0</li>
+				<li>macd(17,8) gradient >= 0</li>
+			</ul>	
+		</div>
+	</div>
+{% endblock %}

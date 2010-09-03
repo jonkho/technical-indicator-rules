@@ -109,15 +109,20 @@ class Query_Execution_Box(object):
 		# memo is the dictionary for memoization that must be passed to the scanner 
 		self.memo = {}
 		self.data = data
+		self.indicators_data = {}
 			
 		super(Query_Execution_Box, self).__init__()	
 		
 	def __call__(self, query_string):
 		parser = Parser(self.data)
  		tokenizer = Tokenizer(query_text=query_string)
- 		print tokenizer.tokens
  		expression = parser.parse_query(tokenizer)
-		return self.exe(expression)
+#  		for indicator in parser.indicator_operands:
+#  			indicator_data = 
+ 		
+ 		
+		result = self.exe(expression)
+		return result
 		
 	def exe(self, expression):
 		formatted_data = expression.cut_data(self.data)

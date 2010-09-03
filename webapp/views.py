@@ -16,23 +16,13 @@ def login(request):
 			user = auth.authenticate(username=request.POST["username"], password=request.POST["password"])
 			if user is not None and user.is_active:
 				auth.login(request, user)
-				return HttpResponseRedirect("/demo/")		
+				return HttpResponseRedirect("/index/")		
 	else:	
 		form = LoginForm()
 	return render_to_response("login.html", {"form":form}, context_instance=RequestContext(request))
 
+	
 @login_required
-def demo(request):
-	if request.method == "POST":
-		form = DemoForm(request.POST)
-		if form.is_valid():
-			result = form.save()
-	else:
-		form = DemoForm()
-		result = []
-	return render_to_response("demo.html", {"form":form, "result":result}, context_instance=RequestContext(request))		
-	
-	
 def logout(request):
 	auth.logout(request)
 	return HttpResponseRedirect("/login/")	
@@ -44,6 +34,20 @@ def chart(request):
 	else:
 	    form = ChartForm()
 	return render_to_response("chart.html", {"form":form}, context_instance=RequestContext(request))
+
+
+def index(request):
+	if request.method == "POST":
+		pass
+	return render_to_response("index.html", context_instance=RequestContext(request))
+
+def demo(request):
+	symbol = request.GET['symbol']
+	service = Service()
+	result = service.execute_query(symbol, "20090101", "20100301", "rsi(14) is_crossing 50")
+	return render_to_response("demo.html", {'params': {'symbol':symbol, 'start_date': '20090101' ,'end_date': '20100301', 'query':'rsi(14) is_crossing 50'},"result":jsonpickle.encode(Return_Code(value="3000", contents=result))}, context_instance=RequestContext(request))
+
+
 
 
 @csrf_exempt
@@ -110,18 +114,19 @@ def query_data(request):
 		except Exception as e:
 			return HttpResponse(jsonpickle.encode(Return_Code(value="3001", contents=e)))
 		
-		data = get_historical_prices(symbol=symbol, start_date=start_date, end_date=end_date)
- 		data.reverse()
- 		data = data[:-1]
- 		
- 		# add the extra flag for each record
- 		data_with_flag = []
-		for record in data:
-  			record.append(None)
-  			data_with_flag.append(record)
-  			
-  		box = Query_Execution_Box(data_with_flag)
- 		query_result = box(query)
- 		    
+		# data = get_historical_prices(symbol=symbol, start_date=start_date, end_date=end_date)
+#  		data.reverse()
+#  		data = data[:-1]
+#  		
+#  		# add the extra flag for each record
+#  		data_with_flag = []
+# 		for record in data:
+#   			record.append(None)
+#   			data_with_flag.append(record)
+#   			
+#   		box = Query_Execution_Box(data_with_flag)
+#  		query_result = box(query)
+		service = Service()
+		query_result = service.execute_query(symbol, start_date, end_date, query) 
  		return HttpResponse(jsonpickle.encode(Return_Code(value="3000", contents=query_result)))	
   			
