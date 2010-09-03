@@ -8,13 +8,13 @@ function chartData(rawJsonData) {
       r = rawJsonData[i];
       jsonData[i] = {
         date:r[0],
-        open:r[1],
-        high:r[2],
-        low:r[3],
-        close:r[4],
-        volume:r[5],
-        aclose:r[6],
-        flag:r[7]
+        open:parseFloat(r[1]),
+        high:parseFloat(r[2]),
+        low:parseFloat(r[3]),
+        close:parseFloat(r[4]),
+        volume:parseInt(r[5]),
+        aclose:parseFloat(r[6]),
+        flag:parseInt(r[7])
       };
     }
 
@@ -25,7 +25,7 @@ function chartData(rawJsonData) {
       summaryData[i] = [i, j.close];
       
       if (j.flag) {
-        flagData.push([i, 'flagtest']);
+        flagData.push([i, j.flag]);
       }
       
       //count the number of consecutive flags and use them to tell flotr which columns should be filled
@@ -46,6 +46,11 @@ function chartData(rawJsonData) {
       delta = bgCount;
       l = bgData.length;
       bgData[l] = [rawJsonData.length - delta, delta];
+    }
+    
+    for (i = 0; i < bgData.lenth; i++) {
+      var bg = bgData[i];
+      console.debug(bg);
     }
 
     /*
@@ -86,8 +91,8 @@ function chartData(rawJsonData) {
         return date; 
     }
     
-    HumbleFinance.init('finance', priceData, volumeData, summaryData, bgData);
-    //HumbleFinance.setFlags(flagData); 
+    HumbleFinance.init('finance', priceData, volumeData, summaryData, []);
+    HumbleFinance.setFlags(flagData); 
     
     var xaxis = HumbleFinance.graphs.summary.axes.x;
     var prevSelection = HumbleFinance.graphs.summary.prevSelection;

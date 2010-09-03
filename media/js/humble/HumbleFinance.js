@@ -593,19 +593,27 @@ var HumbleFinance = {
             } else if (x >= min && x <= xmax) {
                 // Draw the flag
                 var point = this.priceData[x];
-                var flagContent = this.flagData[i][1];
+                console.debug(point);
+                var flagType = this.flagData[i][1];
                 var xPos = xAxis.d2p(point[0]);
-                var yPos = yAxis.d2p(point[1]);
+                var yPos;
+                if (flagType == 1)
+                  yPos = yAxis.d2p(point[3]); //use the low
+                else if (flagType = 2)
+                  yPos = yAxis.dwp(point[2]); //use the high
+                else
+                  yPos = yAxis.d2p((point[1] + point[4]) / 2); //use the center of the candle
                 var offset = this.containers.price.cumulativeOffset();
                 
                 var left = Math.floor(xPos + this.graphs.price.plotOffset.left);
-                var top = Math.floor(yPos - 40 + this.graphs.price.plotOffset.top);
+                var top = Math.floor(yPos + this.graphs.price.plotOffset.top);
                 
-                flag = new Element('div', {'class': 'flag', 'style': 'position: absolute; top: '+top+'px; left: '+left+'px; z-index: 10;'});
-                flag.update(flagContent);
-                flagpole = new Element('div', {'class': 'flagpole', 'style': 'position: absolute; top: '+top+'px; left: '+left+'px; z-index: 10; height: 40px;'});
+                flag = new Element('div', {'class': 'flag flag-'+flagType, 'style': 'position: absolute; top: '+top+'px; left: '+left+'px; z-index: 10;'});
+                
+                //flag.update(flagContent);
+                //flagpole = new Element('div', {'class': 'flagpole', 'style': 'position: absolute; top: '+top+'px; left: '+left+'px; z-index: 10; height: 40px;'});
                 this.containers.flags.insert(flag);
-                this.containers.flags.insert(flagpole);
+                //this.containers.flags.insert(flagpole);
                 
             } else if (x >= xmax) {
                 break;
