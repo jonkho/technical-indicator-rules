@@ -412,6 +412,7 @@ class Parser_Test(TestCase):
 		parser = Parser()
 		rule = parser.parse_query(tokenizer)	
 		self.assert_(rule != None)
+		self.failUnlessEqual(parser.indicator_operands[0][1], "rsi(14)")
 		
 		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
@@ -438,6 +439,8 @@ class Parser_Test(TestCase):
 		tokenizer = Tokenizer(query_text="macd(17,8) speed >= macd(17,8) speed 1 days_ago")
 		rule = parser.parse_query(tokenizer)
 		self.assert_(rule != None)
+		self.failUnlessEqual(parser.indicator_operands[0][1], "macd(17,8)")
+		self.failUnlessEqual(parser.indicator_operands[1][1], "macd(17,8)")
 		#print("test start")
 		result = back_test.run(expression=rule, past_data=prices)
 		#print("test end")
@@ -458,6 +461,8 @@ class Parser_Test(TestCase):
 		tokenizer = Tokenizer(query_text="macd(17,8) is_crossing macd_signal(17,8,9)")
 		self.failUnlessEqual(len(tokenizer.tokens), 8)
 		rule = parser.parse_query(tokenizer)
+		self.failUnlessEqual(parser.indicator_operands[0][1], "macd(17,8)")
+		self.failUnlessEqual(parser.indicator_operands[1][1], "macd_signal(17,8,9)")
 		self.assert_(rule != None)
 		
 		
@@ -631,7 +636,7 @@ class Backtester_Test(TestCase):
 		backtester = Backtester()
 		account = Account(cash_balance=10000)
 		summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)	
-		# 11639.6691587
+		#11639.6691587
 		
 class Utils_Test(TestCase):
 	def test_one_year_earlier_should_return_a_date_one_year_earlier(self):

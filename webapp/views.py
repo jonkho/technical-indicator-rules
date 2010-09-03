@@ -114,18 +114,19 @@ def query_data(request):
 		except Exception as e:
 			return HttpResponse(jsonpickle.encode(Return_Code(value="3001", contents=e)))
 		
-		data = get_historical_prices(symbol=symbol, start_date=start_date, end_date=end_date)
- 		data.reverse()
- 		data = data[:-1]
- 		
- 		# add the extra flag for each record
- 		data_with_flag = []
-		for record in data:
-  			record.append(None)
-  			data_with_flag.append(record)
-  			
-  		box = Query_Execution_Box(data_with_flag)
- 		query_result = box(query)
- 		    
+		# data = get_historical_prices(symbol=symbol, start_date=start_date, end_date=end_date)
+#  		data.reverse()
+#  		data = data[:-1]
+#  		
+#  		# add the extra flag for each record
+#  		data_with_flag = []
+# 		for record in data:
+#   			record.append(None)
+#   			data_with_flag.append(record)
+#   			
+#   		box = Query_Execution_Box(data_with_flag)
+#  		query_result = box(query)
+		service = Service()
+		query_result = service.execute_query(symbol, start_date, end_date, query) 
  		return HttpResponse(jsonpickle.encode(Return_Code(value="3000", contents=query_result)))	
   			

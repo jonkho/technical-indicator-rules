@@ -25,11 +25,14 @@ class Parser(object):
 	INDICATORS = ["macd", "macd_signal", "sma", "ema", "stochastic", "stochastic_signal", "slow_stochastic", "slow_stochastic_signal", "rsi", "price", "volume"]
 	ARITHOPERATOR = ["-", "|-|"]
 	
+	
 	def __init__(self, full_data=None):
 		self.full_data = full_data
+		self.indicator_operands = []
 		super(Parser, self).__init__()
 		
 	def parse_query(self, tokenizer):
+		self.indicator_operands = []
 		if not tokenizer.has_tokens():
 			return Null_Expression()		
 		function = self.parse_expression(tokenizer)
@@ -69,44 +72,59 @@ class Parser(object):
 	def parse_indicator(self, tokenizer):
 		token = tokenizer.peek()
 		tokenizer.consume()
+		indicator_type = token
+		
 		if token == "macd":
 			long_term_ma = self.parse_number(tokenizer)
 			short_term_ma = self.parse_number(tokenizer)
 			indicator = Macd(long_term_ma, short_term_ma)
+			indicator_string = "macd(%s,%s)" % (long_term_ma, short_term_ma)
 		elif token == "macd_signal":
 			long_term_ma = self.parse_number(tokenizer)
 			short_term_ma = self.parse_number(tokenizer)
 			period = self.parse_number(tokenizer)
 			indicator = Macd_Signal(long_term_ma, short_term_ma, period)
+			indicator_string = "macd_signal(%s,%s,%s)" % (long_term_ma, short_term_ma, period)
 		elif token == "stochastic":
 			n = self.parse_number(tokenizer)
 			indicator = Stochastic(n)
+			indicator_string = "stochastic(%s)" % n
 		elif token == "stochastic_signal":
 			n = self.parse_number(tokenizer)
 			smoothing = self.parse_number(tokenizer)
-			indicator = Stochastic_Signal(smoothing, n)		
+			indicator = Stochastic_Signal(smoothing, n)
+			indicator_string = "stochastic_signal(%s,%s)" % (n, smoothing)
 		elif token == "slow_stochastic":
 			n = self.parse_number(tokenizer)
 			ma = self.parse_number(tokenizer)
 			indicator = Slow_Stochastic(n, ma)
+			indicator_string = "slow_stochastic(%s,%s)" % (n, ma)
 		elif token == "slow_stochastic_signal":
 			n = self.parse_number(tokenizer)
 			ma = self.parse_number(tokenizer)
 			smoothing = self.parse_number(tokenizer)
 			indicator = Slow_Stochastic_Signal(n, ma, smoothing)
+			indicator_string = "slow_stochastic_signal(%s,%s,%s)" % (n, ma, smoothing)
 		elif token == "sma":
 			period = self.parse_number(tokenizer)
 			indicator = Sma(period)
+			indicator_string = "sma(%s)" % period
 		elif token == "ema":
 			period = self.parse_number(tokenizer)
-			indicator = Ema(period)	
+			indicator = Ema(period)
+			indicator_string = "ema(%s)" % period	
 		elif token == "price":
-			indicator = Price()		
+			indicator = Price()
+			indicator_string = "price"		
 		elif token == "volume":
-			indicator = Volume()	
+			indicator = Volume()
+			indicator_string = "volume"	
 		elif token == "rsi":
 			period = self.parse_number(tokenizer)
 			indicator = Rsi(period)
+			indicator_string = "rsi(%s)" % period
+		
+		self.indicator_operands.append((indicator_type, indicator_string, indicator))	
 		return indicator	
 			
 	def parse_modifier(self, tokenizer, operand):
