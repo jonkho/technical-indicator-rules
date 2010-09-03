@@ -98,7 +98,7 @@ def indicator_data(request):
  		data = data[:-1]
  		
 		indicator_history = Indicator_History()
-  		indicator_data = indicator_history(indicator, data)
+  		indicator_data = indicator_history.process(indicator, data)
   		#print indicator_data
   		final_data = utils.remove_runway(indicator_data, start_date)
   		

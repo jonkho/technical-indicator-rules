@@ -608,7 +608,7 @@ class Technical_Data_Test(TestCase):
  		data.reverse()
  		data = data[:-1]
 		indicator_history = Indicator_History()
-  		result = indicator_history("macd(17,8)", data)
+  		result = indicator_history.process("macd(17,8)", data)
  		self.failUnlessEqual(len(result), 608)
  		self.failUnlessEqual(result[400][1], 0.51649808583636059)
  		
@@ -616,7 +616,7 @@ class Technical_Data_Test(TestCase):
  		data.reverse()
  		data = data[:-1]
 		indicator_history = Indicator_History()
-  		result = indicator_history("rsi(14)", data)
+  		result = indicator_history.process("rsi(14)", data)
  		self.failUnlessEqual(len(result), 608)
  		self.failUnlessEqual(result[400][1], 62.348797863808123)
 	

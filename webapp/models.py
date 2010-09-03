@@ -43,7 +43,7 @@ class Indicator_History(object):
 		self.memo = {}
 		super(Indicator_History, self).__init__()
 		
-	def __call__(self, indicator, data):
+	def process(self, indicator, data):
 		final_list = []
 		parser = Parser()
  		tokenizer = Tokenizer(indicator)
@@ -107,6 +107,7 @@ class Query_Execution_Box(object):
 		# data holds the running query result
 		# number_of_points is the running count of the resulting number of points that is evaluated True
 		# memo is the dictionary for memoization that must be passed to the scanner 
+		# indicators_data holds the operands which are indicators and their data	
 		self.memo = {}
 		self.data = data
 		self.indicators_data = {}
