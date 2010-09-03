@@ -1,92 +1,87 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<link type="text/css" rel="stylesheet" href="/css/reset.css"/>
-		<link type="text/css" rel="stylesheet" href="/css/text.css"/>
-		<link type="text/css" rel="stylesheet" href="/css/26099.css"/>
-		<link type="text/css" rel="stylesheet" href="/css/sparrow.css"/>
-		<link rel="stylesheet" href="/css/finance.css" type="text/css" media="screen" charset="utf-8">
-		<link rel="stylesheet" href="/css/styles.css" type="text/css" media="screen" charset="utf-8">
+{% extends "layout.html" %}
+{% block css %}
+	<link rel="stylesheet" href="/css/finance.css" type="text/css" media="screen" charset="utf-8">
+	<link rel="stylesheet" href="/css/styles.css" type="text/css" media="screen" charset="utf-8">
+{% endblock %}
 
-		<!--[if IE]><script language="javascript" type="text/javascript" src="/js/flotr/excanvas.js"></script><![endif]-->
-		<script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
-		<script language="javascript" type="text/javascript" src="/js/flotr/base64.js"></script>
-		<script language="javascript" type="text/javascript" src="/js/flotr/canvas2image.js"></script>
-		<script language="javascript" type="text/javascript" src="/js/flotr/canvastext.js"></script>
-		<script language="javascript" type="text/javascript" src="/js/flotr/flotr.js"></script>
+{% block scripts %}
+	<!--[if IE]><script language="javascript" type="text/javascript" src="/js/flotr/excanvas.js"></script><![endif]-->
+	<script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
+	<script language="javascript" type="text/javascript" src="/js/scriptaculous.js"></script>
+	<script language="javascript" type="text/javascript" src="/js/flotr/base64.js"></script>
+	<script language="javascript" type="text/javascript" src="/js/flotr/canvas2image.js"></script>
+	<script language="javascript" type="text/javascript" src="/js/flotr/canvastext.js"></script>
+	<script language="javascript" type="text/javascript" src="/js/flotr/flotr.js"></script>
+	<script language="javascript" type="text/javascript"  src="/js/effects.js"></script> 
+	<script language="javascript" type="text/javascript"  src="/js/dragdrop.js"></script> 
+	<script language="javascript" type="text/javascript"  src="/js/controls.js"></script> 
+	<script language="javascript" type="text/javascript"  src="/js/builder.js"></script>
+	<script type="text/javascript" src="/js/humble/HumbleFinance.js"></script>
+	<script type="text/javascript" src="/js/charting.js"></script>
+	<script type="text/javascript" >
+		js = {{ result|safe }};
+		document.observe("dom:loaded", function() {
+			priceData = [];
+			volumeData = [];
+			summaryData = [];
+			jsonData = [];
+			bgData = [];
+			flagData = [];
 
+			openData = [];
+			closeData = [];
+			highData = [];
+			lowData = [];
 
-		<script type="text/javascript" src="/js/humble/HumbleFinance.js"></script>
+			if(js){
+				chartData(js.contents.data);
+			}
+		});
+	</script>
+{% endblock %}
 
-		<script type="text/javascript" src="/js/charting.js"></script>
-		<script type="text/javascript" >
-			js = {{ result|safe }};
-			document.observe("dom:loaded", function() {
-				priceData = [];
-				volumeData = [];
-				summaryData = [];
-				jsonData = [];
-				bgData = [];
-				flagData = [];
+{% block content %}
+	<div class="left_main grid_9">
+		<div class="query_section">
+			<h2>Query</h2>
+			<form action="/query/" method="get">
+				<div class="query_input">
+					<input id="symbol" type="text" value="{{params.symbol}}"/>
+					<input id="start_date" type="text" value="{{params.start_date}}"/>
+					<input id="end_date" type="text" value="{{params.end_date}}"/>
+				</div>
+				<div class="query_area">
+					{{params.query}}
 
-				openData = [];
-				closeData = [];
-				highData = [];
-				lowData = [];
-
-				if(js){
-					chartData(js.contents.data);
-				}
-			});
-
-</script>
-</head>
-<body>
-	<div class="container container_12 clearfix">
-		<div class="header grid_12">
-			<h1>Trade Sparrow</h1>
+				</div>
+				<input type="submit" value="Go!"/>
+			</form>
+			<div class="spacer"></div>
 		</div>
-		<div class="left_main grid_9">
-			<div class="query_section">
-				<h2>Query</h2>
-				<form action="/query/" method="get">
-					<div class="query_input">
-						<input id="symbol" type="text" value="{{params.symbol}}"/>
-						<input id="start_date" type="text" value="{{params.start_date}}"/>
-						<input id="end_date" type="text" value="{{params.end_date}}"/>
-					</div>
-					<div class="query_area">
-
-					</div>
-					<input type="submit" value="Go!"/>
-				</form>
-			</div>
-			<div id="graphcontainer">
-				<div id="finance">
-					<div id="labels">
-						<div id="dateRange">&nbsp;</div>
-					</div>
+		<div id="graphcontainer">
+			<div id="finance">
+				<div id="labels">
+					<div id="dateRange">&nbsp;</div>
 				</div>
 			</div>
-		</div> <!-- close left main -->
-		<div class="right_sidebar grid_3">
-			<div class="bear_queries">
-				<h2>Bear</h2>			
-				<ul>
-					<li>macd(17,8) gradient >= 0</li>
-					<li>macd(17,8) gradient >= 0</li>
-					<li>macd(17,8) gradient >= 0</li>
-				</ul>	
-			</div>
-			<div class="bull_queries">
-				<h2>Bull</h2>
-				<ul>
-					<li>macd(17,8) gradient >= 0</li>
-					<li>macd(17,8) gradient >= 0</li>
-					<li>macd(17,8) gradient >= 0</li>
-				</ul>	
-			</div>
 		</div>
-
+	</div> <!-- close left main -->
+	<div class="right_sidebar grid_3">
+		<div class="bull_queries">
+			<h2>Bull</h2>
+			<ul>
+				<li>macd(17,8) gradient >= 0</li>
+				<li>macd(17,8) gradient >= 0</li>
+				<li>macd(17,8) gradient >= 0</li>
+			</ul>	
+		</div>
+		<div class="bear_queries">
+			<h2>Bear</h2>			
+			<ul>
+				<li>macd(17,8) gradient >= 0</li>
+				<li>macd(17,8) gradient >= 0</li>
+				<li>macd(17,8) gradient >= 0</li>
+			</ul>	
+		</div>
 	</div>
-</body>
-</html>
+{% endblock %}
