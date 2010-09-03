@@ -33,4 +33,6 @@ if settings.DEBUG:
             {'document_root': os.path.join(settings.SITE_ROOT, "media/css"), 'show_indexes': True}),
     (r'^js/(?P<path>.*)$', 'django.views.static.serve',
             {'document_root': os.path.join(settings.SITE_ROOT, "media/js"), 'show_indexes': True}),
+    (r'^images/(?P<path>.*)$', 'django.views.static.serve',
+            {'document_root': os.path.join(settings.SITE_ROOT, "media/images"), 'show_indexes': True}),
     )

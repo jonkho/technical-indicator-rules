@@ -18,9 +18,18 @@
     height: 12px;
 }
 .flag {
-    border: 1px solid #4499FF;
-    background: white;
-    padding: 1px 2px 1px 2px;
+    width: 16px;
+    height: 16px;
+}
+.flag-1 {
+    /* Green Up Arrow */
+    background: url('/images/indicators.gif') 0 0 no-repeat;
+    margin-top: 60px;
+}
+.flag-2 {
+    /* Red Down Arrow */
+    background: url('/images/indicators.gif') -16px 0 no-repeat;
+    margin-top: -40px;
 }
 .flagpole {
     border-left: 1px solid #4499FF;
