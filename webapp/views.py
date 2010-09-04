@@ -86,21 +86,12 @@ def indicator_data(request):
 			symbol = request.GET["symbol"]
 			start_date = request.GET["start_date"]
 			end_date = request.GET["end_date"]
-			indicator = request.GET["indicator"]
+			indicator_string = request.GET["indicator_string"]
 		except Exception as e:
 			return HttpResponse(jsonpickle.encode(Return_Code(value="2001", contents=e)))	
-		
-		utils = Utils()
-		# back date one year to converge to true values by the time we reach the start date
-		runway_start_date = utils.one_year_earlier(start_date)
-		data = get_historical_prices(symbol=symbol, start_date=runway_start_date, end_date=end_date)
- 		data.reverse()
- 		data = data[:-1]
- 		
-		indicator_history = Indicator_History()
-  		indicator_data = indicator_history.process(indicator, data)
-  		#print indicator_data
-  		final_data = utils.remove_runway(indicator_data, start_date)
+			
+		service = Service()
+		final_data = service.get_indicator_historical_data(symbol, indicator_string, start_date, end_date)	
   		
  		return HttpResponse(jsonpickle.encode(Return_Code(value="2000", contents=final_data)))
 		

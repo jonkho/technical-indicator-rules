@@ -43,11 +43,17 @@ class Indicator_History(object):
 		self.memo = {}
 		super(Indicator_History, self).__init__()
 		
-	def process(self, indicator, data):
-		final_list = []
+	def process_indicator_string(self, indicator_string, data):
 		parser = Parser()
- 		tokenizer = Tokenizer(indicator)
-		indicator = parser.parse_indicator(tokenizer)
+ 		tokenizer = Tokenizer(indicator_string)
+		indicator = parser.parse_indicator(tokenizer)	
+		final_list = self.process_indicator(indicator, data)
+		
+		return final_list
+
+		
+	def process_indicator(self, indicator, data):
+		final_list = []
 		formatted_data = indicator.cut_data(data)
 		
 		for (counter, point) in enumerate(formatted_data):
@@ -61,7 +67,8 @@ class Indicator_History(object):
 				
 			final_list.append(date_value_pair)	
 		
-		return final_list	
+		return final_list				
+
 
 class Expression_Evaluator(object):
 	def is_true(self, symbol, expression, today):
@@ -103,14 +110,18 @@ class Query_Execution_Box(object):
 	# this class creates the execution environment by cutting the data
 	# then running the scan
 	
-	def __init__(self, data):
+	def __init__(self, data, indicators_data=None):
 		# data holds the running query result
 		# number_of_points is the running count of the resulting number of points that is evaluated True
 		# memo is the dictionary for memoization that must be passed to the scanner 
 		# indicators_data holds the operands which are indicators and their data	
 		self.memo = {}
 		self.data = data
-		self.indicators_data = {}
+		
+		if indicators_data:
+			self.indicators_data = indicators_data
+		else:
+			self.indicators_data = {}	
 			
 		super(Query_Execution_Box, self).__init__()	
 		
@@ -118,8 +129,14 @@ class Query_Execution_Box(object):
 		parser = Parser(self.data)
  		tokenizer = Tokenizer(query_text=query_string)
  		expression = parser.parse_query(tokenizer)
-#  		for indicator in parser.indicator_operands:
-#  			indicator_data = 
+ 		
+ 		# collect the indicator's data
+ 		indicator_history = Indicator_History()
+ 		indicator_history.memo = self.memo
+ 		
+ 		for indicator_record in parser.indicator_operands:
+ 			indicator_data = indicator_history.process_indicator(indicator_record[-1], self.data)
+ 			self.indicators_data[indicator_record[1]] = [indicator_record[0], indicator_record[1], indicator_data]
  		
  		
 		result = self.exe(expression)
@@ -142,7 +159,7 @@ class Query_Execution_Box(object):
 		result = self.logical_and(this_querys_results, self.data)	
 
 		# return	
-		return Query_Execution_Box(data=result)	
+		return Query_Execution_Box(data=result, indicators_data=self.indicators_data)	
 			
 		
 		# find the intersection between the current query results and the parent query results to get the FINAL result
@@ -169,6 +186,7 @@ class Query_Execution_Box(object):
 		result = []
 		for (counter, record) in enumerate(data1):
 			new_record = copy.deepcopy(record)
+			
 			if record[-1] == None and data2[counter][-1] == None:
 				new_record[-1] = False
 				#print("%s) branch 1, new record is set to: %s and %s = %s" % (counter,record[-1], data2[counter][-1], new_record[-1]))
@@ -191,10 +209,8 @@ class Query_Execution_Box(object):
 			
 class Service(object):
 	def execute_query(self, symbol, start_date, end_date, *query):
-# 		data = get_historical_prices(symbol=symbol, start_date=start_date, end_date=end_date)
-#  		data.reverse()
-#  		data = data[:-1]
 
+		# get the extra runway data
 		utils = Utils()
 		runway_start_date = utils.one_year_earlier(start_date)
 		runway_data = get_historical_prices(symbol=symbol, start_date=runway_start_date, end_date=end_date)
@@ -208,13 +224,35 @@ class Service(object):
   			record.append(None)
   			data_with_flag.append(record)
   			
+  		# execute the query	
   		box = Query_Execution_Box(data_with_flag)
   		
   		for phrase in query:
  			box = box(phrase)	
  		
+ 		# remove the runway from the result query data
  		box.data = utils.remove_runway(box.data, start_date)
+ 		
+ 		# remove the runway from the result indicators data
+ 		for indicator, indicator_record in box.indicators_data.items():
+ 			box.indicators_data[indicator][-1] = utils.remove_runway(indicator_record[-1], start_date)
+ 			
  		return box
+ 		
+ 		
+ 	def get_indicator_historical_data(self, symbol, indicator_string, start_date, end_date):
+		utils = Utils()
+		# back date one year to converge to true values by the time we reach the start date
+		runway_start_date = utils.one_year_earlier(start_date)
+		data = get_historical_prices(symbol=symbol, start_date=runway_start_date, end_date=end_date)
+ 		data.reverse()
+ 		data = data[:-1]
+ 		
+		indicator_history = Indicator_History()
+  		indicator_data = indicator_history.process_indicator_string(indicator_string, data)
+  		#print indicator_data
+  		final_data = utils.remove_runway(indicator_data, start_date)
+  		return final_data 			
  		
  			
 class Backtester(object):	

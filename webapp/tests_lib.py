@@ -555,6 +555,7 @@ class Execution_Env_Test(TestCase):
 		result = result_box.exe(rule)
 		self.failUnlessEqual(result.number_of_points, 23)
 		#print(result.data)
+
 		
 		
  		#fluent interface
@@ -595,6 +596,28 @@ class Execution_Env_Test(TestCase):
 		result = box("price 3 days_later >= price")
 		self.failUnlessEqual(result.number_of_points, 209)
 
+	def test_execution_box_should_return_the_history_of_the_technical_indicators_being_queried(self):
+		data = get_historical_prices(symbol="gld", start_date="20080101", end_date="20100601")
+ 		data.reverse()
+ 		data = data[:-1]
+		indicator_history = Indicator_History()
+
+ 		
+ 		exe_box = Query_Execution_Box(data)
+ 		#print exe_box.indicators_data.keys()
+ 		result_box = exe_box("macd(17,8) speed >= macd(17,8) speed 1 days_ago")
+		result = result_box("rsi(14) is_crossing 50")
+		
+		self.failUnlessEqual(result.number_of_points, 46)
+		#self.failUnlessEqual(result.number_of_points, 23)
+		#print(result.data)
+		#print(result.indicators_data.keys())
+		self.failUnlessEqual(len(result.indicators_data), 2)
+		self.failUnlessEqual(result.indicators_data.has_key("macd(17,8)"), True)
+		self.failUnlessEqual(result.indicators_data.has_key("rsi(14)"), True)
+		self.failUnlessEqual(len(result.indicators_data["macd(17,8)"][-1]), 608)
+ 		self.failUnlessEqual(result.indicators_data["macd(17,8)"][-1][400][1], 0.51649808583636059)
+ 		
 
 class Technical_Data_Test(TestCase):
 	def test_technical_indicator_macd_can_be_parsed(self):
@@ -608,7 +631,7 @@ class Technical_Data_Test(TestCase):
  		data.reverse()
  		data = data[:-1]
 		indicator_history = Indicator_History()
-  		result = indicator_history.process("macd(17,8)", data)
+  		result = indicator_history.process_indicator_string("macd(17,8)", data)
  		self.failUnlessEqual(len(result), 608)
  		self.failUnlessEqual(result[400][1], 0.51649808583636059)
  		
@@ -616,10 +639,10 @@ class Technical_Data_Test(TestCase):
  		data.reverse()
  		data = data[:-1]
 		indicator_history = Indicator_History()
-  		result = indicator_history.process("rsi(14)", data)
+  		result = indicator_history.process_indicator_string("rsi(14)", data)
  		self.failUnlessEqual(len(result), 608)
  		self.failUnlessEqual(result[400][1], 62.348797863808123)
-	
+
 
 class Service_Test(TestCase):
 	def test_execute_query_returns_expected_results(self):
