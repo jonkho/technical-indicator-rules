@@ -27,6 +27,13 @@ class Utils(object):
 		start_datetime = start_datetime - timedelta(days=1)
 		return start_datetime.strftime("%Y%m%d")
 			
+	def convert_query_flags_to_integer(self, data):
+		for record in data:
+			if record[-1] == True:
+				record[-1] = 1
+			else:
+				record[-1] = 0
+		return data			
 
 
 class Return_Code(object):
@@ -236,6 +243,9 @@ class Service(object):
  		# remove the runway from the result indicators data
  		for indicator, indicator_record in box.indicators_data.items():
  			box.indicators_data[indicator][-1] = utils.remove_runway(indicator_record[-1], start_date)
+ 		
+ 		# convert the box data boolean flags to integer flags
+ 		box.data = utils.convert_query_flags_to_integer(box.data)
  			
  		return box
  		
