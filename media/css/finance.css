@@ -9,6 +9,12 @@
     -moz-border-radius: 3px;
     -moz-user-select: none;;
 }
+.flotr-mouse-value {
+    z-index: 20;
+}
+.flotr-canvas, .flotr-overlay {
+    z-index: 1;
+}
 .zoomHandle {
     width: 5px; 
     height: 20px; 
@@ -32,7 +38,14 @@
     margin-top: -40px;
 }
 .flagpole {
-    border-left: 1px solid #4499FF;
+    opacity:0.3;
+}
+.flagpole-1 {
+    border-left: 1px solid green;
+}
+.flagpole-2 {
+    border-left: 1px solid orange;
+    opacity:0.2;
 }
 .flotr-grid-label {
     font-size: 11px;
