@@ -40,6 +40,9 @@ def index(request):
 	if request.method == "POST":
 		pass
 	return render_to_response("index.html", context_instance=RequestContext(request))
+	
+def tour(request):
+	return render_to_response("tour.html", context_instance=RequestContext(request))
 
 def demo(request):
 	try:

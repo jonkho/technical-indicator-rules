@@ -48,6 +48,7 @@ div.container div.right_sidebar div{
 }
 div.query_section{
 	height:30%;
+	padding:15px 0 5px;
 	-webkit-box-shadow:inset 1px 2px 2px #C1D3D9;
 	-moz-box-shadow:inset 1px 2px 2px #C1D3D9;
 }
