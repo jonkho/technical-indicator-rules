@@ -59,11 +59,11 @@ jQuery('document').ready(function(){
   
   document.observe('prototip:shown', function(event) {
     event.element().pulsate({pulses:2, duration: 1.5});
-    $(event.element().prototip).appear({duration: 0.5}); // our target element, we shake it with Scriptaculous
+    //$(event.element().prototip).appear({duration: 0.5}); // our target element, we shake it with Scriptaculous
   });
   
   document.observe('prototip:hidden', function(event) {
-    $(event.element().prototip).fade({duration: 1.5}); // our target element, we shake it with Scriptaculous
+    //$(event.element().prototip).fade({duration: 1.5}); // our target element, we shake it with Scriptaculous
   });
 
 	/* load data if supplied */

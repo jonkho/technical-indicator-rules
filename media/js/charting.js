@@ -1,5 +1,8 @@
 function chartData(rawJson) {
     rawJsonData = rawJson['data'];
+    iData = rawJson['indicators_data'];
+    
+    jsonData = [];
     
     bgCount = 0;
     delta = 0;
@@ -64,7 +67,11 @@ function chartData(rawJson) {
         
         var x = Math.floor(obj.x);
         var data = jsonData[x];
-        var text = data.date + " Price: " + data.close + " Vol: " + data.volume;
+        var t = "";
+        for (var i = 1; i < iData[0].length; i++) {
+          t += " "+iData[0][i]+": "+iData[x+1][i];
+        }
+        var text = data.date + " Price: " + data.close + " Vol: " + data.volume + t;
         
         return text;
     };
@@ -91,7 +98,7 @@ function chartData(rawJson) {
         return date; 
     }
     
-    HumbleFinance.init('finance', priceData, volumeData, summaryData, []);
+    HumbleFinance.init('finance', priceData, volumeData, summaryData, [], iData);
     HumbleFinance.setFlags(flagData); 
     
     var xaxis = HumbleFinance.graphs.summary.axes.x;
