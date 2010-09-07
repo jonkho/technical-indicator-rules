@@ -1954,11 +1954,19 @@ Flotr.Graph = Class.create({
 				
 		if(!s.bars.show){
 			var r = s.points.radius;
+			/*
 			this.octx.clearRect(
 				xa.d2p(prevHit.x) + plotOffset.left - r*2,
 				ya.d2p(prevHit.y) + plotOffset.top - r*2,
 				r*3 + s.points.lineWidth*3, 
 				r*3 + s.points.lineWidth*3
+			);
+			*/
+			this.octx.clearRect(
+			  xa.d2p(prevHit.x) + plotOffset.left - 3,
+				plotOffset.top,
+				6,
+				this.plotHeight
 			);
 		}
 
@@ -1995,10 +2003,16 @@ Flotr.Graph = Class.create({
       
 			if(!s.bars.show){
 				octx.translate(this.plotOffset.left, this.plotOffset.top);
+				octx.lineWidth = 1;
+				octx.strokeStyle = "rgba(0,0,0,0.5)";
 				octx.beginPath();
-				octx.arc(xa.d2p(n.x), ya.d2p(n.y), s.mouse.radius, 0, 2 * Math.PI, true);
-				octx.fill();
+				octx.moveTo(xa.d2p(n.x), 0);
+				octx.lineTo(xa.d2p(n.x), this.plotHeight);
+				//octx.arc(xa.d2p(n.x), ya.d2p(n.y), s.mouse.radius, 0, 2 * Math.PI, true);
+				//octx.fill();
 				octx.stroke();
+				octx.lineWidth = s.points.lineWidth;
+				octx.strokeStyle = s.mouse.lineColor;
 			}
 
 			else {

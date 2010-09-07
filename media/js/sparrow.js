@@ -77,7 +77,7 @@ jQuery('document').ready(function(){
 
 	/* load data if supplied */
 	if(js){
-		chartData(js.contents);
+	  chartData(js.contents);
 	}
 
 	/* active query area */

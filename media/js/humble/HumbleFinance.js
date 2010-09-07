@@ -88,6 +88,7 @@ var HumbleFinance = {
      */
     flagData: [],
     iData: [], //indicators
+    iLabels: [],
     
     bgData: [],
     /**
@@ -108,6 +109,7 @@ var HumbleFinance = {
      * @member function
      */
     trackFormatter: Flotr.defaultTrackFormatter,
+    iFormatter: Flotr.defaultTrackFormatter,
     
     
     /**
@@ -127,7 +129,8 @@ var HumbleFinance = {
         this.summaryData = summaryData;
         this.bgData = bgData;
         
-        this.iData = indicatorsData;
+        this.iData = indicatorsData.slice(1);
+        this.iLabels = indicatorsData[0];
         
         // Set bounds to scale automatically in the y direction
         this.bounds.xmin = 0;
@@ -147,6 +150,7 @@ var HumbleFinance = {
             y2: this.bounds.ymax
         };
         this.graphs.summary = this.summaryGraph(this.summaryData, this.bounds);
+        
         this.graphs.summary.setSelection(area);
     },
     
@@ -242,10 +246,11 @@ var HumbleFinance = {
         
         var newBounds = {'xmin': xmin, 'xmax': xmax, 'ymin': ymin, 'ymax': ymax};
         var volBounds = {'xmin': xmin, 'xmax': xmax, 'ymin': null, 'ymax': null};
+        var iBounds = {'xmin': xmin, 'xmax': xmax, 'ymin': null, 'ymax': null}; 
         
         this.graphs.price = this.priceGraph(this.priceData.slice(xmin, xmax+1), this.bgData.slice(xmin, xmax+1), newBounds);
         this.graphs.volume = this.volumeGraph(this.volumeData.slice(xmin, xmax+1), volBounds);
-        this.graphs.inds = this.iGraph(this.iData.slice(xmin + 1, xmax+1), volBounds);
+        this.graphs.inds = this.iGraph(this.iData, iBounds);
         
         this.drawFlags();
     },
@@ -256,7 +261,7 @@ var HumbleFinance = {
     reset: function () {
         this.graphs.price = this.priceGraph(this.priceData, this.bgData, this.bounds);
         this.graphs.volume = this.volumeGraph(this.volumeData, this.bounds);
-        this.graphs.inds = this.iGraph(this.iData.slice(1), this.bounds);
+        this.graphs.inds = this.iGraph(this.iData, this.bounds);
         this.handles.left.hide();
         this.handles.right.hide();
         this.handles.scroll.hide();
@@ -525,6 +530,7 @@ var HumbleFinance = {
     clearHit: function(e) {
         this.graphs.price.clearHit();//.mouseTrack.hide();
         this.graphs.volume.clearHit();
+        this.graphs.inds.clearHit();
     },
     
     /**
@@ -551,7 +557,7 @@ var HumbleFinance = {
      */
     iHitObserver: function (e) {
         // Hide mouse track on volume graph
-        this.graphs.inds.mouseTrack.hide();
+        //this.graphs.inds.mouseTrack.hide();
         
         // Display hit on price graph
         var point = this.priceData[e.memo[0].x];
@@ -571,6 +577,7 @@ var HumbleFinance = {
         var point = this.volumeData[e.memo[0].x];
         Event.stopObserving(this.containers.price, 'flotr:hit');
         this.doHit(this.graphs.volume, point, this.containers.price);
+        this.doHit(this.graphs.inds, point, this.containers.price);
         Event.observe(this.containers.price, 'flotr:hit', this.priceHitObserver.bind(this));
         
         // Hide mouse track on volume graph
@@ -662,7 +669,6 @@ var HumbleFinance = {
      * @return Flotr.Graph
      */
     priceGraph: function (data, bgData, bounds) {
-        
         var xmin = bounds.xmin;
         var xmax = bounds.xmax;
         var ymin = bounds.ymin;
@@ -721,8 +727,10 @@ var HumbleFinance = {
     iGraph: function (data, bounds) {
         var gdata = [];
         for (var j = 1; j < data[0].length; j++) {
+          //j is the number of indicators we have data for
           gdata[j - 1] = [];
           for (var i = 0; i < data.length; i++) {
+            //i is the index into the data array
             gdata[j - 1][i] = [i, data[i][j]];
           }
         }
@@ -736,11 +744,11 @@ var HumbleFinance = {
             $('iGraph'),
             gdata,
             {
-                lines: {show: false, fill: false, fillOpacity: .1, lineWidth: 1},
-                yaxis: {min: ymin, max: ymax, showLabels: true, noTicks: 2, tickDecimals: 0},
+                lines: {show: true, fill: false, fillOpacity: .1, lineWidth: 1},
+                yaxis: {min: ymin, max: ymax, showLabels: false, noTicks: 2, tickDecimals: 0},
                 xaxis: {min: xmin, max: xmax, showLabels: false, labelsAngle: 60},
                 grid: {verticalLines: false, horizontalLines: true, outlineWidth: 0, labelMargin: 0},
-                mouse: {track: true, sensibility: .3, position: 'ne', trackDecimals: 0},
+                mouse: {track: true, sensibility: .3, position: 'ne', trackDecimals: 0, trackFormatter: this.iFormatter},
                 shadowSize: false,
                 HtmlText: true
             }

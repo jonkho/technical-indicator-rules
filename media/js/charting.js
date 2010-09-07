@@ -67,14 +67,21 @@ function chartData(rawJson) {
         
         var x = Math.floor(obj.x);
         var data = jsonData[x];
-        var t = "";
-        for (var i = 1; i < iData[0].length; i++) {
-          t += " "+iData[0][i]+": "+iData[x+1][i];
-        }
-        var text = data.date + " Price: " + data.close + " Vol: " + data.volume + t;
+        var text = data.date + " Price: " + data.close + " Vol: " + data.volume;
         
         return text;
     };
+    
+    HumbleFinance.iFormatter = function (obj) {
+        var x = Math.floor(obj.x);
+        var data = jsonData[x];
+        var t = "";
+        for (var i = 1; i < iData[0].length; i++) {
+          t += iData[0][i]+": "+iData[x+1][i]+" ";
+        }
+        
+        return t;
+    }
     
     HumbleFinance.yTickFormatter = function (n) {
         
