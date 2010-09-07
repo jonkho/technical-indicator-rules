@@ -59,7 +59,6 @@ jQuery('document').ready(function(){
 			success: function(data){
 				jQuery('#finance').html("<div id=\"labels\"><div id=\"dateRange\">&nbsp;</div></div>");
 				delete rdata;
-				console.log(data.contents);
 				chartData(data.contents.data);
 			},
 			dataType: 'json',
