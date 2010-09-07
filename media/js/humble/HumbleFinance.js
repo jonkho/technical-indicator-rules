@@ -614,7 +614,7 @@ var HumbleFinance = {
                 var offset = this.containers.price.cumulativeOffset();
                 
                 var left = Math.floor(xPos + this.graphs.price.plotOffset.left);
-                var top = Math.floor(200 + this.graphs.price.plotOffset.top);
+                var top = Math.floor(offset.top - 90);
                 
                 //flag = new Element('div', {'class': 'flag flag-'+flagType, 'style': 'position: absolute; top: '+top+'px; left: '+left+'px; z-index: 10;'});
                 

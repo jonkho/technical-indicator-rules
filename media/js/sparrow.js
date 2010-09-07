@@ -80,6 +80,7 @@ jQuery('document').ready(function(){
 			var query = jQuery(li).text();
 			jQuery('<a href="" class="rm_query">x</a><input name="query" type="hidden" value="'+query+'"/>').prependTo(li);
 			jQuery(this).append(li);
+			HumbleFinance.drawFlags();
 		}	
 	});
 
