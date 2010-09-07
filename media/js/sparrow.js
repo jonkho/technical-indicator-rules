@@ -49,8 +49,9 @@ function tourStart(tic) {
 
   window.setTimeout(function(){tourStep(1);}, 1000);
 }
-	
-document.observe("dom:loaded", function() {		  
+
+jQuery('document').ready(function(){
+
   new Tip($('symbol'), 'TICKER SYMBOL');
   new Tip($('start_date'), 'START DATE (YYYYMMDD)');
   new Tip($('end_date'), 'END DATE (YYYYMMDD)');
@@ -65,11 +66,9 @@ document.observe("dom:loaded", function() {
     $(event.element().prototip).fade({duration: 1.5}); // our target element, we shake it with Scriptaculous
   });
 
-jQuery('document').ready(function(){
-
 	/* load data if supplied */
 	if(js){
-		chartData(js.contents.data);
+		chartData(js.contents);
 	}
 
 
@@ -97,6 +96,7 @@ jQuery('document').ready(function(){
 	jar = new CookieJar({
 	  expires:60*60*24*365,
 	  path: '/'
+  });
 	
 	c = jar.get('firstvisit');
 	if (c == null) {
@@ -125,7 +125,7 @@ jQuery('document').ready(function(){
 			success: function(data){
 				jQuery('#finance').html("<div id=\"labels\"><div id=\"dateRange\">&nbsp;</div></div>");
 				delete rdata;
-				chartData(data.contents.data);
+				chartData(data.contents);
 			},
 			dataType: 'json',
 			data: jQuery(this).serialize()
@@ -136,5 +136,5 @@ jQuery('document').ready(function(){
 	
 	jQuery('#queryform').submit(formsub);	
 	
+	});
 
-});

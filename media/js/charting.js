@@ -1,6 +1,5 @@
 function chartData(rawJson) {
-    
-    var rawJsonData = rawJson['data'];
+    rawJsonData = rawJson['data'];
     
     bgCount = 0;
     delta = 0;
