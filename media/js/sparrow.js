@@ -119,6 +119,8 @@ jQuery('document').ready(function(){
 		closeData = [];
 		highData = [];
 		lowData = [];
+		
+		$('loader').show();
 
 		jQuery.ajax({
 			type: 'GET',
@@ -127,6 +129,7 @@ jQuery('document').ready(function(){
 				jQuery('#finance').html("<div id=\"labels\"><div id=\"dateRange\">&nbsp;</div></div>");
 				delete rdata;
 				chartData(data.contents);
+				$('loader').hide();
 			},
 			dataType: 'json',
 			data: jQuery(this).serialize()

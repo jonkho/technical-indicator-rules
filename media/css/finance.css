@@ -1,3 +1,12 @@
+#loader {
+  background:rgba(0, 0, 0, 0.1) url(/images/spinner.gif) no-repeat scroll center center;
+  float:right;
+  height:300px;
+  margin-top:10px;
+  position:absolute;
+  width:860px;
+  z-index:50;
+}
 .handle {
     position: absolute;
     z-index: 10;
