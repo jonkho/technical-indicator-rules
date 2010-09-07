@@ -18,28 +18,36 @@ function tourStep(i) {
   if (i == 1) {
     $('symbol').prototip.show();
   }
-  
+
   if (i == 4) {
     $('symbol').prototip.hide();
     $('start_date').prototip.show();
   }
-  
+
   if (i == 7) {
     $('start_date').prototip.hide();
     $('end_date').prototip.show();
   }
-  
+
   if (i == 10) {
     $('end_date').prototip.hide();
+    $('querybank').prototip.show();
     $('query').prototip.show();
   }
-  
+
   if (i == 16) {
     $('query').prototip.hide();
+    $('querybank').prototip.hide();
+    $('fsubmit').prototip.show();
   }
-  
-  if (i < 20)
-    window.setTimeout(function(){tourStep(++i);}, 1000)
+
+  if (i == 20) {
+    $('fsubmit').prototip.hide();
+  }
+
+  if (i != 20) {
+    window.setTimeout(function(){tourStep(++i);}, 1000);
+  }
 }
 
 function tourStart(tic) {
@@ -52,25 +60,25 @@ function tourStart(tic) {
 
 jQuery('document').ready(function(){
 
+  
+
   new Tip($('symbol'), 'TICKER SYMBOL');
   new Tip($('start_date'), 'START DATE (YYYYMMDD)');
   new Tip($('end_date'), 'END DATE (YYYYMMDD)');
-  new Tip($('query'), 'TYPE YOUR QUERY AND PRESS ENTER');
+  new Tip($('querybank'), 'DRAG FROM HERE');
+  new Tip($('query'), "TO HERE");
+  new Tip($('fsubmit'), "AND CLICK GO", {
+    offset: {x:-110, y:0},
+  });
   
   document.observe('prototip:shown', function(event) {
     event.element().pulsate({pulses:2, duration: 1.5});
-    //$(event.element().prototip).appear({duration: 0.5}); // our target element, we shake it with Scriptaculous
-  });
-  
-  document.observe('prototip:hidden', function(event) {
-    //$(event.element().prototip).fade({duration: 1.5}); // our target element, we shake it with Scriptaculous
   });
 
 	/* load data if supplied */
 	if(js){
 		chartData(js.contents);
 	}
-
 
 	/* active query area */
 	jQuery('.query_area').droppable({
