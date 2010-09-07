@@ -34,6 +34,9 @@ div.container div.left_main > div{
 div.container div.right_sidebar{
 	
 }
+div.container div.right_sidebar ul{
+	list-style-type:none;
+}
 div.container div.right_sidebar li{
 	margin:0px;
 }
@@ -45,11 +48,14 @@ div.container div.right_sidebar div{
 	border: 1px solid #C1D3D9;
 	-webkit-box-shadow:inset 1px 2px 2px #C1D3D9;
 	-moz-box-shadow:inset 1px 2px 2px #C1D3D9;
+	background-color:#F4F8FA;
 }
 div.query_section{
 	height:30%;
+	padding:15px 0 5px;
 	-webkit-box-shadow:inset 1px 2px 2px #C1D3D9;
 	-moz-box-shadow:inset 1px 2px 2px #C1D3D9;
+	background-color:#F4F8FA;
 }
 div.query_section input[type="text"]{
 	width:32%;
@@ -63,13 +69,32 @@ div.query_section .query_area{
 	border:1px solid #C1D3D9;
 	margin:5px;
 	min-height:10%;
-	width:95%;
+	width:98%;
+	list-style-type:none;
+	background-color:white;
 }
-div#graphcontainer{
-	height:70%;
+div.query_section .query_area{
+}
+
+div.query_section .query_area li{
+	font-size:1.2em;
+	cursor:pointer;
+	padding:3px;
+	/*
+	-webkit-box-shadow: 1px 2px 2px #555;
+	-moz-box-shadow: 1px 2px 2px #555;
+	*/
+	border:1px solid gray;
+	margin:10px;
+}
+div.query_section .query_area li a.rm_query{
+	float:left;
+}
+div#graph_section{
 	min-height:380px;
 	margin-top:10px;
 	border: 1px solid #C1D3D9;
 	-webkit-box-shadow:inset 1px 2px 2px #C1D3D9;
 	-moz-box-shadow:inset 1px 2px 2px #C1D3D9;
+	background-color:#F4F8FA;
 }

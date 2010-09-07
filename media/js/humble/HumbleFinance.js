@@ -215,8 +215,23 @@ var HumbleFinance = {
         var area = e.memo[0];
         xmin = Math.floor(area.x1);
         xmax = Math.ceil(area.x2);
-        ymin = Math.floor(area.y1);
-        ymax = Math.ceil(area.y2);
+        
+        var x1 = xmin;
+        var x2 = xmax;
+        var miny = this.priceData[x1][3];
+        var maxy = this.priceData[x2][2];
+        //find min and max y axis values
+        for (var i = x1 + 1; i < x2; i++) {
+          var l = this.priceData[i];
+          if (l[3] < miny)
+            miny = l[3];
+          if (l[2] > maxy)
+            maxy = l[2];
+        }
+        ymin = Math.floor(miny - (.1 * miny));
+        ymax = Math.ceil(maxy + (.1 * maxy));
+        //ymin = Math.floor(area.y1);
+        //ymax = Math.ceil(area.y2);
         
         var newBounds = {'xmin': xmin, 'xmax': xmax, 'ymin': ymin, 'ymax': ymax};
         var volBounds = {'xmin': xmin, 'xmax': xmax, 'ymin': null, 'ymax': null};
@@ -593,27 +608,20 @@ var HumbleFinance = {
             } else if (x >= min && x <= xmax) {
                 // Draw the flag
                 var point = this.priceData[x];
-                console.debug(point);
                 var flagType = this.flagData[i][1];
                 var xPos = xAxis.d2p(point[0]);
-                var yPos;
-                if (flagType == 1)
-                  yPos = yAxis.d2p(point[3]); //use the low
-                else if (flagType = 2)
-                  yPos = yAxis.dwp(point[2]); //use the high
-                else
-                  yPos = yAxis.d2p((point[1] + point[4]) / 2); //use the center of the candle
+                var yPos = yAxis.d2p(point[1]);
                 var offset = this.containers.price.cumulativeOffset();
                 
                 var left = Math.floor(xPos + this.graphs.price.plotOffset.left);
-                var top = Math.floor(yPos + this.graphs.price.plotOffset.top);
+                var top = Math.floor(200 + this.graphs.price.plotOffset.top);
                 
-                flag = new Element('div', {'class': 'flag flag-'+flagType, 'style': 'position: absolute; top: '+top+'px; left: '+left+'px; z-index: 10;'});
+                //flag = new Element('div', {'class': 'flag flag-'+flagType, 'style': 'position: absolute; top: '+top+'px; left: '+left+'px; z-index: 10;'});
                 
                 //flag.update(flagContent);
-                //flagpole = new Element('div', {'class': 'flagpole', 'style': 'position: absolute; top: '+top+'px; left: '+left+'px; z-index: 10; height: 40px;'});
-                this.containers.flags.insert(flag);
-                //this.containers.flags.insert(flagpole);
+                flagpole = new Element('div', {'class': 'flagpole flagpole-'+flagType, 'style': 'position: absolute; top: '+top+'px; left: '+left+'px; z-index: 10; height: 240px;'});
+                //this.containers.flags.insert(flag);
+                this.containers.flags.insert(flagpole);
                 
             } else if (x >= xmax) {
                 break;
@@ -643,7 +651,7 @@ var HumbleFinance = {
                 candles: {show: true, candleWidth:0.8, wickLineWidth: 1, barcharts: false, fillOpacity: 0.8},
                 yaxis: {min: ymin, max: ymax, tickFormatter: this.yTickFormatter, noTicks: 3, autoscaleMargin: .5,  tickDecimals: 0},
                 xaxis: {min: xmin, max: xmax, showLabels: false},
-                grid: {outlineWidth: 0, labelMargin: 0},
+                grid: {outlineWidth: 0, labelMargin: 0, tickColor:"rgba(0,0,0,0.07)"},
                 mouse: {track: true, sensibility: 1, trackDecimals: 4, trackFormatter: this.trackFormatter, position: 'ne'},
                 shadowSize: false,
                 HtmlText: true,
@@ -705,7 +713,7 @@ var HumbleFinance = {
             {
                 lines: {show: true, fill: true, fillOpacity: .1, lineWidth: 1},
                 yaxis: {min: ymin, max: ymax, autoscaleMargin: .5, showLabels: false, tickDecimals: 1},
-                xaxis: {min: xmin, max: xmax, noTicks: 5, tickFormatter: this.xTickFormatter, labelsAngle: 60},
+                xaxis: {min: xmin, max: xmax, noTicks:10, tickFormatter: this.xTickFormatter, labelsAngle: 60},
                 grid: {verticalLines: false, horizontalLines: false, labelMargin: 0, outlineWidth: 0},
                 selection: {mode: 'x'},
                 shadowSize: false,

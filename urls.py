@@ -16,7 +16,7 @@ urlpatterns = patterns('sparrow.webapp.views',
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
-    (r'^$', 'login'),
+    (r'^$', 'demo'),
     (r'^login/$', 'login'),
     (r'^logout/$', 'logout'),
     (r'^demo/$', 'demo'),
@@ -25,6 +25,7 @@ urlpatterns = patterns('sparrow.webapp.views',
     (r'^indicator/$', 'indicator_data'),
     (r'^query/$', 'query_data'),
     (r'^chart/$', 'chart'),
+    (r'^tour/$', 'tour'),
 )
 
 if settings.DEBUG:

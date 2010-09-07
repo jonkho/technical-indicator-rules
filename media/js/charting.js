@@ -50,7 +50,6 @@ function chartData(rawJsonData) {
     
     for (i = 0; i < bgData.lenth; i++) {
       var bg = bgData[i];
-      console.debug(bg);
     }
 
     /*
@@ -86,7 +85,7 @@ function chartData(rawJsonData) {
         
         var date = jsonData[n].date;
         date = date.split('-');
-        date = date[0];
+        date = date[2]+"/"+date[1]+"/"+date[0];
         
         return date; 
     }
@@ -96,9 +95,6 @@ function chartData(rawJsonData) {
     
     var xaxis = HumbleFinance.graphs.summary.axes.x;
     var prevSelection = HumbleFinance.graphs.summary.prevSelection;
-    //var xmin = xaxis.p2d(prevSelection.first.x);
-    //var xmax = xaxis.p2d(prevSelection.second.x);
-    //console.log(xmin+" "+xmax);
     var xmin = 0;
     var xmax = jsonData.length - 1;
     var area = {

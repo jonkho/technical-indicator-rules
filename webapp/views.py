@@ -40,11 +40,14 @@ def index(request):
 	if request.method == "POST":
 		pass
 	return render_to_response("index.html", context_instance=RequestContext(request))
+	
+def tour(request):
+	return render_to_response("tour.html", context_instance=RequestContext(request))
 
 def demo(request):
 	try:
 		symbol = request.GET['symbol']
-	except Exception as e:
+	except KeyError as e:
 		symbol = 'dow'
 	service = Service()
 	result = service.execute_query(symbol, "20090101", "20100301", "rsi(14) is_crossing 50")

@@ -1,11 +1,16 @@
 {% extends "layout.html" %}
 {% block css %}
 	<link rel="stylesheet" href="/css/finance.css" type="text/css" media="screen" charset="utf-8">
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/ui-lightness/jquery-ui.css" type="text/css" media="screen" charset="utf-8">
+	<link rel="stylesheet" href="/css/modalbox.css" type="text/css" media="screen" charset="utf-8">
+	<link rel="stylesheet" href="/css/prototip.css" type="text/css" media="screen" charset="utf-8">
 	<!--	<link rel="stylesheet" href="/css/styles.css" type="text/css" media="screen" charset="utf-8"> -->
 {% endblock %}
 
 {% block scripts %}
 	<!--[if IE]><script language="javascript" type="text/javascript" src="/js/flotr/excanvas.js"></script><![endif]-->
+	<script language="javascript" type="text/javascript"  src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script language="javascript" type="text/javascript"  src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"></script>
 	<script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
 	<script language="javascript" type="text/javascript" src="/js/scriptaculous.js"></script>
 	<script language="javascript" type="text/javascript" src="/js/flotr/base64.js"></script>
@@ -13,83 +18,108 @@
 	<script language="javascript" type="text/javascript" src="/js/flotr/canvastext.js"></script>
 	<script language="javascript" type="text/javascript" src="/js/flotr/flotr.js"></script>
 	<script language="javascript" type="text/javascript"  src="/js/effects.js"></script> 
-	<script language="javascript" type="text/javascript"  src="/js/dragdrop.js"></script> 
 	<script language="javascript" type="text/javascript"  src="/js/controls.js"></script> 
 	<script language="javascript" type="text/javascript"  src="/js/builder.js"></script>
+	<script type="text/javascript"  src="/js/modalbox.js"></script>
+	<script language="javascript" type="text/javascript"  src="/js/dragdrop.js"></script> 
 	<script type="text/javascript" src="/js/humble/HumbleFinance.js"></script>
 	<script type="text/javascript" src="/js/charting.js"></script>
+	<script type="text/javascript" src="/js/prototip/prototip.js"></script>
+	<script type="text/javascript" src="/js/custom.js"></script>
 	<script type="text/javascript" >
 		js = {{ result|safe }};
-		document.observe("dom:loaded", function() {
-			priceData = [];
-			volumeData = [];
-			summaryData = [];
-			jsonData = [];
-			bgData = [];
-			flagData = [];
-
-			openData = [];
-			closeData = [];
-			highData = [];
-			lowData = [];
-			if(js){
-				chartData(js.contents.data);
-			}
-			var mydrag = new Draggable('querybank', { revert: true });
-
-			Event.observe('queryform', 'submit', function(event) {
-				priceData = [];
-				volumeData = [];
-				summaryData = [];
-				jsonData = [];
-				bgData = [];
-				flagData = [];
-
-				openData = [];
-				closeData = [];
-				highData = [];
-				lowData = [];
-				
-				$('finance').update("<div id=\"labels\"><div id=\"dateRange\">&nbsp;</div></div>");
-				
-				$('queryform').request({
-					onFailure: function(t) {
-					  alert("fail");
-					},
-					onSuccess: function(t) {
-					  delete rdata;
-					  
-					  eval("rdata = "+t.responseText);
-					  //$('jsondiv').update(rdata);
-					  chartData(rdata["contents"]["data"]);
-					}
-				});
-				Event.stop(event); // stop the form from submitting
+		function showTour() {
+  		  Modalbox.show('/tour/', {title: 'WELCOME TO TRADESPARROW', width: 600});
+  		}
+  	
+  	function tourStep(i) {
+  	  if (i == 1) {
+  	    $('symbol').prototip.show();
+  	  }
+  	  
+  	  if (i == 4) {
+  	    $('symbol').prototip.hide();
+  	    $('start_date').prototip.show();
+  	  }
+  	  
+  	  if (i == 7) {
+  	    $('start_date').prototip.hide();
+  	    $('end_date').prototip.show();
+  	  }
+  	  
+  	  if (i == 10) {
+  	    $('end_date').prototip.hide();
+  	    $('query').prototip.show();
+  	  }
+  	  
+  	  if (i == 16) {
+  	    $('query').prototip.hide();
+  	  }
+  	  
+  	  if (i < 20)
+  	    window.setTimeout(function(){tourStep(++i);}, 1000)
+  	}
+  	
+  	function tourStart(tic) {
+  	  Modalbox.hide();
+  	  s = $('symbol');
+  	  s.value = tic;
+    
+  	  window.setTimeout(function(){tourStep(1);}, 1000);
+  	}
+  		
+		document.observe("dom:loaded", function() {		  
+		  new Tip($('symbol'), 'TICKER SYMBOL');
+		  new Tip($('start_date'), 'START DATE (YYYYMMDD)');
+		  new Tip($('end_date'), 'END DATE (YYYYMMDD)');
+		  new Tip($('query'), 'TYPE YOUR QUERY AND PRESS ENTER');
+		  
+		  document.observe('prototip:shown', function(event) {
+		    event.element().pulsate({pulses:2, duration: 1.5});
+        $(event.element().prototip).appear({duration: 0.5}); // our target element, we shake it with Scriptaculous
+      });
+      
+      document.observe('prototip:hidden', function(event) {
+        $(event.element().prototip).fade({duration: 1.5}); // our target element, we shake it with Scriptaculous
+      });
+			
+			//check for cookie
+			jar = new CookieJar({
+			  expires:60*60*24*365,
+			  path: '/'
 			});
-
+			c = jar.get('firstvisit');
+			if (c == null) {
+			  //this is the first visit, show the tour
+			  showTour();
+			  jar.put('firstvisit', 1)
+			}
 		});
 	</script>
+	<script type="text/javascript" src="/js/sparrow.js"></script>
 {% endblock %}
 
 {% block content %}
 	<div class="left_main grid_9">
 		<div class="query_section">
-			<h2>Query</h2>
 			<form id="queryform" action="/query/" method="get">
 				<div class="query_input">
 					<input name="symbol" id="symbol" type="text" value="{{params.symbol}}"/>
 					<input name="start_date" id="start_date" type="text" value="{{params.start_date}}"/>
 					<input name="end_date" id="end_date" type="text" value="{{params.end_date}}"/>
 				</div>
-				<textarea name="query" class="query_area">{{params.query}}</textarea>
+				<ul id="query" class="query_area">
+					<li><a href="" class="rm_query">x</a><input name="query" type="hidden" value="{{params.query}}"/>{{params.query}}</li>
+				</ul>
 				<input type="submit" value="Go!"/>
 			</form>
-			<div class="spacer"></div>
 		</div>
-		<div id="graphcontainer">
-			<div id="finance">
-				<div id="labels">
-					<div id="dateRange">&nbsp;</div>
+		<div id="graph_section">
+			<div id="graphcontainer">
+				<div id="finance">
+					<div id="labels">
+						<div id="dateRange">&nbsp;</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -99,8 +129,8 @@
 			<h2>Bull</h2>
 			<ul id="querybank" class="query_bank">
 				<li>macd(17,8) gradient >= 0</li>
-				<li>macd(17,8) gradient >= 0</li>
-				<li>macd(17,8) gradient >= 0</li>
+				<li>rsi(14) is_crossing 50</li>
+				<li>macd(17,8) is_crossing macd_signal(17,8,9)</li>
 			</ul>	
 		</div>
 		<div class="bear_queries">
