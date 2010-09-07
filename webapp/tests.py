@@ -63,7 +63,7 @@ class test_bed(TestCase):
 # 			if point[-1]:
 # 				print point
 
-		buy_points = service.execute_query("MSFT", "20100101", "20100820", "macd(17,8) is_crossing macd_signal(17,8,5)")
+		buy_points = service.execute_query("MSFT", "20100101", "20100820", "macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) gradient >= 0")
 		#print buy_points.data
 
  		#sell_points = service.execute_query("GLD", "20100101", "20100820", "slow_stochastic(5,5) is_crossing 80", "slow_stochastic(5,5) gradient <= 0")
