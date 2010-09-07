@@ -726,7 +726,6 @@ var HumbleFinance = {
             gdata[j - 1][i] = [i, data[i][j]];
           }
         }
-        console.debug(gdata);
         
         var xmin = bounds.xmin;
         var xmax = bounds.xmax;
