@@ -54,7 +54,7 @@
               
               eval("rdata = "+t.responseText);
               //$('jsondiv').update(rdata);
-              chartData(rdata["contents"]["data"]);
+              chartData(rdata["contents"]);
             }
         });
         Event.stop(event); // stop the form from submitting
