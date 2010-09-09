@@ -50,7 +50,7 @@ def demo(request):
 	except KeyError as e:
 		symbol = 'dow'
 	service = Service()
-	result = service.execute_query(symbol, "20090101", "20100301", "rsi(14) is_crossing 50")
+	result = service.execute_query(symbol, "20090101", "20100301", ["rsi(14) is_crossing 50"])
 	return render_to_response("demo.html", {'params': {'symbol':symbol, 'start_date': '20090101' ,'end_date': '20100301', 'query':'rsi(14) is_crossing 50'},"result":jsonpickle.encode(Return_Code(value="3000", contents=result))}, context_instance=RequestContext(request))
 
 
@@ -61,7 +61,6 @@ def ticker_data(request):
 	if request.method == "POST":
 		raise Http404
 	else:
-		
 		try:
 			symbol = request.GET["symbol"]
 			start_date = request.GET["start_date"]
@@ -107,7 +106,7 @@ def query_data(request):
 			symbol = request.GET["symbol"]
 			start_date = request.GET["start_date"]
 			end_date = request.GET["end_date"]
-			query = request.GET["query"]
+			query = request.GET.getlist("query")
 		except Exception as e:
 			return HttpResponse(jsonpickle.encode(Return_Code(value="3001", contents=e)))
 		
