@@ -66,10 +66,15 @@ class Api_01_Test(TestCase):
 		# tests to describe the indicators data returned
 		# indicators_data is a dictionary with the indicator string as the key.
 		# using the test above, indicators_data looks: 
-		# { 
-		#	"macd(17,8)": ["macd", "macd(17,8)", [(2009-01-01, 0.50), (date, value), (...)]],
-		#	"macd_signal(17,8,9)": ["macd_signal", "macd_signal(17,8,9)", "[(2009-01-01, 0.70), (date, value), (...)]"]
-		# }
+		# [ 
+		#	[
+		#     ["macd(17,8)", [(2009-01-01, 0.50), (date, value), (...)]],
+		#	  ["macd_signal(17,8,9)", "[(2009-01-01, 0.70), (date, value), (...)]"]
+		# 	]
+		#	[
+		#		other indicators on a separate chart if present		
+		#	]
+		# ]
 		
 		
 		# confirm there is macd and macd_signal historical data
