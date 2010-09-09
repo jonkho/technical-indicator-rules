@@ -682,7 +682,7 @@ var HumbleFinance = {
                 candles: {show: true, candleWidth:0.8, wickLineWidth: 1, barcharts: false, fillOpacity: 0.8},
                 yaxis: {min: ymin, max: ymax, tickFormatter: this.yTickFormatter, noTicks: 3, autoscaleMargin: .5,  tickDecimals: 0},
                 xaxis: {min: xmin, max: xmax, showLabels: false},
-                grid: {outlineWidth: 0, labelMargin: 0, tickColor:"rgba(0,0,0,0.07)"},
+                grid: {verticalLines: false, horizontalLines: true, outlineWidth: 0, labelMargin: 0, tickColor:"rgba(0,0,0,0.07)"},
                 mouse: {track: true, sensibility: 1, trackDecimals: 4, trackFormatter: this.trackFormatter, position: 'ne'},
                 shadowSize: false,
                 HtmlText: true,
