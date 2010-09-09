@@ -647,15 +647,15 @@ class Technical_Data_Test(TestCase):
 class Service_Test(TestCase):
 	def test_execute_query_returns_expected_results(self):
 		service = Service()
-		result = service.execute_query("GLD", "20090101", "20100301", "macd(17,8) is_crossing macd_signal(17,8,9)")
+		result = service.execute_query("GLD", "20090101", "20100301", ["macd(17,8) is_crossing macd_signal(17,8,9)"])
 		self.failUnlessEqual(result.number_of_points, 28)
 
 
 class Backtester_Test(TestCase):
 	def test_Given_a_flagged_history_data_designated_as_buy_points_and_a_flagged_history_data_designated_as_sell_points_Then_the_performance_can_be_backtested(self):
 		service = Service()
-		buy_points = service.execute_query("GLD", "20090101", "20100801", "macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0")
-		sell_points = service.execute_query("GLD", "20090101", "20100801", "macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient <= 0")
+		buy_points = service.execute_query("GLD", "20090101", "20100801", ["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0"])
+		sell_points = service.execute_query("GLD", "20090101", "20100801", ["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient <= 0"])
 		backtester = Backtester()
 		account = Account(cash_balance=10000)
 		summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)	

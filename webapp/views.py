@@ -107,7 +107,7 @@ def query_data(request):
 			symbol = request.GET["symbol"]
 			start_date = request.GET["start_date"]
 			end_date = request.GET["end_date"]
-			query = request.GET["query"]
+			query = request.GET.getlist("query")
 		except Exception as e:
 			return HttpResponse(jsonpickle.encode(Return_Code(value="3001", contents=e)))
 		

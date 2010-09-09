@@ -215,7 +215,7 @@ class Query_Execution_Box(object):
         return result   
             
 class Service(object):
-    def execute_query(self, symbol, start_date, end_date, *query):
+    def execute_query(self, symbol, start_date, end_date, query):
 
         # get the extra runway data
         utils = Utils()
