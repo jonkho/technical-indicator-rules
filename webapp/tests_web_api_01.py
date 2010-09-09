@@ -9,23 +9,7 @@ from django.utils import simplejson as json
 class Api_01_Test(TestCase):
 	def setUp(self):
 		self.client = Client()
-	
-	def test_api_ticker_data_success(self):
-		response = self.client.get("/ticker/", {"symbol":"gld", "start_date":"20090101", "end_date":"20100101"})
-		return_code = json.loads(response.content)
-		self.failUnlessEqual(int(return_code["value"]), 1000)
-		self.failUnlessEqual(len(return_code["contents"]), 252)
-		
-		
-		
-	def test_api_technical_indicator_data_success(self):
-		response = self.client.get("/indicator/", {"symbol":"gld", "start_date":"20090101", "end_date":"20100101", "indicator_string":"macd(17,8)"})
-		return_code = json.loads(response.content)
-		self.failUnlessEqual(int(return_code["value"]), 2000)
-		self.failUnlessEqual(len(return_code["contents"]), 252)
-		#print return_code["contents"]
-		
-	
+			
 	def test_api_query_results_success(self):
 		response = self.client.get("/query/", {"symbol":"gld", "start_date":"20090101", "end_date":"20100301", "query":"macd(17,8) is_crossing macd_signal(17,8,9)"})
 		return_code = json.loads(response.content)
