@@ -76,6 +76,7 @@ class test_bed(TestCase):
  		summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
 		print summary
 # 		
+#		self.failUnlessEqual(summary, "100")
 		
 # 		short_points = service.execute_query("GLD", "20100101", "20100820", "macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient <= 0", "macd(17,8) >= 0")
 # 		print short_points.data
