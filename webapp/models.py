@@ -8,6 +8,12 @@ import copy
 # Create your models here.
 
 class Utils(object):
+    def convert_indicators_data_to_nicks_specifications(self, indicators_data):
+        indicator_data_list = []    
+        for phrase_indicator_key, indicator_record in indicators_data.items():
+            indicator_data_list.append(indicator_record) 
+        return indicator_data_list            
+
     def one_year_earlier(self, start_date):
         year = int(start_date[:4])
         year_earlier = year - 1
@@ -33,7 +39,9 @@ class Utils(object):
                 record[-1] = 1
             else:
                 record[-1] = 0
-        return data         
+        return data  
+        
+               
 
 
 class Return_Code(object):
@@ -141,10 +149,15 @@ class Query_Execution_Box(object):
         indicator_history = Indicator_History()
         indicator_history.memo = self.memo
         
-        for indicator_record in parser.indicator_operands:
-            indicator_data = indicator_history.process_indicator(indicator_record[-1], self.data)
-            self.indicators_data[indicator_record[1]] = [indicator_record[0], indicator_record[1], indicator_data]
+        phrase_indicator_key = ""
+        indicator_list = []
         
+        for indicator_record in parser.indicator_operands:
+            phrase_indicator_key = "%s;%s" % (phrase_indicator_key, indicator_record[0])
+            indicator_data = indicator_history.process_indicator(indicator_record[-1], self.data)
+            indicator_list.append([indicator_record[0], indicator_data])
+        
+        self.indicators_data[phrase_indicator_key] = indicator_list
         
         result = self.exe(expression)
         return result
@@ -241,27 +254,30 @@ class Service(object):
         box.data = utils.remove_runway(box.data, start_date)
         
         # remove the runway from the result indicators data
-        for indicator, indicator_record in box.indicators_data.items():
-            box.indicators_data[indicator][-1] = utils.remove_runway(indicator_record[-1], start_date)
+        for phrase_indicator_key, indicator_record in box.indicators_data.items():
+        	for indicator_string_data_pair in indicator_record:
+        		indicator_string_data_pair[-1] = utils.remove_runway(indicator_string_data_pair[-1], start_date)
+            #box.indicators_data[indicator][-1] = utils.remove_runway(indicator_record[-1], start_date)   
+                
         
         # convert the box data boolean flags to integer flags
         box.data = utils.convert_query_flags_to_integer(box.data)
         
-        i = 0
-        temp = ["i"]
-        for x in box.indicators_data.keys():
-            temp.append(x)
-        
-        size = len(box.indicators_data[x][2])
-        temp = [temp]
-        for y in range(size):
-            t2 = [i]
-            for x in box.indicators_data.keys():
-                t2.append(box.indicators_data[x][2][y][1])
-            i += 1
-            temp.append(t2)
-        
-        box.indicators_data = temp;
+#         i = 0
+#         temp = ["i"]
+#         for x in box.indicators_data.keys():
+#             temp.append(x)
+#         
+#         size = len(box.indicators_data[x][2])
+#         temp = [temp]
+#         for y in range(size):
+#             t2 = [i]
+#             for x in box.indicators_data.keys():
+#                 t2.append(box.indicators_data[x][2][y][1])
+#             i += 1
+#             temp.append(t2)
+#         
+#         box.indicators_data = temp;
         
         return box
         

@@ -412,7 +412,7 @@ class Parser_Test(TestCase):
 		parser = Parser()
 		rule = parser.parse_query(tokenizer)	
 		self.assert_(rule != None)
-		self.failUnlessEqual(parser.indicator_operands[0][1], "rsi(14)")
+		self.failUnlessEqual(parser.indicator_operands[0][0], "rsi(14)")
 		
 		days = open(DATAFILE_PATH).readlines()
 		data = [day[:-2].split(',') for day in days]
@@ -439,8 +439,8 @@ class Parser_Test(TestCase):
 		tokenizer = Tokenizer(query_text="macd(17,8) speed >= macd(17,8) speed 1 days_ago")
 		rule = parser.parse_query(tokenizer)
 		self.assert_(rule != None)
-		self.failUnlessEqual(parser.indicator_operands[0][1], "macd(17,8)")
-		self.failUnlessEqual(parser.indicator_operands[1][1], "macd(17,8)")
+		self.failUnlessEqual(parser.indicator_operands[0][0], "macd(17,8)")
+		self.failUnlessEqual(parser.indicator_operands[1][0], "macd(17,8)")
 		#print("test start")
 		result = back_test.run(expression=rule, past_data=prices)
 		#print("test end")
@@ -461,8 +461,8 @@ class Parser_Test(TestCase):
 		tokenizer = Tokenizer(query_text="macd(17,8) is_crossing macd_signal(17,8,9)")
 		self.failUnlessEqual(len(tokenizer.tokens), 8)
 		rule = parser.parse_query(tokenizer)
-		self.failUnlessEqual(parser.indicator_operands[0][1], "macd(17,8)")
-		self.failUnlessEqual(parser.indicator_operands[1][1], "macd_signal(17,8,9)")
+		self.failUnlessEqual(parser.indicator_operands[0][0], "macd(17,8)")
+		self.failUnlessEqual(parser.indicator_operands[1][0], "macd_signal(17,8,9)")
 		self.assert_(rule != None)
 		
 		
@@ -613,10 +613,10 @@ class Execution_Env_Test(TestCase):
 		#print(result.data)
 		#print(result.indicators_data.keys())
 		self.failUnlessEqual(len(result.indicators_data), 2)
-		self.failUnlessEqual(result.indicators_data.has_key("macd(17,8)"), True)
-		self.failUnlessEqual(result.indicators_data.has_key("rsi(14)"), True)
-		self.failUnlessEqual(len(result.indicators_data["macd(17,8)"][-1]), 608)
- 		self.failUnlessEqual(result.indicators_data["macd(17,8)"][-1][400][1], 0.51649808583636059)
+		self.failUnlessEqual(result.indicators_data.has_key(";macd(17,8);macd(17,8)"), True)
+		self.failUnlessEqual(result.indicators_data.has_key(";rsi(14)"), True)
+		self.failUnlessEqual(len(result.indicators_data[";macd(17,8);macd(17,8)"][0][-1]), 608)
+ 		self.failUnlessEqual(result.indicators_data[";macd(17,8);macd(17,8)"][0][-1][400][1], 0.51649808583636059)
  		
 
 class Technical_Data_Test(TestCase):

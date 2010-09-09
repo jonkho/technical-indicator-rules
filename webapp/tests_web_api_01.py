@@ -42,14 +42,16 @@ class Api_01_Test(TestCase):
 		
 		
 		# confirm there is macd and macd_signal historical data
-		self.failUnlessEqual("macd(17,8)" in return_code["contents"]["indicators_data"][0], True)
-		self.failUnlessEqual("macd_signal(17,8,9)" in return_code["contents"]["indicators_data"][0], True)
+		self.failUnlessEqual(return_code["contents"]["indicators_data"][0][0][0], "macd(17,8)")
+		self.failUnlessEqual(return_code["contents"]["indicators_data"][0][1][0], "macd_signal(17,8,9)")
 		
 		# confirm all of the data is there and spot check a few values
-		self.failUnlessEqual(len(return_code["contents"]["indicators_data"]), 292)
-		self.failUnlessEqual(len(return_code["contents"]["indicators_data"][4]), 3)
-		self.failUnlessEqual(len(return_code["contents"]["indicators_data"][81]), 3)
-		self.failUnlessEqual(len(return_code["contents"]["indicators_data"][149]), 3)
+# 		self.failUnlessEqual(len(return_code["contents"]["indicators_data"]), 292)
+# 		self.failUnlessEqual(len(return_code["contents"]["indicators_data"][4]), 3)
+# 		self.failUnlessEqual(len(return_code["contents"]["indicators_data"][81]), 3)
+# 		self.failUnlessEqual(len(return_code["contents"]["indicators_data"][149]), 3)
+		self.failUnlessEqual(len(return_code["contents"]["indicators_data"][0][0][1]), 291)
+
 		
 	def test_api_sell_query_results_success(self):
 		response = self.client.get("/query/", {"symbol":"gld", "start_date":"20090101", "end_date":"20100301", "sell_query":["macd(17,8) is_crossing macd_signal(17,8,9)"]})
@@ -67,14 +69,11 @@ class Api_01_Test(TestCase):
 		
 		
 		# confirm there is macd and macd_signal historical data
-		self.failUnlessEqual("macd(17,8)" in return_code["contents"]["indicators_data"][0], True)
-		self.failUnlessEqual("macd_signal(17,8,9)" in return_code["contents"]["indicators_data"][0], True)
+		self.failUnlessEqual(return_code["contents"]["indicators_data"][0][0][0], "macd(17,8)")
+		self.failUnlessEqual(return_code["contents"]["indicators_data"][0][1][0], "macd_signal(17,8,9)")
 		
 		# confirm all of the data is there and spot check a few values
-		self.failUnlessEqual(len(return_code["contents"]["indicators_data"]), 292)
-		self.failUnlessEqual(len(return_code["contents"]["indicators_data"][4]), 3)
-		self.failUnlessEqual(len(return_code["contents"]["indicators_data"][81]), 3)
-		self.failUnlessEqual(len(return_code["contents"]["indicators_data"][149]), 3)		
+		self.failUnlessEqual(len(return_code["contents"]["indicators_data"][0][0][1]), 291)		
 		
 	def test_api_buy_sell_query_results_success(self):
 		response = self.client.get("/query/", {"symbol":"gld", "start_date":"20090101", "end_date":"20100301", "buy_query":["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0"], "sell_query":["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient <= 0"]})

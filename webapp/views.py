@@ -111,6 +111,7 @@ def query_data(request):
 		except Exception as e:
 			return HttpResponse(jsonpickle.encode(Return_Code(value="3001", contents=e)))
 		
+		utils = Utils()
 		service = Service()
 		query_result = None
 		
@@ -124,10 +125,18 @@ def query_data(request):
 			query_result = {"data":timeline}
 		
 		elif len(buy_query) > 0 and len(sell_query) == 0:
-			query_result = service.execute_query(symbol, start_date, end_date, buy_query)
+			query_result = service.execute_query(symbol, start_date, end_date, buy_query) 
+
+			query_result.indicators_data = utils.convert_indicators_data_to_nicks_specifications(query_result.indicators_data)
 		
 		elif len(sell_query) > 0:
-			query_result = service.execute_query(symbol, start_date, end_date, sell_query)			
+			query_result = service.execute_query(symbol, start_date, end_date, sell_query)	
+			query_result.indicators_data = utils.convert_indicators_data_to_nicks_specifications(query_result.indicators_data)
+# 			indicator_data_list = []    
+# 			for phrase_indicator_key, indicator_record in query_result.indicators_data.items():
+# 				indicator_data_list.append(indicator_record) 
+# 
+# 			query_result.indicators_data = indicator_data_list		
 			 
- 		return HttpResponse(jsonpickle.encode(Return_Code(value="3000", contents=query_result)))	
+		return HttpResponse(jsonpickle.encode(Return_Code(value="3000", contents=query_result)))	
   			
