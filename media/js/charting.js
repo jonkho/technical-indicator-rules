@@ -100,7 +100,7 @@ function chartData(rawJson) {
         
         var date = jsonData[n].date;
         date = date.split('-');
-        date = date[2]+"/"+date[1]+"/"+date[0];
+        date = date[1]+"/"+date[2]+"/"+date[0];
         
         return date; 
     }
