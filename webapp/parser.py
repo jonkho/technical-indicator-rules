@@ -84,7 +84,7 @@ class Parser(object):
 	def parse_indicator(self, tokenizer):
 		token = tokenizer.peek()
 		tokenizer.consume()
-		indicator_type = token
+		#indicator_type = token
 		
 		if token == "macd":
 			long_term_ma = self.parse_number(tokenizer)
@@ -146,7 +146,7 @@ class Parser(object):
 			indicator = Rsi(period)
 			indicator_string = "rsi(%s)" % period
 		
-		self.indicator_operands.append((indicator_type, indicator_string, indicator))	
+		self.indicator_operands.append((indicator_string, indicator))	
 		
 		return indicator	
 			
