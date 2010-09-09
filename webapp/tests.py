@@ -74,7 +74,7 @@ class test_bed(TestCase):
 		backtester = Backtester()
 		account = Account(cash_balance=10000)
 		summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
-		print summary
+		#print summary
 # 		
 #		self.failUnlessEqual(summary, "100")
 		

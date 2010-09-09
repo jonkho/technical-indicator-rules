@@ -312,8 +312,21 @@ class Backtester(object):
                 account.sell_at_price(day[-4])
                 looking_to = "buy"
                 print "%s sold at %s" % (day[0], day[4])
+                
+        
+        # convert timeline buy/sell/none to 1/2/0        
+        for day in timeline:
+        	if day[-1] == "buy":
+        		day[-1] = 1
+        	
+        	elif day[-1] == "sell":
+        		day[-1] = 2
+        	
+        	else:
+        		day[-1] = 0
+        				        
                         
-        return account.value(current_share_price=timeline[-1][4])
+        return timeline, account.value(current_share_price=timeline[-1][4])
         
     def execute_short_strategy(self, short_points, cover_points, account):
         timeline = copy.deepcopy(short_points)

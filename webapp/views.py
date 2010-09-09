@@ -106,12 +106,28 @@ def query_data(request):
 			symbol = request.GET["symbol"]
 			start_date = request.GET["start_date"]
 			end_date = request.GET["end_date"]
-			query = request.GET.getlist("query")
+			buy_query = request.GET.getlist("buy_query")
+			sell_query = request.GET.getlist("sell_query")
 		except Exception as e:
 			return HttpResponse(jsonpickle.encode(Return_Code(value="3001", contents=e)))
 		
-
 		service = Service()
-		query_result = service.execute_query(symbol, start_date, end_date, query) 
+		query_result = None
+		
+		if len(buy_query) > 0 and len(sell_query) > 0:
+			buy_points = service.execute_query(symbol, start_date, end_date, buy_query)
+			sell_points = service.execute_query(symbol, start_date, end_date, sell_query)
+				
+			backtester = Backtester()
+			account = Account(cash_balance=10000)
+			timeline, summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
+			query_result = {"data":timeline}
+		
+		elif len(buy_query) > 0 and len(sell_query) == 0:
+			query_result = service.execute_query(symbol, start_date, end_date, buy_query)
+		
+		elif len(sell_query) > 0:
+			query_result = service.execute_query(symbol, start_date, end_date, sell_query)			
+			 
  		return HttpResponse(jsonpickle.encode(Return_Code(value="3000", contents=query_result)))	
   			

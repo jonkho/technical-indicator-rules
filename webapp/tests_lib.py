@@ -658,7 +658,7 @@ class Backtester_Test(TestCase):
 		sell_points = service.execute_query("GLD", "20090101", "20100801", ["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient <= 0"])
 		backtester = Backtester()
 		account = Account(cash_balance=10000)
-		summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)	
+		timeline, summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)	
 		self.failUnlessEqual(int(summary), 11639)
 		
 class Utils_Test(TestCase):
