@@ -70,7 +70,7 @@ class test_bed(TestCase):
  		#sell_points = service.execute_query("DIG", "20100101", "20100820", "slow_stochastic(5,5) gradient 1 days_ago >= 0", "slow_stochastic(5,5) gradient <= 0")
  		
  		
- 		sell_points = service.execute_query("MSFT", "20100101", "20100820", ["macd(17,8) speed is_decreasing", "slow_stochastic(5,3) speed is_decreasing", "macd(17,8) >= 0"])
+		sell_points = service.execute_query("MSFT", "20100101", "20100820", ["macd(17,8) speed is_decreasing", "slow_stochastic(5,3) speed is_decreasing", "macd(17,8) >= 0"])
   		backtester = Backtester()
  		account = Account(cash_balance=10000)
  		summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
