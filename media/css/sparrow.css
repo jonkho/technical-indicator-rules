@@ -74,6 +74,7 @@ div.query_section .query_area{
 	background-color:white;
 }
 div.query_section .query_area{
+	min-height:40px;
 }
 
 div.query_section .query_area li{

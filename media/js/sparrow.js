@@ -86,7 +86,11 @@ jQuery('document').ready(function(){
 		drop: function(event, ui){
 			var li = jQuery(ui.draggable).clone();
 			var query = jQuery(li).text();
-			jQuery('<a href="" class="rm_query">x</a><input name="query" type="hidden" value="'+query+'"/>').prependTo(li);
+			if(jQuery(this).hasClass('buy_queries')){
+				jQuery('<a href="" class="rm_query">x</a><input name="buy_query" type="hidden" value="'+query+'"/>').prependTo(li);
+			} else{
+				jQuery('<a href="" class="rm_query">x</a><input name="sell_query" type="hidden" value="'+query+'"/>').prependTo(li);
+			}
 			jQuery(this).append(li);
 			HumbleFinance.drawFlags();
 		}	
