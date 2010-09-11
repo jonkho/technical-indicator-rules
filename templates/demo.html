@@ -1,79 +1,86 @@
 {% extends "layout.html" %}
+{% load experiments %}
 {% block css %}
-	<link rel="stylesheet" href="/css/finance.css" type="text/css" media="screen" charset="utf-8">
-	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/ui-lightness/jquery-ui.css" type="text/css" media="screen" charset="utf-8">
-	<link rel="stylesheet" href="/css/modalbox.css" type="text/css" media="screen" charset="utf-8">
-	<link rel="stylesheet" href="/css/prototip.css" type="text/css" media="screen" charset="utf-8">
-	<!-- <link rel="stylesheet" href="/css/styles.css" type="text/css" media="screen" charset="utf-8"> -->
+  <link rel="stylesheet" href="/css/finance.css" type="text/css" media="screen" charset="utf-8">
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/ui-lightness/jquery-ui.css" type="text/css" media="screen" charset="utf-8">
+  <link rel="stylesheet" href="/css/modalbox.css" type="text/css" media="screen" charset="utf-8">
+  <link rel="stylesheet" href="/css/prototip.css" type="text/css" media="screen" charset="utf-8">
+  <!-- <link rel="stylesheet" href="/css/styles.css" type="text/css" media="screen" charset="utf-8"> -->
 {% endblock %}
 
 {% block scripts %}
-	<!--[if IE]><script language="javascript" type="text/javascript" src="/js/flotr/excanvas.js"></script><![endif]-->
-	<script language="javascript" type="text/javascript"  src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-	<script language="javascript" type="text/javascript"  src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"></script>
-	<script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
-	<script language="javascript" type="text/javascript" src="/js/scriptaculous.js"></script>
-	<script language="javascript" type="text/javascript" src="/js/flotr/base64.js"></script>
-	<script language="javascript" type="text/javascript" src="/js/flotr/canvas2image.js"></script>
-	<script language="javascript" type="text/javascript" src="/js/flotr/canvastext.js"></script>
-	<script language="javascript" type="text/javascript" src="/js/flotr/flotr.js"></script>
-	<script language="javascript" type="text/javascript"  src="/js/effects.js"></script> 
-	<script language="javascript" type="text/javascript"  src="/js/controls.js"></script> 
-	<script language="javascript" type="text/javascript"  src="/js/builder.js"></script>
-	<script type="text/javascript"  src="/js/modalbox.js"></script>
-	<script language="javascript" type="text/javascript"  src="/js/dragdrop.js"></script> 
-	<script type="text/javascript" src="/js/humble/HumbleFinance.js"></script>
-	<script type="text/javascript" src="/js/charting.js"></script>
-	<script type="text/javascript" src="/js/prototip/prototip.js"></script>
-	<script type="text/javascript" src="/js/custom.js"></script>
-	<script type="text/javascript" >
-		js = {{ result|safe }};
-	</script>
-	<script type="text/javascript" src="/js/sparrow.js"></script>
+  <!--[if IE]><script language="javascript" type="text/javascript" src="/js/flotr/excanvas.js"></script><![endif]-->
+  <script language="javascript" type="text/javascript"  src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+  <script language="javascript" type="text/javascript"  src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/scriptaculous.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/flotr/base64.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/flotr/canvas2image.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/flotr/canvastext.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/flotr/flotr.js"></script>
+  <script language="javascript" type="text/javascript"  src="/js/effects.js"></script> 
+  <script language="javascript" type="text/javascript"  src="/js/controls.js"></script> 
+  <script language="javascript" type="text/javascript"  src="/js/builder.js"></script>
+  <script type="text/javascript"  src="/js/modalbox.js"></script>
+  <script language="javascript" type="text/javascript"  src="/js/dragdrop.js"></script> 
+  <script type="text/javascript" src="/js/humble/HumbleFinance.js"></script>
+  <script type="text/javascript" src="/js/charting.js"></script>
+  <script type="text/javascript" src="/js/prototip/prototip.js"></script>
+  <script type="text/javascript" src="/js/custom.js"></script>
+  <script language="javascript" type="text/javascript"  src="/js/experiments.js"></script>
+  <script type="text/javascript" >
+    js = {{ result|safe }};
+  </script>
+  <script type="text/javascript" src="/js/sparrow.js"></script>
 {% endblock %}
 
 {% block content %}
-	<div class="left_main grid_9">
-		<div class="query_section">
-			<form id="queryform" action="/query/" method="get">
-				<div class="query_input">
-					<input name="symbol" id="symbol" type="text" value="{{params.symbol}}"/>
-					<input name="start_date" id="start_date" type="text" value="{{params.start_date}}"/>
-					<input name="end_date" id="end_date" type="text" value="{{params.end_date}}"/>
-				</div>
-				<ul id="query" class="query_area">
-					<li><a href="" class="rm_query">x</a><input name="query" type="hidden" value="{{params.query}}"/>{{params.query}}</li>
-				</ul>
-				<input id="fsubmit" type="submit" value="Go!"/>
-			</form>
-		</div>
-		<div id="loader" style="display:none;">&nbsp;</div>
-		<div id="graph_section">
-			<div id="graphcontainer">
-				<div id="finance">
-					<div id="labels">
-						<div id="dateRange">&nbsp;</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div> <!-- close left main -->
-	<div class="right_sidebar grid_3">
-		<div class="bull_queries">
-			<h2>Bull</h2>
-			<ul id="querybank" class="query_bank">
-				<li>macd(17,8) gradient >= 0</li>
-				<li>rsi(14) is_crossing 50</li>
-				<li>macd(17,8) is_crossing macd_signal(17,8,9)</li>
-			</ul>	
-		</div>
-		<div class="bear_queries">
-			<h2>Bear</h2>			
-			<ul class="query_bank">
-				<li>macd(17,8) gradient >= 0</li>
-				<li>macd(17,8) gradient >= 0</li>
-				<li>macd(17,8) gradient >= 0</li>
-			</ul>	
-		</div>
-	</div>
+  <div class="left_main grid_9">
+    <div class="query_section">
+      <form id="queryform" action="/query/" method="get">
+        <div class="query_input">
+          <input name="symbol" id="symbol" type="text" value="{{params.symbol}}"/>
+          <input name="start_date" id="start_date" type="text" value="{{params.start_date}}"/>
+          <input name="end_date" id="end_date" type="text" value="{{params.end_date}}"/>
+        </div>
+        <ul id="query" class="query_area">
+          <li><a href="" class="rm_query">x</a><input name="query" type="hidden" value="{{params.query}}"/>{{params.query}}</li>
+        </ul>
+        {% experiment submit_verbage3 control  %}
+        <input id="fsubmit" type="submit" value="Go!"/>
+        {% endexperiment %}
+        {% experiment submit_verbage3 test  %}
+        <input id="fsubmit" type="submit" value="Submit!"/>
+        {% endexperiment %}
+      </form>
+    </div>
+    <div id="loader" style="display:none;">&nbsp;</div>
+    <div id="graph_section">
+      <div id="graphcontainer">
+        <div id="finance">
+          <div id="labels">
+            <div id="dateRange">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> <!-- close left main -->
+  <div class="right_sidebar grid_3">
+    <div class="bull_queries">
+      <h2>Bull</h2>
+      <ul id="querybank" class="query_bank">
+        <li>macd(17,8) gradient >= 0</li>
+        <li>rsi(14) is_crossing 50</li>
+        <li>macd(17,8) is_crossing macd_signal(17,8,9)</li>
+      </ul> 
+    </div>
+    <div class="bear_queries">
+      <h2>Bear</h2>     
+      <ul class="query_bank">
+        <li>macd(17,8) gradient >= 0</li>
+        <li>macd(17,8) gradient >= 0</li>
+        <li>macd(17,8) gradient >= 0</li>
+      </ul> 
+    </div>
+  </div>
 {% endblock %}

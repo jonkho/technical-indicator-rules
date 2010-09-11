@@ -21,11 +21,10 @@ urlpatterns = patterns('sparrow.webapp.views',
     (r'^logout/$', 'logout'),
     (r'^demo/$', 'demo'),
     (r'^index/$', 'index'),
-    (r'^ticker/$', 'ticker_data'),
-    (r'^indicator/$', 'indicator_data'),
     (r'^query/$', 'query_data'),
-    (r'^chart/$', 'chart'),
     (r'^tour/$', 'tour'),
+    url(r'^admin/django-lean/', include('django_lean.experiments.admin_urls')),
+    url(r'^django-lean/', include('django_lean.experiments.urls')),
 )
 
 if settings.DEBUG:

@@ -22,6 +22,8 @@ DATABASES = {
     }
 }
 
+SOUTH_DATABASE_ADAPTER = 'south.db.postgresql_psycopg2'
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -95,7 +97,21 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'sparrow.webapp',
+    'sparrow.django_lean.experiments',
+    'south',
 )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.contrib.messages.context_processors.messages",
+    "django.core.context_processors.request",
+)
+
+LEAN_ENGAGEMENT_CALCULATOR = "webapp.views.EngagementScoreCalculator"
+LEAN_AUTOCREATE_GOAL_TYPES = True
 
 TEST_RUNNER = "sparrow.runners.run_tests"
 TEST_APPS = (

@@ -8,135 +8,94 @@ from django.contrib import auth
 from models import *
 from forms import *
 import jsonpickle
+from sparrow.django_lean.experiments.models import Experiment, GoalRecord
+from sparrow.django_lean.experiments.utils import WebUser
 
 def login(request):
-	if request.method == "POST":
-		form = LoginForm(request.POST)
-		if form.is_valid():
-			user = auth.authenticate(username=request.POST["username"], password=request.POST["password"])
-			if user is not None and user.is_active:
-				auth.login(request, user)
-				return HttpResponseRedirect("/index/")		
-	else:	
-		form = LoginForm()
-	return render_to_response("login.html", {"form":form}, context_instance=RequestContext(request))
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = auth.authenticate(username=request.POST["username"], password=request.POST["password"])
+            if user is not None and user.is_active:
+                auth.login(request, user)
+                return HttpResponseRedirect("/index/")      
+    else:   
+        form = LoginForm()
+    return render_to_response("login.html", {"form":form}, context_instance=RequestContext(request))
 
-	
+    
 @login_required
 def logout(request):
-	auth.logout(request)
-	return HttpResponseRedirect("/login/")	
-
-
-def chart(request):
-	if request.method == "POST":
-		pass
-	else:
-	    form = ChartForm()
-	return render_to_response("chart.html", {"form":form}, context_instance=RequestContext(request))
-
+    auth.logout(request)
+    return HttpResponseRedirect("/login/")  
 
 def index(request):
-	if request.method == "POST":
-		pass
-	return render_to_response("index.html", context_instance=RequestContext(request))
-	
+    if request.method == "POST":
+        pass
+    return render_to_response("index.html", context_instance=RequestContext(request))
+    
 def tour(request):
-	return render_to_response("tour.html", context_instance=RequestContext(request))
+    GoalRecord.record("tour", WebUser(request))
+    return render_to_response("tour.html", context_instance=RequestContext(request))
 
 def demo(request):
-	try:
-		symbol = request.GET['symbol']
-	except KeyError as e:
-		symbol = 'dow'
-	service = Service()
-	result = service.execute_query(symbol, "20090101", "20100301", ["rsi(14) is_crossing 50"])
-	return render_to_response("demo.html", {'params': {'symbol':symbol, 'start_date': '20090101' ,'end_date': '20100301', 'query':'rsi(14) is_crossing 50'},"result":jsonpickle.encode(Return_Code(value="3000", contents=result))}, context_instance=RequestContext(request))
-
-
-
+    try:
+        symbol = request.GET['symbol']
+    except KeyError as e:
+        symbol = 'dow'
+    service = Service()
+    result = service.execute_query(symbol, "20090101", "20100301", ["rsi(14) is_crossing 50"])
+    return render_to_response("demo.html", {'params': {'symbol':symbol, 'start_date': '20090101' ,'end_date': '20100301', 'query':'rsi(14) is_crossing 50'},"result":jsonpickle.encode(Return_Code(value="3000", contents=result))}, context_instance=RequestContext(request))
 
 @csrf_exempt
-def ticker_data(request):
-	if request.method == "POST":
-		raise Http404
-	else:
-		try:
-			symbol = request.GET["symbol"]
-			start_date = request.GET["start_date"]
-			end_date = request.GET["end_date"]
-		except Exception as e:
-			return HttpResponse(jsonpickle.encode(Return_Code(value="1001", contents=e)))	
-		
-		data = get_historical_prices(symbol=symbol, start_date=start_date, end_date=end_date)
- 		data.reverse()
- 		
- 		try:
- 			data = data[:-1]
- 		except:
- 			data = None
- 		
- 		return HttpResponse(jsonpickle.encode(Return_Code(value="1000", contents=data)))
- 		
- 		
-@csrf_exempt
-def indicator_data(request):
-	if request.method == "POST":
-		raise Http404
-	else:
-		try:
-			symbol = request.GET["symbol"]
-			start_date = request.GET["start_date"]
-			end_date = request.GET["end_date"]
-			indicator_string = request.GET["indicator_string"]
-		except Exception as e:
-			return HttpResponse(jsonpickle.encode(Return_Code(value="2001", contents=e)))	
-			
-		service = Service()
-		final_data = service.get_indicator_historical_data(symbol, indicator_string, start_date, end_date)	
-  		
- 		return HttpResponse(jsonpickle.encode(Return_Code(value="2000", contents=final_data)))
-		
-@csrf_exempt
-def query_data(request):		
-	if request.method == "POST":
-		raise Http404
-	else:
-		try:
-			symbol = request.GET["symbol"]
-			start_date = request.GET["start_date"]
-			end_date = request.GET["end_date"]
-			buy_query = request.GET.getlist("buy_query")
-			sell_query = request.GET.getlist("sell_query")
-		except Exception as e:
-			return HttpResponse(jsonpickle.encode(Return_Code(value="3001", contents=e)))
-		
-		utils = Utils()
-		service = Service()
-		query_result = None
-		
-		if len(buy_query) > 0 and len(sell_query) > 0:
-			buy_points = service.execute_query(symbol, start_date, end_date, buy_query)
-			sell_points = service.execute_query(symbol, start_date, end_date, sell_query)
-				
-			backtester = Backtester()
-			account = Account(cash_balance=10000)
-			timeline, summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
-			query_result = {"data":timeline}
-		
-		elif len(buy_query) > 0 and len(sell_query) == 0:
-			query_result = service.execute_query(symbol, start_date, end_date, buy_query) 
+def query_data(request):        
+    if request.method == "POST":
+        raise Http404
+    else:
+        GoalRecord.record("query", WebUser(request))
+        try:
+            symbol = request.GET["symbol"]
+            start_date = request.GET["start_date"]
+            end_date = request.GET["end_date"]
+            buy_query = request.GET.getlist("buy_query")
+            sell_query = request.GET.getlist("sell_query")
+        except Exception as e:
+            return HttpResponse(jsonpickle.encode(Return_Code(value="3001", contents=e)))
+        
+        utils = Utils()
+        service = Service()
+        query_result = None
+        
+        if len(buy_query) > 0 and len(sell_query) > 0:
+            buy_points = service.execute_query(symbol, start_date, end_date, buy_query)
+            sell_points = service.execute_query(symbol, start_date, end_date, sell_query)
+                
+            backtester = Backtester()
+            account = Account(cash_balance=10000)
+            timeline, summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
+            query_result = {"data":timeline}
+        
+        elif len(buy_query) > 0 and len(sell_query) == 0:
+            query_result = service.execute_query(symbol, start_date, end_date, buy_query) 
 
-			query_result.indicators_data = utils.convert_indicators_data_to_nicks_specifications(query_result.indicators_data)
-		
-		elif len(sell_query) > 0:
-			query_result = service.execute_query(symbol, start_date, end_date, sell_query)	
-			query_result.indicators_data = utils.convert_indicators_data_to_nicks_specifications(query_result.indicators_data)
-# 			indicator_data_list = []    
-# 			for phrase_indicator_key, indicator_record in query_result.indicators_data.items():
-# 				indicator_data_list.append(indicator_record) 
+            query_result.indicators_data = utils.convert_indicators_data_to_nicks_specifications(query_result.indicators_data)
+        
+        elif len(sell_query) > 0:
+            query_result = service.execute_query(symbol, start_date, end_date, sell_query)  
+            query_result.indicators_data = utils.convert_indicators_data_to_nicks_specifications(query_result.indicators_data)
+#           indicator_data_list = []    
+#           for phrase_indicator_key, indicator_record in query_result.indicators_data.items():
+#               indicator_data_list.append(indicator_record) 
 # 
-# 			query_result.indicators_data = indicator_data_list		
-			 
-		return HttpResponse(jsonpickle.encode(Return_Code(value="3000", contents=query_result)))	
-  			
+#           query_result.indicators_data = indicator_data_list      
+             
+        return HttpResponse(jsonpickle.encode(Return_Code(value="3000", contents=query_result)))    
+
+class EngagementScoreCalculator(object):
+    def calculate_user_engagement_score(self, user, start_date, end_date):
+        """
+        TODO: come up with a real measurement
+        """
+
+        days_in_period = (end_date - start_date).days + 1
+        return 0
