@@ -63,18 +63,18 @@ class test_bed(TestCase):
 # 			if point[-1]:
 # 				print point
 
-		buy_points = service.execute_query("MSFT", "20100101", "20100820", ["macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) gradient >= 0"])
+		buy_points = service.execute_query("PXJ", "20100101", "20100820", ["macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) gradient >= 0"])
 		#print buy_points.data
 
  		#sell_points = service.execute_query("GLD", "20100101", "20100820", "slow_stochastic(5,5) is_crossing 80", "slow_stochastic(5,5) gradient <= 0")
  		#sell_points = service.execute_query("DIG", "20100101", "20100820", "slow_stochastic(5,5) gradient 1 days_ago >= 0", "slow_stochastic(5,5) gradient <= 0")
  		
  		
-		sell_points = service.execute_query("MSFT", "20100101", "20100820", ["macd(17,8) speed is_decreasing", "slow_stochastic(5,3) speed is_decreasing", "macd(17,8) >= 0"])
+		sell_points = service.execute_query("PXJ", "20100101", "20100820", ["macd(17,8) speed is_decreasing", "slow_stochastic(5,3) speed is_decreasing", "macd(17,8) >= 0"])
 		backtester = Backtester()
 		account = Account(cash_balance=10000)
-		summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
-		#print summary
+		timeline, summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
+		print summary
 # 		
 #		self.failUnlessEqual(summary, "100")
 		
