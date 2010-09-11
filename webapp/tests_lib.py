@@ -678,4 +678,4 @@ class Utils_Test(TestCase):
 		self.failUnlessEqual(len(result), 1)
 				
 
-from tests_web_api_01 import *
+#from tests_web_api_01 import *
