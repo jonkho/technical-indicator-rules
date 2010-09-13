@@ -104,6 +104,24 @@ jQuery('document').ready(function(){
 		jQuery(this).parent('li').remove();
 		return false;
 	});
+	jQuery('.add_query input[type="submit"]').click(function(){
+		var query = jQuery(this).siblings('input[type="text"]').val();
+		var list = jQuery(this).parents('ul');
+		console.log(list);
+		if(jQuery(this).hasClass('buy_query')){
+			jQuery('<li><a href="" class="rm_query">x</a><input name="buy_query" type="hidden" value="'+query+'"/>'+query+'<a href="" class="edit_query">edit</a></li>').appendTo(list);
+		} else{
+			jQuery('<li><a href="" class="rm_query">x</a><input name="sell_query" type="hidden" value="'+query+'"/>'+query+'<a href="" class="edit_query">edit</a></li>').appendTo(list);
+		}
+		return false;
+	});
+
+	jQuery('.edit_query').live('click',function(){
+		var query = jQuery(this).siblings('input[type="hidden"]').val();
+		jQuery('<input type="text" value="'+query+'"/>').insertBefore(this);
+
+		return false;
+	});
 
   //check for cookie
 	jar = new CookieJar({

@@ -43,13 +43,19 @@
           <input name="start_date" id="start_date" type="text" value="{{params.start_date}}"/>
           <input name="end_date" id="end_date" type="text" value="{{params.end_date}}"/>
         </div>
-		<h2>Buy</h2>
-        <ul id="query" class="query_area buy_queries">
-          <li><a href="" class="rm_query">x</a><input name="buy_query" type="hidden" value="{{params.query}}"/>{{params.query}}</li>
-        </ul>
-		<h2>Sell</h2>
-        <ul class="query_area sell_queries">
-        </ul>
+		<div class="droppable">
+			<h2>Buy</h2>
+			<ul id="query" class="query_area buy_queries">
+				<li class="add_query"><input type='text' value=""/><input class="buy_query" type="submit" value="Add Query"/></li>
+				<li><a href="" class="rm_query">x</a><input name="buy_query" type="hidden" value="{{params.query}}"/>{{params.query}}<a href="" class="edit_query">edit</a></li>
+			</ul>
+		</div >
+		<div class="droppable">
+			<h2>Sell</h2>
+			<ul class="query_area sell_queries">
+				<li class="add_query"><input type='text' value=""/><input class="sell_query" type="submit" value="Add Query"/></li>
+			</ul>
+		</div>
         {% experiment submit_verbage3 control  %}
         <input id="fsubmit" type="submit" value="Go!"/>
         {% endexperiment %}

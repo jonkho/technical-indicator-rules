@@ -13,6 +13,7 @@ div.container{
 div.container h2{
 	color:#C8400E;
 	font-size:1.6em;
+	margin-bottom:0px;
 }
 div.container div.header{
 	text-align:left;
@@ -29,7 +30,7 @@ div.container div.header h1{
 	font-size:2.5em;
 }
 div.container div.left_main > div{
-	border: 1px solid #C1D3D9;
+/*	border: 1px solid #C1D3D9;*/
 }
 div.container div.right_sidebar{
 	
@@ -39,16 +40,27 @@ div.container div.right_sidebar ul{
 }
 div.container div.right_sidebar li{
 	margin:0px;
+	background-color:white;
+	border-bottom:1px solid gray;
+	cursor:move;
+}
+div.container div.right_sidebar li:hover{
+	background-color:#C1D3D9;
+}
+div.container div.right_sidebar li:first-child{
+	border-top:1px solid gray;
 }
 div.container div.right_sidebar div:first-child{
 	margin-bottom:10px;
 }
 div.container div.right_sidebar div{
 	height:50%;
-	border: 1px solid #C1D3D9;
+	border: 1px solid gray; 
+	/*
 	-webkit-box-shadow:inset 1px 2px 2px #C1D3D9;
 	-moz-box-shadow:inset 1px 2px 2px #C1D3D9;
-	background-color:#F4F8FA;
+	*/
+	background-color:#F4F8FA; 
 }
 div.query_section{
 	height:30%;
@@ -66,15 +78,23 @@ div.query_section input[type="text"]{
 div.query_section .query_area{
 	-webkit-box-shadow:inset 1px 2px 2px #ccc;
 	-moz-box-shadow:inset 1px 2px 2px #ccc;
+	/*
 	border:1px solid #C1D3D9;
+	*/
+	border:1px solid gray;
 	margin:5px;
 	min-height:10%;
 	width:98%;
 	list-style-type:none;
 	background-color:white;
+	padding-bottom:10px;
 }
 div.query_section .query_area{
-	min-height:40px;
+	min-height:100px;
+}
+div.droppable{
+	width:49.5%;
+	float:left;
 }
 
 div.query_section .query_area li{
@@ -85,9 +105,30 @@ div.query_section .query_area li{
 	-webkit-box-shadow: 1px 2px 2px #555;
 	-moz-box-shadow: 1px 2px 2px #555;
 	*/
-	border:1px solid gray;
-	margin:10px;
+	border-bottom:1px solid gray;
+	margin:0px 0px;
 }
+div.query_section .query_area li[type="text"]{
+	width:70%;
+	height:20px;
+}
+div.query_section .query_area li a{
+	text-decoration:none;
+	color:#C8400E;
+
+}
+div.query_section .query_area li:first-child{
+	border-top:1px solid gray;
+}
+div.query_section .query_area li.add_query{
+	border-top:0px;
+	background-color:#C1D3D9;
+}
+li.add_query input[type="text"]{
+	width:70%;
+	height:20px;
+}
+
 div.query_section .query_area li a.rm_query{
 	float:left;
 }

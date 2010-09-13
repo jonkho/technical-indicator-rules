@@ -1,6 +1,7 @@
 function chartData(rawJson) {
     rawJsonData = rawJson['data'];
-    iData = rawJson['indicators_data'];
+//    iData = rawJson['indicators_data'];
+	iData = [];
     
     jsonData = [];
     
@@ -105,7 +106,7 @@ function chartData(rawJson) {
         return date; 
     }
     
-    HumbleFinance.init('finance', priceData, volumeData, summaryData, [], iData);
+	HumbleFinance.init('finance', priceData, volumeData, summaryData, [], iData);
     HumbleFinance.setFlags(flagData); 
     
     var xaxis = HumbleFinance.graphs.summary.axes.x;
@@ -122,7 +123,6 @@ function chartData(rawJson) {
     HumbleFinance.graphs.summary.setSelection(area);
     
     $('dateRange').update(jsonData[xmin].date + ' - ' + jsonData[xmax].date);
-    
     Event.observe(HumbleFinance.containers.summary, 'flotr:select', function (e) {
         
         var area = e.memo[0];
@@ -134,5 +134,4 @@ function chartData(rawJson) {
         
         $('dateRange').update(jsonData[xmin].date + ' - ' + jsonData[xmax].date);
     });
-    
 }
