@@ -371,7 +371,6 @@ class Slow_Stochastic(object):
 	def __call__(self, past_data, latest_record, memo={}):
 		slow_stochastic = Stochastic_Signal(smoothing=self.ma, n=self.n)
 		result = slow_stochastic(past_data, latest_record, memo)
-		#print "%s %s" % (latest_record[0], result)
 		return result
 		
 	def cut_data(self, unformatted_data):
@@ -584,8 +583,8 @@ class Speed(object):
 		self.operand = operand
 		
 	def __call__(self, past_data, latest_record, memo={}):
-		#current_day = self.operand(past_data, latest_record, memo)
-		#back_day = self.operand(past_data[:-1], past_data[-1], memo)
+		current_day = self.operand(past_data, latest_record, memo)
+		back_day = self.operand(past_data[:-1], past_data[-1], memo)
 		#print("%s %s %s" % (latest_record[0], current_day, back_day))
 		speed = abs(self.operand(past_data, latest_record, memo) - self.operand(past_data[:-1], past_data[-1], memo))
 		#print("%s speed is: %s" % (latest_record[0], speed))
