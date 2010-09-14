@@ -76,9 +76,9 @@ class Indicator_History(object):
             
             try:
                 indicator_value = indicator(formatted_data[:counter], formatted_data[counter], self.memo)
-                date_value_pair = (date, indicator_value)
+                date_value_pair = [date, indicator_value]
             except:
-                date_value_pair = (date, None)
+                date_value_pair = [date, None]
                 
             final_list.append(date_value_pair)  
         
@@ -157,7 +157,14 @@ class Query_Execution_Box(object):
             indicator_data = indicator_history.process_indicator(indicator_record[-1], self.data)
             indicator_list.append([indicator_record[0], indicator_data])
         
-        self.indicators_data[phrase_indicator_key] = indicator_list
+        is_redundant_indicator = False
+        for indicator_chart_key, data in self.indicators_data.items():
+            #print("%s, %s" % (phrase_indicator_key, indicator_chart_key))
+            if phrase_indicator_key in indicator_chart_key:
+                is_redundant_indicator = True
+        
+        if not is_redundant_indicator:    
+            self.indicators_data[phrase_indicator_key] = indicator_list
         
         result = self.exe(expression)
         return result
@@ -255,8 +262,8 @@ class Service(object):
         
         # remove the runway from the result indicators data
         for phrase_indicator_key, indicator_record in box.indicators_data.items():
-        	for indicator_string_data_pair in indicator_record:
-        		indicator_string_data_pair[-1] = utils.remove_runway(indicator_string_data_pair[-1], start_date)
+            for indicator_string_data_pair in indicator_record:
+                indicator_string_data_pair[-1] = utils.remove_runway(indicator_string_data_pair[-1], start_date)
             #box.indicators_data[indicator][-1] = utils.remove_runway(indicator_record[-1], start_date)   
                 
         
@@ -332,16 +339,16 @@ class Backtester(object):
         
         # convert timeline buy/sell/none to 1/2/0        
         for day in timeline:
-        	if day[-1] == "buy":
-        		day[-1] = 1
-        	
-        	elif day[-1] == "sell":
-        		day[-1] = 2
-        	
-        	else:
-        		day[-1] = 0
-        				        
-                        
+            if day[-1] == "buy":
+                day[-1] = 1
+        
+            elif day[-1] == "sell":
+                day[-1] = 2
+        
+            else:
+                day[-1] = 0
+                                        
+                
         return timeline, account.value(current_share_price=timeline[-1][4])
         
     def execute_short_strategy(self, short_points, cover_points, account):
@@ -432,4 +439,3 @@ class Account(object):
 
 
         
-            

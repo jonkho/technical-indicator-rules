@@ -30,17 +30,17 @@ def __request(symbol, stat):
     return urllib.urlopen(url).read().strip().strip('"')
 
 def get_quote(symbol):
-	values = __request(symbol,'d2ohgb3vl1').split(',')
-	return values
-# 	data = {}
-# 	data["date"] = values[0]
-# 	data["open"] = values[1]
-# 	data["high"] = values[2]
-# 	data["low"] = values[3]
-# 	data["realtime"] = values[4]
-# 	data["volume"] = values[5]
-# 	data["delayed"] = values[6]
-# 	return data
+    values = __request(symbol,'d2ohgb3vl1').split(',')
+    return values
+#       data = {}
+#       data["date"] = values[0]
+#       data["open"] = values[1]
+#       data["high"] = values[2]
+#       data["low"] = values[3]
+#       data["realtime"] = values[4]
+#       data["volume"] = values[5]
+#       data["delayed"] = values[6]
+#       return data
 
 def get_all(symbol):
     """
