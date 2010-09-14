@@ -40,8 +40,8 @@ class Api_01_Test(TestCase):
 		# using the test above, indicators_data looks: 
 		# [ 
 		#	[
-		#	  ["macd(17,8)", [(2009-01-01, 0.50), (date, value), (...)]],
-		#	  ["macd_signal(17,8,9)", "[(2009-01-01, 0.70), (date, value), (...)]"]
+		#	  ["macd(17,8)", [[2009-01-01, 0.50], [date, value], [...]]],
+		#	  ["macd_signal(17,8,9)", [[2009-01-01, 0.70], [date, value], [...]]]
 		#	]
 		#	[
 		#		other indicators on a separate chart if present		
@@ -51,12 +51,7 @@ class Api_01_Test(TestCase):
 		# confirm there is macd and macd_signal historical data
         self.failUnlessEqual(return_code["contents"]["indicators_data"][0][0][0], "macd(17,8)")
         self.failUnlessEqual(return_code["contents"]["indicators_data"][0][1][0], "macd_signal(17,8,9)")
-		
-		# confirm all of the data is there and spot check a few values
-#		self.failUnlessEqual(len(return_code["contents"]["indicators_data"]), 292)
-#		self.failUnlessEqual(len(return_code["contents"]["indicators_data"][4]), 3)
-#		self.failUnlessEqual(len(return_code["contents"]["indicators_data"][81]), 3)
-#		self.failUnlessEqual(len(return_code["contents"]["indicators_data"][149]), 3)
+        #print(return_code["contents"]["indicators_data"])
         self.failUnlessEqual(len(return_code["contents"]["indicators_data"][0][0][1]), 291)
 
 
@@ -73,8 +68,8 @@ class Api_01_Test(TestCase):
 		# using the test above, indicators_data looks: 
 		# [ 
 		#	[
-		#	  ["macd(17,8)", [(2009-01-01, 0.50), (date, value), (...)]],
-		#	  ["macd_signal(17,8,9)", "[(2009-01-01, 0.70), (date, value), (...)]"]
+		#	  ["macd(17,8)", [[2009-01-01, 0.50], [date, value], [...]]],
+		#	  ["macd_signal(17,8,9)", [[2009-01-01, 0.70], [date, value], [...]]]
 		#	]
 		#	[
 		#		other indicators on a separate chart if present		
