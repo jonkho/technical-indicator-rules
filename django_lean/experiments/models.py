@@ -230,12 +230,12 @@ class Experiment(models.Model):
         try:
             experiment = Experiment.objects.get(name=experiment_name)
         except Experiment.DoesNotExist:
-                l.warning("Creating New Experiment named %s" %
-                          experiment_name)
-                experiment = Experiment(name=experiment_name, state=Experiment.ENABLED_STATE, start_date=date.today(), end_date=None)
-                experiment.save()
-                
-                
+            l.warning("Creating New Experiment named %s" %
+                      experiment_name)
+            experiment = Experiment(name=experiment_name, state=Experiment.ENABLED_STATE, start_date=date.today(), end_date=None)
+            experiment.save()
+            
+            
         if experiment.state == Experiment.DISABLED_STATE:
             return queried_group == Participant.CONTROL_GROUP
         elif experiment.state == Experiment.PROMOTED_STATE:
