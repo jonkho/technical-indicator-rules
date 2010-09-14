@@ -157,7 +157,14 @@ class Query_Execution_Box(object):
             indicator_data = indicator_history.process_indicator(indicator_record[-1], self.data)
             indicator_list.append([indicator_record[0], indicator_data])
         
-        self.indicators_data[phrase_indicator_key] = indicator_list
+        is_redundant_indicator = False
+        for indicator_chart_key, data in self.indicators_data.items():
+            #print("%s, %s" % (phrase_indicator_key, indicator_chart_key))
+            if phrase_indicator_key in indicator_chart_key:
+                is_redundant_indicator = True
+        
+        if not is_redundant_indicator:    
+            self.indicators_data[phrase_indicator_key] = indicator_list
         
         result = self.exe(expression)
         return result
