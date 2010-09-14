@@ -47,7 +47,11 @@
 			<h2>Buy</h2>
 			<ul id="query" class="query_area buy_queries">
 				<li class="add_query"><input type='text' value=""/><input class="buy_query" type="submit" value="Add Query"/></li>
-				<li><a href="" class="rm_query">x</a><input name="buy_query" type="hidden" value="{{params.query}}"/>{{params.query}}<a href="" class="edit_query">edit</a></li>
+				<li>
+					<a href="" class="rm_query">x</a>
+					<input name="buy_query" type="hidden" value="{{params.query}}"/>
+					<p class="query_string">{{params.query}}</p>
+				</li>
 			</ul>
 		</div >
 		<div class="droppable">

@@ -87,12 +87,11 @@ jQuery('document').ready(function(){
 			var li = jQuery(ui.draggable).clone();
 			var query = jQuery(li).text();
 			if(jQuery(this).hasClass('buy_queries')){
-				jQuery('<a href="" class="rm_query">x</a><input name="buy_query" type="hidden" value="'+query+'"/>').prependTo(li);
+				jQuery('<li><a href="" class="rm_query">x</a><input name="buy_query" type="hidden" value="'+query+'"/><p class="query_string">'+query+'</p></li>').appendTo(this);
 			} else{
-				jQuery('<a href="" class="rm_query">x</a><input name="sell_query" type="hidden" value="'+query+'"/>').prependTo(li);
+				jQuery('<li><a href="" class="rm_query">x</a><input name="sell_query" type="hidden" value="'+query+'"/><p class="query_string">'+query+'</p></li>').appendTo(this);
 			}
-			jQuery(this).append(li);
-			HumbleFinance.drawFlags();
+			//HumbleFinance.drawFlags();
 		}	
 	});
 
@@ -106,22 +105,33 @@ jQuery('document').ready(function(){
 	});
 	jQuery('.add_query input[type="submit"]').click(function(){
 		var query = jQuery(this).siblings('input[type="text"]').val();
-		var list = jQuery(this).parents('ul');
-		console.log(list);
-		if(jQuery(this).hasClass('buy_query')){
-			jQuery('<li><a href="" class="rm_query">x</a><input name="buy_query" type="hidden" value="'+query+'"/>'+query+'<a href="" class="edit_query">edit</a></li>').appendTo(list);
-		} else{
-			jQuery('<li><a href="" class="rm_query">x</a><input name="sell_query" type="hidden" value="'+query+'"/>'+query+'<a href="" class="edit_query">edit</a></li>').appendTo(list);
+		if(query !== ''){
+			var list = jQuery(this).parents('ul');
+			if(jQuery(this).hasClass('buy_query')){
+				jQuery('<li><a href="" class="rm_query">x</a><input name="buy_query" type="hidden" value="'+query+'"/><p class="query_string">'+query+'</p></li>').appendTo(list);
+			} else{
+				jQuery('<li><a href="" class="rm_query">x</a><input name="sell_query" type="hidden" value="'+query+'"/><p class="query_string">'+query+'</p></li>').appendTo(list);
+			}
+			jQuery(this).siblings('input[type="text"]').val('');
 		}
 		return false;
 	});
 
-	jQuery('.edit_query').live('click',function(){
-		var query = jQuery(this).siblings('input[type="hidden"]').val();
-		jQuery('<input type="text" value="'+query+'"/>').insertBefore(this);
 
+	jQuery('.query_string').live('click',function(){
+		var query = jQuery(this).text();
+		jQuery(this).hide();
+		var edit_field = jQuery('<input type="text" value="'+query+'"/><button type="button">Save</button>').insertBefore(this);
+		jQuery(edit_field[1]).click(function(){
+			var new_query = jQuery(this).prev('input');	
+			jQuery(this).siblings('.query_string').text(new_query.val()).show();
+			jQuery(this).remove();
+			new_query.remove();
+		});
 		return false;
 	});
+
+
 
   //check for cookie
 	jar = new CookieJar({

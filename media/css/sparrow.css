@@ -124,9 +124,24 @@ div.query_section .query_area li.add_query{
 	border-top:0px;
 	background-color:#C1D3D9;
 }
+div.query_section .query_area li input[type="text"]{
+	width:70%;
+	font-size:1em;
+	height:20px;
+}
 li.add_query input[type="text"]{
 	width:70%;
 	height:20px;
+	font-size:1em;
+	font-weight:normal;
+}
+p.query_string{
+	cursor:pointer;
+	padding:0px;
+	margin:0px;
+}
+p.query_string:hover{
+	text-decoration:underline;
 }
 
 div.query_section .query_area li a.rm_query{
