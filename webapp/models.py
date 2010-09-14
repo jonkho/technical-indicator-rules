@@ -76,9 +76,9 @@ class Indicator_History(object):
             
             try:
                 indicator_value = indicator(formatted_data[:counter], formatted_data[counter], self.memo)
-                date_value_pair = (date, indicator_value)
+                date_value_pair = [date, indicator_value]
             except:
-                date_value_pair = (date, None)
+                date_value_pair = [date, None]
                 
             final_list.append(date_value_pair)  
         
