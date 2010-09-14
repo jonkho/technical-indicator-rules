@@ -73,21 +73,19 @@ def query_data(request):
             backtester = Backtester()
             account = Account(cash_balance=10000)
             timeline, summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
-            query_result = {"data":timeline}
+            
+            # FIX: need to merge with sell points as well
+            indicators_data = utils.convert_indicators_data_to_nicks_specifications(buy_points.indicators_data)
+            query_result = {"data":timeline, "indicators_data":indicators_data}
         
         elif len(buy_query) > 0 and len(sell_query) == 0:
             query_result = service.execute_query(symbol, start_date, end_date, buy_query) 
-
             query_result.indicators_data = utils.convert_indicators_data_to_nicks_specifications(query_result.indicators_data)
         
         elif len(sell_query) > 0:
             query_result = service.execute_query(symbol, start_date, end_date, sell_query)  
             query_result.indicators_data = utils.convert_indicators_data_to_nicks_specifications(query_result.indicators_data)
-#           indicator_data_list = []    
-#           for phrase_indicator_key, indicator_record in query_result.indicators_data.items():
-#               indicator_data_list.append(indicator_record) 
-# 
-#           query_result.indicators_data = indicator_data_list      
+                   
              
         return HttpResponse(jsonpickle.encode(Return_Code(value="3000", contents=query_result)))    
 
