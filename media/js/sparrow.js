@@ -103,17 +103,13 @@ jQuery('document').ready(function(){
 		jQuery(this).parent('li').remove();
 		return false;
 	});
-	jQuery('.add_query input[type="submit"]').click(function(){
-		var query = jQuery(this).siblings('input[type="text"]').val();
-		if(query !== ''){
-			var list = jQuery(this).parents('ul');
-			if(jQuery(this).hasClass('buy_query')){
-				jQuery('<li><a href="" class="rm_query">x</a><input name="buy_query" type="hidden" value="'+query+'"/><p class="query_string">'+query+'</p></li>').appendTo(list);
-			} else{
-				jQuery('<li><a href="" class="rm_query">x</a><input name="sell_query" type="hidden" value="'+query+'"/><p class="query_string">'+query+'</p></li>').appendTo(list);
-			}
-			jQuery(this).siblings('input[type="text"]').val('');
+	jQuery('.add_query').click(function(){
+		var list = jQuery(this).parent('div').next('ul');
+		var type = 'buy'
+		if(jQuery(this).hasClass('sell_query')){
+			type = 'sell';
 		}
+		jQuery('<li><a href="" class="rm_query">x</a><input name="'+type+'_query" type="hidden" value=""/><p class="query_string" style="display:none"></p><input type="text" value=""/><button class="modify_query" type="button">Save</button></li>').appendTo(list);
 		return false;
 	});
 
@@ -121,14 +117,15 @@ jQuery('document').ready(function(){
 	jQuery('.query_string').live('click',function(){
 		var query = jQuery(this).text();
 		jQuery(this).hide();
-		var edit_field = jQuery('<input type="text" value="'+query+'"/><button type="button">Save</button>').insertBefore(this);
-		jQuery(edit_field[1]).click(function(){
-			var new_query = jQuery(this).prev('input');	
-			jQuery(this).siblings('.query_string').text(new_query.val()).show();
-			jQuery(this).remove();
-			new_query.remove();
-		});
+		var edit_field = jQuery('<input type="text" value="'+query+'"/><button class="modify_query" type="button">Save</button>').insertBefore(this);
 		return false;
+	});
+
+	jQuery('button.modify_query').live('click',function(){
+		var new_query = jQuery(this).prev('input');	
+		jQuery(this).siblings('.query_string').text(new_query.val()).show();
+		jQuery(this).remove();
+		new_query.remove();
 	});
 
 

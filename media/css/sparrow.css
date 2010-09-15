@@ -40,12 +40,12 @@ div.container div.right_sidebar ul{
 }
 div.container div.right_sidebar li{
 	margin:0px;
-	background-color:white;
+	background-color:#C1D3D9;
 	border-bottom:1px solid gray;
 	cursor:move;
 }
 div.container div.right_sidebar li:hover{
-	background-color:#C1D3D9;
+	background-color:#F4F8FA; 
 }
 div.container div.right_sidebar li:first-child{
 	border-top:1px solid gray;
@@ -56,11 +56,7 @@ div.container div.right_sidebar div:first-child{
 div.container div.right_sidebar div{
 	height:50%;
 	border: 1px solid gray; 
-	/*
-	-webkit-box-shadow:inset 1px 2px 2px #C1D3D9;
-	-moz-box-shadow:inset 1px 2px 2px #C1D3D9;
-	*/
-	background-color:#F4F8FA; 
+	background-color:#F4F8FA;
 }
 div.query_section{
 	height:30%;
@@ -76,11 +72,6 @@ div.query_section input[type="text"]{
 	font-size:1.3em;
 }
 div.query_section .query_area{
-	-webkit-box-shadow:inset 1px 2px 2px #ccc;
-	-moz-box-shadow:inset 1px 2px 2px #ccc;
-	/*
-	border:1px solid #C1D3D9;
-	*/
 	border:1px solid gray;
 	margin:5px;
 	min-height:10%;
@@ -88,6 +79,18 @@ div.query_section .query_area{
 	list-style-type:none;
 	background-color:white;
 	padding-bottom:10px;
+	-webkit-border-bottom-right-radius: 10px;
+	-moz-border-radius-bottomright: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-bottomleft: 10px;
+
+}
+div.query_section div.drop_header h2{
+	display:inline;
+}
+div.query_section div.drop_header a{
+	display:inline;
+	color:#C1D3D9;
 }
 div.query_section .query_area{
 	min-height:100px;
@@ -101,10 +104,8 @@ div.query_section .query_area li{
 	font-size:1.2em;
 	cursor:pointer;
 	padding:3px;
-	/*
-	-webkit-box-shadow: 1px 2px 2px #555;
-	-moz-box-shadow: 1px 2px 2px #555;
-	*/
+	/*background-color:#F4F8FA;*/ 
+	background-color:#C1D3D9;
 	border-bottom:1px solid gray;
 	margin:0px 0px;
 }
@@ -117,12 +118,8 @@ div.query_section .query_area li a{
 	color:#C8400E;
 
 }
-div.query_section .query_area li:first-child{
-	border-top:1px solid gray;
-}
 div.query_section .query_area li.add_query{
 	border-top:0px;
-	background-color:#C1D3D9;
 }
 div.query_section .query_area li input[type="text"]{
 	width:70%;
