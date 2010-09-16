@@ -127,6 +127,7 @@ jQuery('document').ready(function(){
 	jQuery('button.modify_query').live('click',function(){
 		var new_query = jQuery(this).prev('input');	
 		jQuery(this).siblings('.query_string').text(new_query.val()).show();
+		jQuery(this).siblings('input[type="hidden"]').val(new_query.val());
 		if(jQuery(this).parent().data('link')){
 			var link = jQuery(this).parent().data('link');
 			if(!link.hasClass('immutable')){
