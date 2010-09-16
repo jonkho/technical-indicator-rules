@@ -1,7 +1,6 @@
 function chartData(rawJson) {
     rawJsonData = rawJson['data'];
-//    iData = rawJson['indicators_data'];
-	iData = [];
+    iData = rawJson['indicators_data'];
     
     jsonData = [];
     

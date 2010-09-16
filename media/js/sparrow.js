@@ -75,6 +75,9 @@ jQuery('document').ready(function(){
     event.element().pulsate({pulses:2, duration: 1.5});
   });
 
+  jQuery('#start_date').datepicker({dateFormat: 'yymmdd'});
+  jQuery('#end_date').datepicker({dateFormat: 'yymmdd'});
+
 	/* load data if supplied */
 	if(js){
 	  chartData(js.contents);
