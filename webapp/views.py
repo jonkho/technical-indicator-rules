@@ -35,7 +35,6 @@ def index(request):
     return render_to_response("index.html", context_instance=RequestContext(request))
     
 def tour(request):
-    GoalRecord.record("tour", WebUser(request))
     return render_to_response("tour.html", context_instance=RequestContext(request))
 
 def demo(request):
@@ -54,7 +53,6 @@ def query_data(request):
     if request.method == "POST":
         raise Http404
     else:
-        GoalRecord.record("query", WebUser(request))
         try:
             symbol = request.GET["symbol"]
             start_date = request.GET["start_date"]

@@ -15,6 +15,7 @@ class WebUser(object):
         self.request = request
         self.user = request.user
         self.session = request.session
+        self.anonymous_visitor = self.get_or_create_anonymous_visitor()
 
     def is_anonymous(self):
         return self.user.is_anonymous()
@@ -53,8 +54,7 @@ class WebUser(object):
         if not enrollments:
             # nothing to do - no need to create an AnonymousVisitor.
             return
-
-        anonymous_visitor = self.get_or_create_anonymous_visitor()
+            
         for experiment_name, group_id in enrollments.items():
             try:
                 experiment = Experiment.objects.get(name=experiment_name)
