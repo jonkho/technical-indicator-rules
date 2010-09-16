@@ -152,17 +152,27 @@ class Query_Execution_Box(object):
         phrase_indicator_key = ""
         indicator_list = []
         
+        # example for macd(17,8) is_crossing macd(17,8,9):
+        # phrase_indicator_key = ";macd(17,8);macd_signal(17,8,9)"
+        # indicator_list = [
+        #                      ["macd(17,8)", [data]], 
+        #                      ["macd_signal(17,8,9)", [data]]
+        #                  ]
         for indicator_record in parser.indicator_operands:
             phrase_indicator_key = "%s;%s" % (phrase_indicator_key, indicator_record[0])
             indicator_data = indicator_history.process_indicator(indicator_record[-1], self.data)
             indicator_list.append([indicator_record[0], indicator_data])
         
+        
+        # search indicators_data to see if that phrase's indicators already exist, 
+        # or whether the phrase indicators is already a substring of another existing phrase's indicators (in which case it's also redundant)
         is_redundant_indicator = False
         for indicator_chart_key, data in self.indicators_data.items():
             #print("%s, %s" % (phrase_indicator_key, indicator_chart_key))
             if phrase_indicator_key in indicator_chart_key:
                 is_redundant_indicator = True
         
+        # if in is not in the indicators_data, then add it
         if not is_redundant_indicator:    
             self.indicators_data[phrase_indicator_key] = indicator_list
         
