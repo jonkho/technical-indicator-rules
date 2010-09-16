@@ -49,9 +49,11 @@ class Api_01_Test(TestCase):
                 # ]             
                 
                 # confirm there is macd and macd_signal historical data
+        #print(return_code["contents"]["indicators_data"])
+        
         self.failUnlessEqual(return_code["contents"]["indicators_data"][0][0][0], "macd(17,8)")
         self.failUnlessEqual(return_code["contents"]["indicators_data"][0][1][0], "macd_signal(17,8,9)")
-        #print(return_code["contents"]["indicators_data"])
+        print(return_code["contents"]["indicators_data"])
         self.failUnlessEqual(len(return_code["contents"]["indicators_data"][0][0][1]), 291)
 
 
@@ -89,7 +91,7 @@ class Api_01_Test(TestCase):
         return_code = json.loads(response.content)
         self.failUnlessEqual(int(return_code["value"]), 3000)
         self.failUnlessEqual(len(return_code["contents"]["data"]), 1)
-        print(return_code["contents"]["indicators_data"])
+        #print(return_code["contents"]["indicators_data"])
         self.failUnlessEqual(return_code["contents"]["indicators_data"][0][0][0], "macd(17,8)")
         self.failUnlessEqual(return_code["contents"]["indicators_data"][0][1][0], "macd_signal(17,8,9)")
                 #print(return_code["contents"]["data"][290])
