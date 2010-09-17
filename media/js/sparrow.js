@@ -9,6 +9,7 @@ openData = [];
 closeData = [];
 highData = [];
 lowData = [];
+var QUERYDATA = js;
 
 function showTour() {
 	  Modalbox.show('/tour/', {title: 'WELCOME TO TRADESPARROW', width: 600});
@@ -59,7 +60,30 @@ function tourStart(tic) {
 }
 
 jQuery('document').ready(function(){
-	jQuery('div.container').css('min-width',jQuery('div.container').width());
+	
+	window.timer = null;
+	window.onresize = function() {
+		if (window.timer === null) {
+			window.timer = window.setTimeout(function() {
+				window.timer = null;
+				priceData = [];
+				volumeData = [];
+				summaryData = [];
+				jsonData = [];
+				bgData = [];
+				flagData = [];
+
+				openData = [];
+				closeData = [];
+				highData = [];
+				lowData = [];
+				jQuery('#finance').html("<div id=\"labels\"><div id=\"dateRange\">&nbsp;</div></div>");
+				delete rdata;
+				chartData(QUERYDATA.contents);
+			}, 100);
+		}
+	}
+	
 
   
 
@@ -184,6 +208,7 @@ jQuery('document').ready(function(){
 			success: function(data){
 				jQuery('#finance').html("<div id=\"labels\"><div id=\"dateRange\">&nbsp;</div></div>");
 				delete rdata;
+				QUERYDATA = data;
 				chartData(data.contents);
 				$('loader').hide();
 			},
@@ -193,8 +218,6 @@ jQuery('document').ready(function(){
 		
 		return false;
 	}
-	
 	jQuery('#queryform').submit(formsub);	
 	
 	});
-
