@@ -9,7 +9,7 @@ import copy
 
 class Utils(object):
     def convert_indicators_data_to_nicks_specifications(self, indicators_data):
-        indicator_data_list = []
+        indicator_data_list = []    
         for phrase_indicator_key, indicator_record in indicators_data.items():
             indicator_data_list.append(indicator_record) 
         return indicator_data_list            
@@ -345,6 +345,10 @@ class Backtester(object):
                 account.sell_at_price(price=day[4], date=day[0])
                 looking_to = "buy"
                 #print "%s sold at %s" % (day[0], day[4])
+           
+            else:
+                # that day cannot take action, mark it as such
+                day[-1] = None
                 
         
         # convert timeline buy/sell/none to 1/2/0        
