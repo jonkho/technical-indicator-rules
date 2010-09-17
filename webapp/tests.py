@@ -45,7 +45,7 @@ class test_bed(TestCase):
 #         buy_points = service.execute_query("BP", "20100101", "20100912", ["macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) gradient >= 0", "macd(17,8) <= 0", "slow_stochastic(5,5) speed is_increasing"])
 #         sell_points = service.execute_query("BP", "20100101", "20100912", ["macd(17,8) speed is_decreasing", "slow_stochastic(5,3) speed is_decreasing", "macd(17,8) >= 0"])
 # 
-#                 
+#        
 #                 
         backtester = Backtester()
         account = Account(cash_balance=10000)
