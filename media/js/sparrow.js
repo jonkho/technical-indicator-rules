@@ -59,6 +59,7 @@ function tourStart(tic) {
 }
 
 jQuery('document').ready(function(){
+	jQuery('div.container').css('min-width',jQuery('div.container').width());
 
   
 
