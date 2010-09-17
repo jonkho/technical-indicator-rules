@@ -8,11 +8,29 @@ import copy
 # Create your models here.
 
 class Utils(object):
-    def convert_indicators_data_to_nicks_specifications(self, indicators_data):
+    def convert_indicators_data_to_nicks_specifications(self, indicators_data, indicators_data2=None):
         indicator_data_list = []    
-        for phrase_indicator_key, indicator_record in indicators_data.items():
-            indicator_data_list.append(indicator_record) 
-        return indicator_data_list            
+        
+        if indicators_data2 == None:
+            for phrase_indicator_key, indicator_record in indicators_data.items():
+                indicator_data_list.append(indicator_record)
+                 
+            return indicator_data_list
+        
+        else:
+            combined_indicators_data = {}
+            
+            for phrase_indicator_key, indicator_record in indicators_data.items():
+                combined_indicators_data[phrase_indicator_key] = indicator_record
+                
+            for phrase_indicator_key, indicator_record in indicators_data2.items():
+                combined_indicators_data[phrase_indicator_key] = indicator_record
+                
+            for phrase_indicator_key, indicator_record in combined_indicators_data.items():
+                indicator_data_list.append(indicator_record)
+                 
+            return indicator_data_list
+                                             
 
     def one_year_earlier(self, start_date):
         year = int(start_date[:4])
