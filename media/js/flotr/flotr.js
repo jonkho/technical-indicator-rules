@@ -1978,6 +1978,13 @@ Flotr.Graph = Class.create({
 			 */
 			var x2pre = xa.d2p(prevHit.x + bw/2);
 			
+			this.octx.clearRect(
+			  xa.d2p(prevHit.x) + plotOffset.left - 3,
+				plotOffset.top,
+				6,
+				this.plotHeight
+			);
+			
 			var x1 = xa.d2p(prevHit.x - bw/2) + plotOffset.left - lw;
             var y1 = ya.d2p(prevHit.y >= 0 ? prevHit.y : 0) + plotOffset.top - lw;
             var x2 = x2pre - x1 + lw * 2;
@@ -2008,8 +2015,6 @@ Flotr.Graph = Class.create({
 				octx.beginPath();
 				octx.moveTo(xa.d2p(n.x), 0);
 				octx.lineTo(xa.d2p(n.x), this.plotHeight);
-				//octx.arc(xa.d2p(n.x), ya.d2p(n.y), s.mouse.radius, 0, 2 * Math.PI, true);
-				//octx.fill();
 				octx.stroke();
 				octx.lineWidth = s.points.lineWidth;
 				octx.strokeStyle = s.mouse.lineColor;
@@ -2032,6 +2037,18 @@ Flotr.Graph = Class.create({
 				octx.stroke();
 				octx.closePath();
         
+				octx.restore();
+				
+				octx.save();
+				octx.translate(this.plotOffset.left, this.plotOffset.top);
+				octx.lineWidth = 1;
+				octx.strokeStyle = "rgba(0,0,0,0.5)";
+				octx.beginPath();
+				octx.moveTo(xa.d2p(n.x), 0);
+				octx.lineTo(xa.d2p(n.x), this.plotHeight);
+				octx.stroke();
+				octx.lineWidth = s.points.lineWidth;
+				octx.strokeStyle = s.mouse.lineColor;
 				octx.restore();
 			}
 			octx.restore();
@@ -2157,7 +2174,10 @@ Flotr.Graph = Class.create({
 				var decimals = n.mouse.trackDecimals;
 				if(decimals == null || decimals < 0) decimals = 0;
 				
-				mt.innerHTML = n.mouse.trackFormatter({x: n.x.toFixed(decimals), y: n.y.toFixed(decimals), series: n.series, index: n.index});
+				if (this.options.iid != null)
+				  mt.innerHTML = n.mouse.trackFormatter({x: n.x.toFixed(decimals), y: n.y.toFixed(decimals), series: n.series, index: n.index, iid:this.options.iid});
+				else
+				  mt.innerHTML = n.mouse.trackFormatter({x: n.x.toFixed(decimals), y: n.y.toFixed(decimals), series: n.series, index: n.index});
 				mt.fire('flotr:hit', [n, this]);
 			}
 			else if(prevHit){

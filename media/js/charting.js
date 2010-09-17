@@ -73,11 +73,12 @@ function chartData(rawJson) {
     };
     
     HumbleFinance.iFormatter = function (obj) {
-        var x = Math.floor(obj.x);
+        var k = obj.iid;
+        var x = Math.ceil(obj.x);
         var data = jsonData[x];
         var t = "";
-        for (var i = 1; i < iData[0].length; i++) {
-          t += iData[0][i]+": "+iData[x+1][i]+" ";
+        for (var i = 0; i < iData[k].length; i++) {
+          t += iData[k][i][0]+": "+iData[k][i][1][x][1].toFixed(3)+" ";
         }
         
         return t;

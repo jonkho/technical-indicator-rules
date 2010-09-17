@@ -129,7 +129,7 @@ var HumbleFinance = {
         this.summaryData = summaryData;
         this.bgData = bgData;
         
-        this.iData = indicatorsData.slice(1);
+        this.iData = indicatorsData;
         this.iLabels = indicatorsData[0];
         
         // Set bounds to scale automatically in the y direction
@@ -164,7 +164,10 @@ var HumbleFinance = {
         // Build DOM element
         this.containers.price = new Element('div', {id: 'priceGraph', style: 'width: 100%; height: 240px;'});
         this.containers.volume = new Element('div', {id: 'volumeGraph', style: 'width: 100%; height: 80px;'});
-        this.containers.inds = new Element('div', {id: 'iGraph', style: 'width: 100%; height: 60px;'});
+        this.containers.inds = [];
+        for (var i=0; i < iData.length; i++) {
+          this.containers.inds[i] = new Element('div', {id: 'iGraph'+i, style: 'width: 100%; height: 60px;'});
+        };
         this.containers.summary = new Element('div', {id: 'summaryGraph', style: 'width: 100%; height: 60px;'});
         this.containers.flags = new Element('div', {id: 'flagContainer'/*, style: 'width: 0px; height: 0px;'*/});
         this.handles.left = new Element('div', {id: 'leftHandle', 'class': 'handle zoomHandle', style: 'display: none;'});
@@ -178,7 +181,9 @@ var HumbleFinance = {
         // Insert into container
         container.insert(this.containers.price);
         container.insert(this.containers.volume);
-        container.insert(this.containers.inds);
+        for (var i=0; i < iData.length; i++) {
+          container.insert(this.containers.inds[i]);
+        }
         container.insert(this.containers.summary);
         container.insert(this.containers.flags);
         container.insert(this.handles.left);
@@ -197,8 +202,10 @@ var HumbleFinance = {
         // Attach observers for hit tracking on price and volume points
         Event.observe(this.containers.volume, 'flotr:hit', this.volumeHitObserver.bind(this));
         Event.observe(this.containers.volume, 'flotr:clearhit', this.clearHit.bind(this));
-        Event.observe(this.containers.inds, 'flotr:hit', this.iHitObserver.bind(this));
-        Event.observe(this.containers.inds, 'flotr:clearhit', this.clearHit.bind(this));
+        for (var i=0; i < iData.length; i++) {
+          Event.observe(this.containers.inds[i], 'flotr:hit', this.iHitObserver.bind(this));
+          Event.observe(this.containers.inds[i], 'flotr:clearhit', this.clearHit.bind(this));
+        }
         Event.observe(this.containers.price, 'flotr:hit', this.priceHitObserver.bind(this));
         Event.observe(this.containers.price, 'flotr:clearhit', this.clearHit.bind(this));
         
@@ -250,7 +257,10 @@ var HumbleFinance = {
         
         this.graphs.price = this.priceGraph(this.priceData.slice(xmin, xmax+1), this.bgData.slice(xmin, xmax+1), newBounds);
         this.graphs.volume = this.volumeGraph(this.volumeData.slice(xmin, xmax+1), volBounds);
-        this.graphs.inds = this.iGraph(this.iData, iBounds);
+        this.graphs.inds = [];
+        for (var i=0; i < iData.length; i++) {
+          this.graphs.inds[i] = this.iGraph(this.iData[i], iBounds, i);
+        }
         
         this.drawFlags();
     },
@@ -261,7 +271,9 @@ var HumbleFinance = {
     reset: function () {
         this.graphs.price = this.priceGraph(this.priceData, this.bgData, this.bounds);
         this.graphs.volume = this.volumeGraph(this.volumeData, this.bounds);
-        this.graphs.inds = this.iGraph(this.iData, this.bounds);
+        for (var i=0; i < iData.length; i++) {
+          this.graphs.inds[i] = this.iGraph(this.iData[i], this.bounds, i);
+        }
         this.handles.left.hide();
         this.handles.right.hide();
         this.handles.scroll.hide();
@@ -530,7 +542,9 @@ var HumbleFinance = {
     clearHit: function(e) {
         this.graphs.price.clearHit();//.mouseTrack.hide();
         this.graphs.volume.clearHit();
-        this.graphs.inds.clearHit();
+        for (var i=0; i < iData.length; i++) {
+          this.graphs.inds[i].clearHit();
+        }
     },
     
     /**
@@ -561,9 +575,11 @@ var HumbleFinance = {
         
         // Display hit on price graph
         var point = this.priceData[e.memo[0].x];
-        Event.stopObserving(this.containers.inds, 'flotr:hit');
-        this.doHit(this.graphs.price, point, this.containers.inds);
-        Event.observe(this.containers.inds, 'flotr:hit', this.iHitObserver.bind(this));
+        for (var i=0; i < iData.length; i++) {
+          Event.stopObserving(this.containers.inds[i], 'flotr:hit');
+          this.doHit(this.graphs.price, point, this.containers.inds[i]);
+          Event.observe(this.containers.inds[i], 'flotr:hit', this.iHitObserver.bind(this));
+        }
     },
     
     /**
@@ -577,7 +593,9 @@ var HumbleFinance = {
         var point = this.volumeData[e.memo[0].x];
         Event.stopObserving(this.containers.price, 'flotr:hit');
         this.doHit(this.graphs.volume, point, this.containers.price);
-        this.doHit(this.graphs.inds, point, this.containers.price);
+        for (var i=0; i < iData.length; i++) {
+          this.doHit(this.graphs.inds[i], point, this.containers.price);
+        }
         Event.observe(this.containers.price, 'flotr:hit', this.priceHitObserver.bind(this));
         
         // Hide mouse track on volume graph
@@ -724,14 +742,13 @@ var HumbleFinance = {
         return v;
     },
     
-    iGraph: function (data, bounds) {
+    iGraph: function (data, bounds, k) {
         var gdata = [];
-        for (var j = 1; j < data[0].length; j++) {
-          //j is the number of indicators we have data for
-          gdata[j - 1] = [];
-          for (var i = 0; i < data.length; i++) {
-            //i is the index into the data array
-            gdata[j - 1][i] = [i, data[i][j]];
+        
+        for (var i = 0; i < data.length; i++) {
+          gdata[i] = [];
+          for (var j = 0; j < data[i][1].length; j++) {
+            gdata[i][j] = [j, data[i][1][j][1]];
           }
         }
         
@@ -741,7 +758,7 @@ var HumbleFinance = {
         var ymax = bounds.ymax;
 
         var v = Flotr.draw(
-            $('iGraph'),
+            $('iGraph'+k),
             gdata,
             {
                 lines: {show: true, fill: false, fillOpacity: .1, lineWidth: 1},
@@ -750,10 +767,10 @@ var HumbleFinance = {
                 grid: {verticalLines: false, horizontalLines: true, outlineWidth: 0, labelMargin: 0},
                 mouse: {track: true, sensibility: .3, position: 'ne', trackDecimals: 0, trackFormatter: this.iFormatter},
                 shadowSize: false,
-                HtmlText: true
+                HtmlText: true,
+                iid: k
             }
         );
-        
         return v;
     },
 

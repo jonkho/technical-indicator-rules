@@ -98,7 +98,8 @@ class Experiment(models.Model):
         def set_enrollment(self, experiment, group_id):
             participant = Participant.objects.create(
                 user=self.experiment_user.get_registered_user(),
-                experiment=experiment, group=group_id
+                experiment=experiment, group=group_id,
+                anonymous_visitor=AnonymousVisitor.objects.get(id=experiment_user.get_anonymous_id())
             )
             user_enrolled.send(sender=self.__class__,
                                experiment=experiment,
@@ -146,8 +147,6 @@ class Experiment(models.Model):
     def __create_user(cls, experiment_user):
         if not experiment_user.is_anonymous():
             return cls.__RegisteredUser(experiment_user)
-        if not experiment_user.is_verified_human():
-            return cls.__UnverifiedUser(experiment_user)
         else:
             return cls.__AnonymousUser(experiment_user)
 
@@ -245,7 +244,6 @@ class Experiment(models.Model):
             raise Exception("Invalid experiment state !")
 
         user = cls.__create_user(experiment_user)
-
         assigned_group = user.get_enrollment(experiment)
 
         if assigned_group == None:

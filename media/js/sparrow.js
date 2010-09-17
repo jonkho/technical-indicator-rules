@@ -112,7 +112,7 @@ jQuery('document').ready(function(){
 		if(jQuery(this).hasClass('sell_query')){
 			type = 'sell';
 		}
-		jQuery('<li><a href="" class="rm_query">x</a><input name="'+type+'_query" type="hidden" value=""/><p class="query_string" style="display:none"></p><input type="text" value=""/><button class="modify_query" type="button">Save</button></li>').appendTo(list);
+		jQuery('<li><a href="" class="rm_query">x</a><input name="'+type+'_query" type="hidden" value=""/><p class="query_string" style="display:none"></p><input class="query_input" type="text" value=""/><button class="modify_query" type="button">Save</button></li>').appendTo(list).find('input.query_input').focus();
 		return false;
 	});
 
@@ -127,6 +127,21 @@ jQuery('document').ready(function(){
 	jQuery('button.modify_query').live('click',function(){
 		var new_query = jQuery(this).prev('input');	
 		jQuery(this).siblings('.query_string').text(new_query.val()).show();
+		jQuery(this).siblings('input[type="hidden"]').val(new_query.val());
+		if(jQuery(this).parent().data('link')){
+			var link = jQuery(this).parent().data('link');
+			if(!link.hasClass('immutable')){
+				link.text(new_query.val());
+			}
+		} else{
+			if(jQuery(this).parents('ul').hasClass('buy_queries')){
+				var list = jQuery('.query_bank.buy_queries');
+			} else{
+				var list = jQuery('.query_bank.sell_queries');
+			}
+			var link = jQuery('<li>'+new_query.val()+'</li>').appendTo(list).draggable({revert:true, helper: 'clone'});
+			jQuery(this).parent().data('link',link);
+		}
 		jQuery(this).remove();
 		new_query.remove();
 	});
