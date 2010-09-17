@@ -53,7 +53,7 @@ class Api_01_Test(TestCase):
         
         self.failUnlessEqual(return_code["contents"]["indicators_data"][0][0][0], "macd(17,8)")
         self.failUnlessEqual(return_code["contents"]["indicators_data"][0][1][0], "macd_signal(17,8,9)")
-        print(return_code["contents"]["indicators_data"])
+        #print(return_code["contents"]["indicators_data"])
         self.failUnlessEqual(len(return_code["contents"]["indicators_data"][0][0][1]), 291)
 
 

@@ -659,7 +659,7 @@ class Backtester_Test(TestCase):
         backtester = Backtester()
         account = Account(cash_balance=10000)
         timeline, summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)        
-        self.failUnlessEqual(int(summary), 11639)
+        self.failUnlessEqual(summary["strategy_value"], "11639.67")
         
 class Utils_Test(TestCase):
     def test_one_year_earlier_should_return_a_date_one_year_earlier(self):
