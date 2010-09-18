@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/12/trunk/djangovoice/templatetags
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/4/trunk/djangovoice/templatetags/__init__.py
+END
+get_type_menu.py
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/4/trunk/djangovoice/templatetags/get_type_menu.py
+END
+get_status_menu.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/6/trunk/djangovoice/templatetags/get_status_menu.py
+END

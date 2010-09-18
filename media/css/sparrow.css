@@ -152,3 +152,22 @@ div#graph_section{
 	-moz-box-shadow:inset 1px 2px 2px #C1D3D9;
 	background-color:#F4F8FA;
 }
+.feedback_btn{
+  background: #7fc612;
+  height:100px;
+  width:40px;
+  position: absolute;
+  top: 100px;
+  left: -10px;
+  border-top: 2px solid #5f950e;
+  border-right: 2px solid #5f950e;
+  border-bottom: 2px solid #5f950e;
+}
+
+.feedback_btn:hover{
+  left: 0px;
+  background: #5f950e;
+  border-top: 2px solid #4a740b;
+  border-right: 2px solid #4a740b;
+  border-bottom: 2px solid #4a740b;
+}

@@ -91,6 +91,7 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
     'django.contrib.auth',
+    'django.contrib.comments',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
@@ -99,6 +100,9 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'sparrow.webapp',
     'sparrow.django_lean.experiments',
+    'sparrow.voting',
+    'sparrow.gravatar',
+    'sparrow.djangovoice',
     'south',
 )
 

@@ -22,17 +22,11 @@ def login(request):
     else:   
         form = LoginForm()
     return render_to_response("login.html", {"form":form}, context_instance=RequestContext(request))
-
     
 @login_required
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect("/login/")  
-
-def index(request):
-    if request.method == "POST":
-        pass
-    return render_to_response("index.html", context_instance=RequestContext(request))
     
 def tour(request):
     return render_to_response("tour.html", context_instance=RequestContext(request))

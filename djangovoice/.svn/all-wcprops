@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/16/trunk/djangovoice
+END
+admin.py
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/8/trunk/djangovoice/admin.py
+END
+views.py
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/12/trunk/djangovoice/views.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/4/trunk/djangovoice/__init__.py
+END
+utils.py
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/4/trunk/djangovoice/utils.py
+END
+models.py
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/11/trunk/djangovoice/models.py
+END
+urls.py
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/11/trunk/djangovoice/urls.py
+END
+feeds.py
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/13/trunk/djangovoice/feeds.py
+END
+forms.py
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/4/trunk/djangovoice/forms.py
+END

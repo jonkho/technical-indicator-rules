@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/15/trunk/djangovoice/templates/djangovoice
+END
+feedback_base.html
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/14/trunk/djangovoice/templates/djangovoice/feedback_base.html
+END
+delete.html
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/15/trunk/djangovoice/templates/djangovoice/delete.html
+END
+container.html
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/11/trunk/djangovoice/templates/djangovoice/container.html
+END
+detail.html
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/15/trunk/djangovoice/templates/djangovoice/detail.html
+END
+widget.html
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/15/trunk/djangovoice/templates/djangovoice/widget.html
+END
+submit.html
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/15/trunk/djangovoice/templates/djangovoice/submit.html
+END
+edit.html
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/15/trunk/djangovoice/templates/djangovoice/edit.html
+END
+sidebar.html
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/11/trunk/djangovoice/templates/djangovoice/sidebar.html
+END
+list.html
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/11/trunk/djangovoice/templates/djangovoice/list.html
+END

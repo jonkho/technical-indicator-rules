@@ -1,0 +1,12 @@
+{% if request.user.is_anonymous and field.name == "anonymous" or field.name == "private" %}
+
+{% else %}
+<tr class="{{ field.html_name }}">
+    <td class="label">{{ field.label_tag }}{% if field.field.required %} <span class="required">({% trans "required" %})</span>{% endif %}
+    <div class="form-help">{% if field.help_text %}{{ field.help_text }}{% endif %}</div>
+    </td>
+    <td class="field{% if field.errors %} field-error{% endif %}">{{ field }}
+    {% if field.errors %}<div class="form-errors">{{ field.errors }}</div>{% endif %}
+    </td>
+</tr>
+{% endif %}
