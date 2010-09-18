@@ -148,6 +148,8 @@ class Stochastic_Test(TestCase):
         full_stochastic_signal = Full_Stochastic_Signal(n=14, ma=3, smoothing=3)
         result = full_stochastic_signal(past_data=prices, latest_record=("2010-03-02", 111.45, 109.86, 111.02))
         self.failUnlessEqual("%.6f" % result, "81.093560")
+        
+    
 
 class Rsi_Test(TestCase):                                       
     def test_given_a_price_and_price_history_Then_RSI_can_be_calculated(self):
@@ -515,7 +517,11 @@ class Execution_Env_Test(TestCase):
         result = exe_box.exe(rule)
         self.failUnlessEqual(result.number_of_points, 46)
         #print(result.data)
-#               
+#       
+        tokenizer = Tokenizer(query_text="slow_stochastic(10) is_crossing slow_stochastic_signal(10,10)")
+        rule = parser.parse_query(tokenizer)    
+        result = exe_box.exe(rule)
+        self.failUnlessEqual(result.number_of_points, 46)        
 
         exe_box = Query_Execution_Box(data)
         tokenizer = Tokenizer(query_text="price 3 days_later >= price")

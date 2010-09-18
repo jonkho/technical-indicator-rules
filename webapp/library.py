@@ -429,10 +429,10 @@ class Full_Stochastic_Signal(object):
         data_formatter = StochasticDataFormatter()
         formatted_data = data_formatter.cut(unformatted_data)
         return formatted_data
+        
 
-        
-        
-        
+
+                
 #----------------------------RSI FORMULAS-------------------------              
                 
 class RsiDataFormatter(object):
