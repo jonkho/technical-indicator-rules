@@ -10,7 +10,6 @@ closeData = [];
 highData = [];
 lowData = [];
 var QUERYDATA = js;
-
 function showTour() {
 	  Modalbox.show('/tour/', {title: 'WELCOME TO TRADESPARROW', width: 600});
 	}
@@ -58,7 +57,6 @@ function tourStart(tic) {
 
   window.setTimeout(function(){tourStep(1);}, 1000);
 }
-
 jQuery('document').ready(function(){
 	
 	window.timer = null;
@@ -85,8 +83,7 @@ jQuery('document').ready(function(){
 	}
 	
 
-  
-
+  /*
   new Tip($('symbol'), 'TICKER SYMBOL');
   new Tip($('start_date'), 'START DATE (YYYYMMDD)');
   new Tip($('end_date'), 'END DATE (YYYYMMDD)');
@@ -99,6 +96,7 @@ jQuery('document').ready(function(){
   document.observe('prototip:shown', function(event) {
     event.element().pulsate({pulses:2, duration: 1.5});
   });
+  */
 
   jQuery('#start_date').datepicker({dateFormat: 'yymmdd'});
   jQuery('#end_date').datepicker({dateFormat: 'yymmdd'});

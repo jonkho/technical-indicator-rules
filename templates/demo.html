@@ -35,7 +35,7 @@
 {% endblock %}
 
 {% block content %}
-  <div class="left_main grid_9">
+  <div class="left_main grid_12">
     <div class="query_section">
       <form id="queryform" action="/query/" method="get">
         <div class="query_input">
@@ -43,41 +43,67 @@
           <input name="start_date" id="start_date" type="text" value="{{params.start_date}}"/>
           <input name="end_date" id="end_date" type="text" value="{{params.end_date}}"/>
         </div>
-		<div class="droppable">
-			<div class="drop_header">
-				<h2>Buy</h2>
-				<a href="" class="add_query buy_query">[+]</a>
+		<div class="queries">
+			<div class="bull_queries">
+			  <h2>Bull</h2>
+			  <ul class="query_bank buy_queries">
+				<li class="immutable">macd(17,8) gradient >= 0</li>
+				<li class="immutable">rsi(14) is_crossing 50</li>
+				<li class="immutable">macd(17,8) is_crossing macd_signal(17,8,9)</li>
+			  </ul> 
 			</div>
-			<ul id="query" class="query_area buy_queries">
-				<li>
-					<a href="" class="rm_query">x</a>
-					<input name="buy_query" type="hidden" value="{{params.query}}"/>
-					<p class="query_string">{{params.query}}</p>
-				</li>
-			</ul>
-		</div >
-		<div class="droppable">
-			<div class="drop_header">
-				<h2>Sell</h2>
-				<a href="" class="add_query sell_query">[+]</a>
+			<div class="bear_queries">
+			  <h2>Bear</h2>     
+			  <ul class="query_bank sell_queries">
+				<li class="immutable">macd(17,8) gradient >= 0</li>
+				<li class="immutable">macd(17,8) gradient >= 0</li>
+				<li class="immutable">macd(17,8) gradient >= 0</li>
+			  </ul> 
 			</div>
-			<ul class="query_area sell_queries">
-			</ul>
 		</div>
+
+		<div class="query_drop">
+			<div class="droppable">
+				<div class="drop_header">
+					<h2>Buy</h2>
+					<a href="" class="add_query buy_query">[+]</a>
+				</div>
+				<ul id="query" class="query_area buy_queries">
+					<li>
+						<a href="" class="rm_query">x</a>
+						<input name="buy_query" type="hidden" value="{{params.query}}"/>
+						<p class="query_string">{{params.query}}</p>
+					</li>
+				</ul>
+			</div>
+			<div class="droppable">
+				<div class="drop_header">
+					<h2>Sell</h2>
+					<a href="" class="add_query sell_query">[+]</a>
+				</div>
+				<ul class="query_area sell_queries">
+				</ul>
+			</div>
+		</div>
+
+
         <input id="fsubmit" type="submit" value="Submit!"/>
       </form>
     </div>
-    <div id="loader" style="display:none;">&nbsp;</div>
-    <div id="graph_section">
-      <div id="graphcontainer">
-        <div id="finance">
-          <div id="labels">
-            <div id="dateRange">&nbsp;</div>
-          </div>
-        </div>
-      </div>
-    </div>
+		<div id="loader" style="display:none;">&nbsp;</div>
+
+		<div id="graph_section">
+		  <div id="graphcontainer">
+			<div id="finance">
+			  <div id="labels">
+				<div id="dateRange">&nbsp;</div>
+			  </div>
+			</div>
+		  </div>
+		</div> <!-- close graph_section -->
+
   </div> <!-- close left main -->
+  <!--
   <div class="right_sidebar grid_3">
     <div class="bull_queries">
       <h2>Bull</h2>
@@ -112,4 +138,5 @@
       </ul> 
     </div>
   </div>
+	-->
 {% endblock %}
