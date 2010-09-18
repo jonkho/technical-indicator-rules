@@ -29,6 +29,7 @@ def logout(request):
     return HttpResponseRedirect("/login/")  
     
 def tour(request):
+    GoalRecord.record("tour", WebUser(request))
     return render_to_response("tour.html", context_instance=RequestContext(request))
 
 def demo(request):
@@ -47,6 +48,7 @@ def query_data(request):
     if request.method == "POST":
         raise Http404
     else:
+        GoalRecord.record("query", WebUser(request))
         try:
             symbol = request.GET["symbol"]
             start_date = request.GET["start_date"]
@@ -66,22 +68,23 @@ def query_data(request):
                 
             backtester = Backtester()
             account = Account(cash_balance=10000)
-            timeline, summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
+            timeline, account_summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
             
             # FIX: need to merge with sell points as well
-            indicators_data = utils.convert_indicators_data_to_nicks_specifications(buy_points.indicators_data)
-            query_result = {"data":timeline, "indicators_data":indicators_data}
+            indicators_data = utils.convert_indicators_data_to_nicks_specifications(buy_points.indicators_data, sell_points.indicators_data)
+            result = {"data":timeline, "indicators_data":indicators_data, "summary":account_summary}
         
         elif len(buy_query) > 0 and len(sell_query) == 0:
             query_result = service.execute_query(symbol, start_date, end_date, buy_query) 
             query_result.indicators_data = utils.convert_indicators_data_to_nicks_specifications(query_result.indicators_data)
+            result = {"data":query_result.data, "indicators_data":query_result.indicators_data, "summary":None}
         
         elif len(sell_query) > 0:
             query_result = service.execute_query(symbol, start_date, end_date, sell_query)  
             query_result.indicators_data = utils.convert_indicators_data_to_nicks_specifications(query_result.indicators_data)
-                   
+            result = {"data":query_result.data, "indicators_data":query_result.indicators_data, "summary":None}       
              
-        return HttpResponse(jsonpickle.encode(Return_Code(value="3000", contents=query_result)))    
+        return HttpResponse(jsonpickle.encode(Return_Code(value="3000", contents=result)))    
 
 class EngagementScoreCalculator(object):
     def calculate_user_engagement_score(self, user, start_date, end_date):

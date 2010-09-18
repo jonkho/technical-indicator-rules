@@ -29,7 +29,7 @@ class Api_01_Test(TestCase):
 
 
     def test_api_buy_query_results_success(self):
-        response = self.client.get("/query/", {"symbol":"gld", "start_date":"20090101", "end_date":"20100301", "buy_query":["macd(17,8) is_crossing macd_signal(17,8,9)"]})
+        response = self.client.get("/query/", {"symbol":"gld", "start_date":"20090101", "end_date":"20100301", "buy_query":["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0"]})
                 
         return_code = json.loads(response.content)
         self.failUnlessEqual(int(return_code["value"]), 3000)
@@ -51,9 +51,10 @@ class Api_01_Test(TestCase):
                 # confirm there is macd and macd_signal historical data
         #print(return_code["contents"]["indicators_data"])
         
+        self.failUnlessEqual(len(return_code["contents"]["indicators_data"][0]), 2)
         self.failUnlessEqual(return_code["contents"]["indicators_data"][0][0][0], "macd(17,8)")
         self.failUnlessEqual(return_code["contents"]["indicators_data"][0][1][0], "macd_signal(17,8,9)")
-        print(return_code["contents"]["indicators_data"])
+        #print(return_code["contents"]["indicators_data"])
         self.failUnlessEqual(len(return_code["contents"]["indicators_data"][0][0][1]), 291)
 
 

@@ -8,11 +8,29 @@ import copy
 # Create your models here.
 
 class Utils(object):
-    def convert_indicators_data_to_nicks_specifications(self, indicators_data):
-        indicator_data_list = []
-        for phrase_indicator_key, indicator_record in indicators_data.items():
-            indicator_data_list.append(indicator_record) 
-        return indicator_data_list            
+    def convert_indicators_data_to_nicks_specifications(self, indicators_data, indicators_data2=None):
+        indicator_data_list = []    
+        
+        if indicators_data2 == None:
+            for phrase_indicator_key, indicator_record in indicators_data.items():
+                indicator_data_list.append(indicator_record)
+                 
+            return indicator_data_list
+        
+        else:
+            combined_indicators_data = {}
+            
+            for phrase_indicator_key, indicator_record in indicators_data.items():
+                combined_indicators_data[phrase_indicator_key] = indicator_record
+                
+            for phrase_indicator_key, indicator_record in indicators_data2.items():
+                combined_indicators_data[phrase_indicator_key] = indicator_record
+                
+            for phrase_indicator_key, indicator_record in combined_indicators_data.items():
+                indicator_data_list.append(indicator_record)
+                 
+            return indicator_data_list
+                                             
 
     def one_year_earlier(self, start_date):
         year = int(start_date[:4])
@@ -337,14 +355,18 @@ class Backtester(object):
         
         for day in timeline:
             if looking_to == "buy" and day[-1] == "buy":
-                account.buy_at_price(day[4])
+                account.buy_at_price(price=day[4], date=day[0])
                 looking_to = "sell"
-                print "%s bought at %s" % (day[0], day[4])
+                #print "%s bought at %s" % (day[0], day[4])
             
             elif looking_to == "sell" and day[-1] == "sell":
-                account.sell_at_price(day[-4])
+                account.sell_at_price(price=day[4], date=day[0])
                 looking_to = "buy"
-                print "%s sold at %s" % (day[0], day[4])
+                #print "%s sold at %s" % (day[0], day[4])
+           
+            else:
+                # that day cannot take action, mark it as such
+                day[-1] = None
                 
         
         # convert timeline buy/sell/none to 1/2/0        
@@ -359,7 +381,7 @@ class Backtester(object):
                 day[-1] = 0
                                         
                 
-        return timeline, account.value(current_share_price=timeline[-1][4])
+        return timeline, account.summarize(timeline)
         
     def execute_short_strategy(self, short_points, cover_points, account):
         timeline = copy.deepcopy(short_points)
@@ -382,11 +404,13 @@ class Backtester(object):
                 print "%s shorted at %s" % (day[0], day[4])
             
             elif looking_to == "cover" and day[-1] == "cover":
-                account.cover_at_price(day[-4])
+                account.cover_at_price(day[4])
                 looking_to = "short"
                 print "%s covered at %s" % (day[0], day[4])
+
+        account.current_share_price = timeline[-1][4]                
                         
-        return account.value(current_share_price=timeline[-1][4])
+        return account
                             
     
         
@@ -394,34 +418,58 @@ class Account(object):
     def __init__(self, cash_balance=0, number_of_shares=0):
         self.cash_balance = float(cash_balance)
         self.number_of_shares = float(number_of_shares)
+        self.current_share_price = None
+        self.trade_history = []
         
-    def buy_at_price(self, price):
+    def buy_at_price(self, price, date):
         price = float(price)
         self.number_of_shares = self.cash_balance / price
         self.cash_balance = 0
+        self.trade_history.append([date, "bought", '%.2f' % price, self.number_of_shares, self.cash_balance, self.value(price)])
         return self.cash_balance, self.number_of_shares
     
-    def sell_at_price(self, price):
+    def sell_at_price(self, price, date):
         price = float(price)
         self.cash_balance = self.number_of_shares * price
         self.number_of_shares = 0
+        self.trade_history.append([date, "sold", '%.2f' % price, self.number_of_shares, self.cash_balance, self.value(price)])
         return self.cash_balance,  self.number_of_shares
         
-    def short_at_price(self, price):
+    def short_at_price(self, price, date):
         price = float(price)
         self.cash_balance += 10000
         self.number_of_shares = -10000 / price
+        self.trade_history.append([date, "shorted", '%.2f' % price, self.number_of_shares, self.cash_balance, self.value(price)])
         return self.cash_balance, self.number_of_shares
         
-    def cover_at_price(self, price):
+    def cover_at_price(self, price, date):
         price = float(price)
         self.cash_balance = self.cash_balance + (self.number_of_shares * price)
         self.number_of_shares = 0
+        self.trade_history.append([date, "covered", '%.2f' % price, self.number_of_shares, self.cash_balance, self.value(price)])
         return self.cash_balance, self.number_of_shares     
         
-    def value(self, current_share_price):
-        current_share_price = float(current_share_price)
-        return self.cash_balance + (self.number_of_shares * current_share_price)        
+    def value(self, current_share_price=None):
+        if current_share_price != None:
+            self.current_share_price = float(current_share_price)
+        
+        elif self.current_share_price == None:
+            raise RuntimeError
+                
+        return self.cash_balance + (self.number_of_shares * self.current_share_price)
+        
+    def hypothetical_buy_and_hold_value(self, share_buy_price, share_sell_price):
+        number_of_shares_bought_at_the_start = 10000 / float(share_buy_price)
+        market_value_of_shares_at_end_period = float(number_of_shares_bought_at_the_start) * float(share_sell_price)
+        return market_value_of_shares_at_end_period
+        
+    def summarize(self, price_history_data):
+        buy_and_hold_value = self.hypothetical_buy_and_hold_value(price_history_data[0][4], price_history_data[-1][4])
+        strategy_value = self.value(price_history_data[-1][4])
+        performance_delta = (strategy_value - buy_and_hold_value) / 100
+        summary = {"buy_and_hold_value":'%.2f' % buy_and_hold_value, "strategy_value": '%.2f' % strategy_value, "performance_delta":'%.2f' % performance_delta, "trade_history":self.trade_history}
+        return summary
+                           
                     
                     
 #   def intersection(self, data1, data2):

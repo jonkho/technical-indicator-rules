@@ -24,43 +24,6 @@ class test_bed(TestCase):
 #         self.failUnlessEqual(return_code["contents"]["indicators_data"][0][0][0], "macd(17,8)")
 #         self.failUnlessEqual(return_code["contents"]["indicators_data"][0][1][0], "macd_signal(17,8,9)")
         
-#               days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
-#               data = [day[:-2].split(',') for day in days]
-#               data.reverse()
-#               data = data[:-1]
-#               parser = Parser(data)
-#               #print data     
-#       
-#               exe_box = Query_Execution_Box(data)
-#               tokenizer = Tokenizer(query_text="price 3 days_later >= price")
-#               rule = parser.parse_query(tokenizer)
-#               result = exe_box.exe(rule)
-#               #print(result.data)
-#               self.failUnlessEqual(len(result.data), 168)
-
-#               expression_evaluator = Expression_Evaluator()
-#               expression = Is_Greater_Than_Or_Equal_To(operand1=Price(), operand2=Unit(120))
-#               result = expression_evaluator.is_true(symbol="gld", expression=expression, today="20100703")
-                #print result
-#               result = get_quote("gld")
-#               print result
-                
-#               days = open("/home/developer/sparrow.com/sparrow/webapp/test_data/data.txt").readlines()
-#               data = [day[:-2].split(',') for day in days]
-#               data.reverse()
-#               data = data[:-1]
-#               data_with_flag = []
-#               for record in data:
-#                       record.append(None)
-#                       data_with_flag.append(record)
-#               parser = Parser(data_with_flag)
-#               
-#               
-#               exe_box = Query_Execution_Box(data_with_flag)
-#               tokenizer = Tokenizer(query_text="macd(17,8) is_crossing macd_signal(17,8,9)")
-#               rule = parser.parse_query(tokenizer)    
-#               result = exe_box.exe(rule)
-#               self.failUnlessEqual(result.number_of_points, 25)
 
         service = Service()
 #               buy_points = service.execute_query("GLD", "20100101", "20100601", "macd(17,8) is_crossing macd_signal(17,8,9)")
@@ -71,23 +34,23 @@ class test_bed(TestCase):
                 #buy_points = service.execute_query("DIG", "20100101", "20100820", "macd(17,8) speed is_increasing", "macd(17,8) gradient >= 0.5", "macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) <= 0", "slow_stochastic(5,3) gradient >= 0")
 
 
-        #buy_points = service.execute_query("ADBE", "20100101", "20100915", ["macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) gradient >= 0"])
-        #sell_points = service.execute_query("ADBE", "20100101", "20100915", ["macd(17,8) speed is_decreasing", "slow_stochastic(5,3) speed is_decreasing", "macd(17,8) >= 0"])
+        buy_points = service.execute_query("ADBE", "20100101", "20100915", ["macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) gradient >= 0"])
+        sell_points = service.execute_query("ADBE", "20100101", "20100915", ["macd(17,8) speed is_decreasing", "slow_stochastic(5,3) speed is_decreasing", "macd(17,8) >= 0"])
                 
 
                 #sell_points = service.execute_query("GLD", "20100101", "20100820", "slow_stochastic(5,5) is_crossing 80", "slow_stochastic(5,5) gradient <= 0")
                 #sell_points = service.execute_query("DIG", "20100101", "20100820", "slow_stochastic(5,5) gradient 1 days_ago >= 0", "slow_stochastic(5,5) gradient <= 0")
                 
                 
-        buy_points = service.execute_query("BP", "20100101", "20100912", ["macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) gradient >= 0", "macd(17,8) <= 0", "slow_stochastic(5,5) speed is_increasing"])
-        sell_points = service.execute_query("BP", "20100101", "20100912", ["macd(17,8) speed is_decreasing", "slow_stochastic(5,3) speed is_decreasing", "macd(17,8) >= 0"])
-
-                
-                
+#         buy_points = service.execute_query("BP", "20100101", "20100912", ["macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) gradient >= 0", "macd(17,8) <= 0", "slow_stochastic(5,5) speed is_increasing"])
+#         sell_points = service.execute_query("BP", "20100101", "20100912", ["macd(17,8) speed is_decreasing", "slow_stochastic(5,3) speed is_decreasing", "macd(17,8) >= 0"])
+# 
+#        
+#                 
         backtester = Backtester()
         account = Account(cash_balance=10000)
-        timeline, summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
-        print summary
+        timeline, account_summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
+        print account_summary
 #               
 #               self.failUnlessEqual(summary, "100")
                 
@@ -99,7 +62,8 @@ class test_bed(TestCase):
 #               summary = backtester.execute_short_strategy(short_points.data, cover_points.data, account)
 #               print summary
                 
-
+#         rsi_points = service.execute_query("GLD", "20091101", "20100820", ["rsi(14) is_crossing 50", "rsi(14) gradient >= 0"])
+#         print rsi_points.data
 
                 
 

@@ -679,7 +679,7 @@ class Is_Crossing(Base_Operator):
         current_operand2 = self.operand2(past_data, latest_record=latest_record, memo=memo)
         yesterday_operand2 = self.operand2(past_data[:-1], latest_record=past_data[-1], memo=memo)
         
-#               print "%s current operand1: %s, yesterday operand1: %s, current operand2: %s, yesterday operand2: %s" % (latest_record[0], current_operand1, yesterday_operand1, current_operand2, yesterday_operand2)
+        #print "%s current operand1: %s, yesterday operand1: %s, current operand2: %s, yesterday operand2: %s" % (latest_record[0], current_operand1, yesterday_operand1, current_operand2, yesterday_operand2)
                 
         if current_operand1 != None and yesterday_operand1 != None and current_operand2 != None and yesterday_operand2 != None:
             if current_operand1 >= current_operand2 and yesterday_operand1 <= yesterday_operand2:
