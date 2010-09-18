@@ -6,7 +6,7 @@ macd(17,8) is_crossing macd_signal(17,8,9)
 macd(17,8) 1 days_ago |-| macd(17,8) > 1
 macd(17,8) speed >= macd(17,8) speed 1 days_ago
 macd(17,8) <= macd(17,8) 1 days_ago
-slow_stochastic(10,3) is_crossing 20	
+full_stochastic(10,3) is_crossing 20	
 rsi(14) speed >= 1
 rsi(14) is_crossing 50
 
@@ -38,8 +38,8 @@ macd(17,8) is_increasing
 			-> ema(<number>)
 			-> stochastic(<number>)
 			-> stochastic_signal(<number>, <number>) #commentary: parameters are n, smoothing
-			-> slow_stochastic(<number>, <number>) #commentary: parameters are n, moving average
-			-> slow_stochastic_signal(<number>,<number>,<number>) #commentary: parameters are n, moving average, smoothing
+			-> full_stochastic(<number>, <number>) #commentary: parameters are n, moving average
+			-> full_stochastic_signal(<number>,<number>,<number>) #commentary: parameters are n, moving average, smoothing
 			-> rsi(<number>)
 			-> price
 

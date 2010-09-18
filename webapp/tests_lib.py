@@ -127,26 +127,26 @@ class Stochastic_Test(TestCase):
         result = stochastic_signal(past_data=prices, latest_record=("2010-03-02", 111.45, 109.86, 111.02))
         self.failUnlessEqual("%.6f" % result, str(87.943864))   
         
-    def test_given_a_price_and_price_history_Then_slow_stochastic_can_be_calculated(self):
+    def test_given_a_price_and_price_history_Then_full_stochastic_can_be_calculated(self):
         days = open(DATAFILE_PATH).readlines()
         data = [day[:-2].split(',') for day in days]
         data.reverse()
         prices = [(record[0], record[2], record[3], record[4]) for record in data]
         prices = prices[:-1]
         
-        slow_stochastic = Slow_Stochastic(n=14, ma=3)
-        result = slow_stochastic(past_data=prices, latest_record=("2010-03-02", 111.45, 109.86, 111.02))
+        full_stochastic = Full_Stochastic(n=14, ma=3)
+        result = full_stochastic(past_data=prices, latest_record=("2010-03-02", 111.45, 109.86, 111.02))
         self.failUnlessEqual("%.6f" % result, str(87.943864))
         
-    def test_given_a_price_and_price_history_Then_slow_stochastic_signal_can_be_calculated(self):
+    def test_given_a_price_and_price_history_Then_full_stochastic_signal_can_be_calculated(self):
         days = open(DATAFILE_PATH).readlines()
         data = [day[:-2].split(',') for day in days]
         data.reverse()
         prices = [(record[0], record[2], record[3], record[4]) for record in data]
         prices = prices[:-1]
         
-        slow_stochastic_signal = Slow_Stochastic_Signal(n=14, ma=3, smoothing=3)
-        result = slow_stochastic_signal(past_data=prices, latest_record=("2010-03-02", 111.45, 109.86, 111.02))
+        full_stochastic_signal = Full_Stochastic_Signal(n=14, ma=3, smoothing=3)
+        result = full_stochastic_signal(past_data=prices, latest_record=("2010-03-02", 111.45, 109.86, 111.02))
         self.failUnlessEqual("%.6f" % result, "81.093560")
 
 class Rsi_Test(TestCase):                                       
@@ -338,7 +338,7 @@ class Rule_Test(TestCase):
         #       print(dates[point])
         self.failUnlessEqual(len(result), 14) #should be 16 but long_term_ma buffer makes missing first 17 trading days
         
-    def test_slow_stochastic_crossing_over_rule(self):
+    def test_full_stochastic_crossing_over_rule(self):
         days = open(DATAFILE_PATH).readlines()
         data = [day[:-2].split(',') for day in days]
         data.reverse()
@@ -346,7 +346,7 @@ class Rule_Test(TestCase):
         prices = prices[:-1]
         dates = [record[0] for record in data]
         
-        ss = Slow_Stochastic(n=10, ma=3) # Note: first 13 entries are useless (have None's).  Start at the 14th record
+        ss = Full_Stochastic(n=10, ma=3) # Note: first 13 entries are useless (have None's).  Start at the 14th record
 #               formatter = ss.data_formatter()
 #               prices = formatter(data)
         back_test = Scanner()
@@ -480,7 +480,7 @@ class Execution_Env_Test(TestCase):
         parser = Parser(data_with_flag)
         
 
-        ss = Slow_Stochastic(n=10, ma=3) # Note: first 13 entries are useless (have None's).  Start at the 14th record
+        ss = Full_Stochastic(n=10, ma=3) # Note: first 13 entries are useless (have None's).  Start at the 14th record
         rule = Is_Crossing(operand1=ss, operand2=Unit(20))
         exe_box = Query_Execution_Box(data_with_flag)
         result = exe_box.exe(rule)
@@ -504,13 +504,13 @@ class Execution_Env_Test(TestCase):
         result = exe_box.exe(rule)
         self.failUnlessEqual(result.number_of_points, 25)
 
-        tokenizer = Tokenizer(query_text="slow_stochastic(10,3) is_crossing 20")
+        tokenizer = Tokenizer(query_text="full_stochastic(10,3) is_crossing 20")
         rule = parser.parse_query(tokenizer)    
         result = exe_box.exe(rule)
         self.failUnlessEqual(result.number_of_points, 20)
         
         #very long test
-        tokenizer = Tokenizer(query_text="slow_stochastic(10,3) is_crossing slow_stochastic_signal(10,3,10)")
+        tokenizer = Tokenizer(query_text="full_stochastic(10,3) is_crossing full_stochastic_signal(10,3,10)")
         rule = parser.parse_query(tokenizer)    
         result = exe_box.exe(rule)
         self.failUnlessEqual(result.number_of_points, 46)

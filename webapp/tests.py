@@ -31,19 +31,19 @@ class test_bed(TestCase):
                 
 #               print buy_points.data
                 #buy_points = service.execute_query("DIG", "20100101", "20100820", "macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0", "macd(17,8) <= 0")
-                #buy_points = service.execute_query("DIG", "20100101", "20100820", "macd(17,8) speed is_increasing", "macd(17,8) gradient >= 0.5", "macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) <= 0", "slow_stochastic(5,3) gradient >= 0")
+                #buy_points = service.execute_query("DIG", "20100101", "20100820", "macd(17,8) speed is_increasing", "macd(17,8) gradient >= 0.5", "macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) <= 0", "full_stochastic(5,3) gradient >= 0")
 
 
         buy_points = service.execute_query("ADBE", "20100101", "20100915", ["macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) gradient >= 0"])
-        sell_points = service.execute_query("ADBE", "20100101", "20100915", ["macd(17,8) speed is_decreasing", "slow_stochastic(5,3) speed is_decreasing", "macd(17,8) >= 0"])
+        sell_points = service.execute_query("ADBE", "20100101", "20100915", ["macd(17,8) speed is_decreasing", "full_stochastic(5,3) speed is_decreasing", "macd(17,8) >= 0"])
                 
 
-                #sell_points = service.execute_query("GLD", "20100101", "20100820", "slow_stochastic(5,5) is_crossing 80", "slow_stochastic(5,5) gradient <= 0")
-                #sell_points = service.execute_query("DIG", "20100101", "20100820", "slow_stochastic(5,5) gradient 1 days_ago >= 0", "slow_stochastic(5,5) gradient <= 0")
+                #sell_points = service.execute_query("GLD", "20100101", "20100820", "full_stochastic(5,5) is_crossing 80", "full_stochastic(5,5) gradient <= 0")
+                #sell_points = service.execute_query("DIG", "20100101", "20100820", "full_stochastic(5,5) gradient 1 days_ago >= 0", "full_stochastic(5,5) gradient <= 0")
                 
                 
-#         buy_points = service.execute_query("BP", "20100101", "20100912", ["macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) gradient >= 0", "macd(17,8) <= 0", "slow_stochastic(5,5) speed is_increasing"])
-#         sell_points = service.execute_query("BP", "20100101", "20100912", ["macd(17,8) speed is_decreasing", "slow_stochastic(5,3) speed is_decreasing", "macd(17,8) >= 0"])
+#         buy_points = service.execute_query("BP", "20100101", "20100912", ["macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) gradient >= 0", "macd(17,8) <= 0", "full_stochastic(5,5) speed is_increasing"])
+#         sell_points = service.execute_query("BP", "20100101", "20100912", ["macd(17,8) speed is_decreasing", "full_stochastic(5,3) speed is_decreasing", "macd(17,8) >= 0"])
 # 
 #        
 #                 
@@ -56,7 +56,7 @@ class test_bed(TestCase):
                 
 #               short_points = service.execute_query("GLD", "20100101", "20100820", "macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient <= 0", "macd(17,8) >= 0")
 #               print short_points.data
-#               cover_points = service.execute_query("GLD", "20100101", "20100820", "slow_stochastic(5,5) speed is_decreasing")
+#               cover_points = service.execute_query("GLD", "20100101", "20100820", "full_stochastic(5,5) speed is_decreasing")
 #               backtester = Backtester()
 #               account = Account(cash_balance=10000)
 #               summary = backtester.execute_short_strategy(short_points.data, cover_points.data, account)

@@ -363,14 +363,14 @@ class Stochastic_Signal(object):
         return formatted_data
         
         
-class Slow_Stochastic(object):
+class Full_Stochastic(object):
     def __init__(self, n, ma):
         self.n = n
         self.ma = ma
 
     def __call__(self, past_data, latest_record, memo={}):
-        slow_stochastic = Stochastic_Signal(smoothing=self.ma, n=self.n)
-        result = slow_stochastic(past_data, latest_record, memo)
+        full_stochastic = Stochastic_Signal(smoothing=self.ma, n=self.n)
+        result = full_stochastic(past_data, latest_record, memo)
         return result
         
     def cut_data(self, unformatted_data):
@@ -379,24 +379,24 @@ class Slow_Stochastic(object):
         return formatted_data
                 
         
-class Slow_Stochastic_Compute_All(object):
+class Full_Stochastic_Compute_All(object):
     def __init__(self, n, ma):
         self.n = n
         self.ma = ma
         
     def __call__(self, past_data, memo={}):
-        slow_stochastic_list = []
-        slow_stochastic = Slow_Stochastic(n=self.n, ma=self.ma)
+        full_stochastic_list = []
+        full_stochastic = Full_Stochastic(n=self.n, ma=self.ma)
         for i in range(self.n, len(past_data)):
-            slow_stoch = slow_stochastic(past_data[:i], past_data[i], memo)
+            slow_stoch = full_stochastic(past_data[:i], past_data[i], memo)
             date, hi, low, close = past_data[i]
             key = stochastic_derive_key(pre_key=date, n=self.n, ma=self.ma)
             result = (key, slow_stoch)
-            slow_stochastic_list.append(result)
-        return slow_stochastic_list
+            full_stochastic_list.append(result)
+        return full_stochastic_list
 
         
-class Slow_Stochastic_Signal(object):
+class Full_Stochastic_Signal(object):
     def __init__(self, n, ma, smoothing):
         self.ma = ma
         self.n = n
@@ -411,12 +411,12 @@ class Slow_Stochastic_Signal(object):
         except:
             pass
     
-        slow_stochastic_compute_all = Slow_Stochastic_Compute_All(n=self.n, ma=self.ma)
-        list_of_slow_stochastics = slow_stochastic_compute_all(past_data, memo)
-        slow_stochastic = Slow_Stochastic(n=self.n, ma=self.ma)
-        current_slow_stochastic = slow_stochastic(past_data, latest_record=latest_record, memo=memo)
+        full_stochastic_compute_all = Full_Stochastic_Compute_All(n=self.n, ma=self.ma)
+        list_of_full_stochastics = full_stochastic_compute_all(past_data, memo)
+        full_stochastic = Full_Stochastic(n=self.n, ma=self.ma)
+        current_full_stochastic = full_stochastic(past_data, latest_record=latest_record, memo=memo)
         sma = Sma(period=self.smoothing)
-        result = sma(list_of_slow_stochastics, latest_record=(key, current_slow_stochastic), memo=memo)
+        result = sma(list_of_full_stochastics, latest_record=(key, current_full_stochastic), memo=memo)
         
         try:
             memo[key] = result

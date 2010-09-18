@@ -22,7 +22,7 @@ class Tokenizer(object):
         return len(self.tokens) > 0
         
 class Parser(object):
-    INDICATORS = ["macd", "macd_signal", "sma", "ema", "stochastic", "stochastic_signal", "slow_stochastic", "slow_stochastic_signal", "rsi", "price", "volume"]
+    INDICATORS = ["macd", "macd_signal", "sma", "ema", "stochastic", "stochastic_signal", "full_stochastic", "full_stochastic_signal", "rsi", "price", "volume"]
     ARITHOPERATOR = ["-", "|-|"]
     
     
@@ -110,18 +110,18 @@ class Parser(object):
             indicator = Stochastic_Signal(smoothing, n)
             indicator_string = "stochastic_signal(%s,%s)" % (n, smoothing)
     
-        elif token == "slow_stochastic":
+        elif token == "full_stochastic":
             n = self.parse_number(tokenizer)
             ma = self.parse_number(tokenizer)
-            indicator = Slow_Stochastic(n, ma)
-            indicator_string = "slow_stochastic(%s,%s)" % (n, ma)
+            indicator = Full_Stochastic(n, ma)
+            indicator_string = "full_stochastic(%s,%s)" % (n, ma)
     
-        elif token == "slow_stochastic_signal":
+        elif token == "full_stochastic_signal":
             n = self.parse_number(tokenizer)
             ma = self.parse_number(tokenizer)
             smoothing = self.parse_number(tokenizer)
-            indicator = Slow_Stochastic_Signal(n, ma, smoothing)
-            indicator_string = "slow_stochastic_signal(%s,%s,%s)" % (n, ma, smoothing)
+            indicator = Full_Stochastic_Signal(n, ma, smoothing)
+            indicator_string = "full_stochastic_signal(%s,%s,%s)" % (n, ma, smoothing)
     
         elif token == "sma":
             period = self.parse_number(tokenizer)
