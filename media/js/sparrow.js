@@ -98,8 +98,6 @@ jQuery('document').ready(function(){
   });
   */
 
-  jQuery('#start_date').datepicker({dateFormat: 'yymmdd'});
-  jQuery('#end_date').datepicker({dateFormat: 'yymmdd'});
 
 	/* load data if supplied */
 	if(js){

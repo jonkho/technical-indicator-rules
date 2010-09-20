@@ -47,17 +47,37 @@
 			<div class="bull_queries">
 			  <h2>Bull</h2>
 			  <ul class="query_bank buy_queries">
-				<li class="immutable">macd(17,8) gradient >= 0</li>
-				<li class="immutable">rsi(14) is_crossing 50</li>
-				<li class="immutable">macd(17,8) is_crossing macd_signal(17,8,9)</li>
+					<li class="immutable">macd(17,8) gradient >= 0</li>
+					<li class="immutable">macd(17,8) gradient is_increasing</li>
+					<li class="immutable">macd(17,8) >= macd_signal(17,8,9)</li>
+					<li class="immutable">macd(17,8) is_crossing 0</li>
+					<li class="immutable">macd(17,8) is_crossing macd_signal(17,8,9)</li>
+					<li class="immutable">rsi(14) is_crossing 50</li>
+					<li class="immutable">rsi(14) >= 50</li>
+					<li class="immutable">rsi(14) is_crossing 30</li>
+					<li class="immutable">rsi(14) gradient is_increasing</li>
+					<li class="immutable">rsi(14) gradient >= 0</li>
 			  </ul> 
+			</div>
+			<div class="reversible_queries">
+			  <h2>Reversible</h2>     
+			  <ul class="query_bank reversible_queries">
+					<li class="immutable">macd(17,8) gradient >= 0</li>
+					<li class="immutable">macd(17,8) gradient is_increasing</li>
+				</ul>
 			</div>
 			<div class="bear_queries">
 			  <h2>Bear</h2>     
 			  <ul class="query_bank sell_queries">
-				<li class="immutable">macd(17,8) gradient >= 0</li>
-				<li class="immutable">macd(17,8) gradient >= 0</li>
-				<li class="immutable">macd(17,8) gradient >= 0</li>
+					<li class="immutable">macd(17,8) gradient <= 0</li>
+					<li class="immutable">macd(17,8) gradient is_decreasing</li>
+					<li class="immutable">macd(17,8) speed is_decreasing</li>
+					<li class="immutable">macd(17,8) <= macd_signal(17,8,9)</li>
+					<li class="immutable">rsi(14) gradient <= 0</li>
+					<li class="immutable">rsi(14) gradient is_decreasing</li>
+					<li class="immutable">rsi(14) >= 70</li>
+					<li class="immutable">rsi(14) is_crossing 70</li>
+					<li class="immutable">rsi(14) <= 50</li>
 			  </ul> 
 			</div>
 		</div>
@@ -103,40 +123,4 @@
 		</div> <!-- close graph_section -->
 
   </div> <!-- close left main -->
-  <!--
-  <div class="right_sidebar grid_3">
-    <div class="bull_queries">
-      <h2>Bull</h2>
-      <ul id="querybank" class="query_bank buy_queries">
-        <li class="immutable">macd(17,8) gradient >= 0</li>
-        <li class="immutable">macd(17,8) gradient is_increasing</li>
-        <li class="immutable">macd(17,8) >= macd_signal(17,8,9)</li>
-        <li class="immutable">macd(17,8) is_crossing 0</li>
-        <li class="immutable">macd(17,8) is_crossing macd_signal(17,8,9)</li>
-        <li class="immutable">rsi(14) is_crossing 50</li>
-        <li class="immutable">rsi(14) >= 50</li>
-        <li class="immutable">rsi(14) is_crossing 30</li>
-        <li class="immutable">rsi(14) gradient is_increasing</li>
-        <li class="immutable">rsi(14) gradient >= 0</li>
-      </ul> 
-    </div>
-    <div class="bear_queries">
-      <h2>Bear</h2>     
-      <ul class="query_bank sell_queries">
-        <li class="immutable">macd(17,8) gradient <= 0</li>
-        <li class="immutable">macd(17,8) gradient is_decreasing</li>
-        <li class="immutable">macd(17,8) speed is_decreasing</li>
-        <li class="immutable">macd(17,8) <= macd_signal(17,8,9)</li>
-        <li class="immutable">rsi(14) gradient <= 0</li>
-        <li class="immutable">rsi(14) gradient is_decreasing</li>
-        <li class="immutable">rsi(14) >= 70</li>
-        <li class="immutable">rsi(14) is_crossing 70</li>
-        <li class="immutable">rsi(14) <= 50</li>
-        
-        
-        
-      </ul> 
-    </div>
-  </div>
-	-->
 {% endblock %}
