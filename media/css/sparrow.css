@@ -85,17 +85,30 @@ div.query_section .query_area{
 
 }
 
+div.query_section .query_bank{
+	border:1px solid gray;
+	border-bottom:0px;
+}
 div.query_section .query_bank li{
 	cursor:move;
 	padding:3px;
 	margin:0px;
 	background-color:#C1D3D9;
 	border-bottom:1px solid gray;
+	z-index:100;
 }
-div.query_summary table{
-	float:left;
+div.query_summary dt{
+	display:inline;
 }
-div.query_summary table td{
+div.query_summary dd{
+	display:inline;
+	font-size:1.3em;
+	font-weight:bold;
+}
+div.trade_history table{
+	margin-top:10px;
+}
+div.trade_history table td{
 	padding:2px 4px;
 }
 

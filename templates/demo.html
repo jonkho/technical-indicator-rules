@@ -43,8 +43,8 @@
           <input name="start_date" id="start_date" type="text" value="{{params.start_date}}"/>
           <input name="end_date" id="end_date" type="text" value="{{params.end_date}}"/>
         </div>
-		<div class="queries grid_3">
-			<div class="bull_queries">
+		<div class="queries grid_12">
+			<div class="bull_queries grid_4">
 			  <h2>Bullish Heuristics</h2>
 			  <ul class="query_bank buy_queries">
 					<li class="immutable">macd(17,8) gradient >= 0</li>
@@ -62,7 +62,7 @@
 					<li class="immutable">slow_stochastic_signal(5,5) is_crossing 30</li>
 			  </ul> 
 			</div>
-			<div class="reversible_queries">
+			<div class="reversible_queries grid_4">
 			  <h2>Reversal Heuristics</h2>     
 			  <ul class="query_bank reversible_queries">
                     <li class="immutable">macd(17,8) is_crossing macd_signal(17,8,9)</li>
@@ -74,7 +74,7 @@
                     <li class="immutable">slow_stochastic(5) is_crossing slow_stochastic_signal(5,5)</li>
                 </ul>
 			</div>
-			<div class="bear_queries">
+			<div class="bear_queries grid_4">
 			  <h2>Bearish Heuristics</h2>     
 			  <ul class="query_bank sell_queries">
 					<li class="immutable">macd(17,8) gradient <= 0</li>
@@ -93,8 +93,8 @@
 			</div>
 		</div>
 
-		<div class="query_drop grid_9">
-			<div class="droppable">
+		<div class="query_drop grid_12">
+			<div class="droppable grid_6">
 				<div class="drop_header">
 					<h2>Buy When</h2>
 					 <a href="" class="add_query buy_query">[+]</a>
@@ -107,7 +107,7 @@
 					</li>
 				</ul>
 			</div>
-			<div class="droppable">
+			<div class="droppable grid_6">
 				<div class="drop_header">
 					<h2>Sell When</h2>
 					 <a href="" class="add_query sell_query">[+]</a>
@@ -117,8 +117,12 @@
 		</div>
         <input id="fsubmit" type="submit" value="Submit!"/>
       </form>
-		<div class="query_summary">
-			<h2>Summary</h2>
+	  	
+	  	{% if js.contents.summary %}
+			<div class="query_summary">
+		{% else %}
+			<div class="query_summary" style="display:none">
+		{% endif %}
 			<dl>
 				<dt>Buy and Hold Value:</dt><dd id="buy_and_hold_value"></dd>
 				<dt>Strategy Value:</dt><dd id="strategy_value"></dd>
@@ -137,6 +141,7 @@
 			</div>
 		  </div>
 		</div> <!-- close graph_section -->
+		<div class="trade_history"></div>
 
   </div> <!-- close left main -->
 {% endblock %}

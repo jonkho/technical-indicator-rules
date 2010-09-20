@@ -189,16 +189,17 @@ jQuery('document').ready(function(){
 
 	function chartSummary(summary){
 		if(summary){
+			jQuery('div.query_summary').show();
 			jQuery('#buy_and_hold_value').text(summary.buy_and_hold_value);
 			jQuery('#strategy_value').text(summary.strategy_value);
 			jQuery('#performance_delta').text(summary.performance_delta+'%');
-			jQuery('div.query_summary table').remove();
+			jQuery('div.trade_history table').remove();
 			var table = '<table><tr><th>Date</th><th>Action</th><th>Price</th></tr>';
 			summary.trade_history.each(function(n){
 				table += '<tr><td>'+n[0]+'</td><td>'+n[1]+'</td><td>'+n[2];
 			});
 			table += '</table>';
-			jQuery(table).prependTo('div.query_summary');
+			jQuery(table).prependTo('div.trade_history');
 		}
 	}
 
@@ -227,8 +228,8 @@ jQuery('document').ready(function(){
 				jQuery('#finance').html("<div id=\"labels\"><div id=\"dateRange\">&nbsp;</div></div>");
 				delete rdata;
 				QUERYDATA = data;
-				chartData(data.contents);
 				chartSummary(data.contents.summary);
+				chartData(data.contents);
 				$('loader').hide();
 			},
 			dataType: 'json',
