@@ -116,7 +116,9 @@ jQuery('document').ready(function(){
 			} else{
 				jQuery('<li><a href="" class="rm_query">x</a><input name="sell_query" type="hidden" value="'+query+'"/><p class="query_string">'+query+'</p></li>').appendTo(this);
 			}
-			//HumbleFinance.drawFlags();
+			//redraw flags
+			//TODO: redraw slider
+			HumbleFinance.drawFlags();
 		}	
 	});
 
