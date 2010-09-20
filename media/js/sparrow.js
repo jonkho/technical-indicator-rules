@@ -200,6 +200,9 @@ jQuery('document').ready(function(){
 			});
 			table += '</table>';
 			jQuery(table).prependTo('div.trade_history');
+		} else{
+			jQuery('div.query_summary').hide();
+			jQuery('div.trade_history table').remove();
 		}
 	}
 
