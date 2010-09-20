@@ -102,6 +102,7 @@ jQuery('document').ready(function(){
 	/* load data if supplied */
 	if(js){
 	  chartData(js.contents);
+	  chartSummary(js.contents.summary);
 	}
 
 	/* active query area */
@@ -120,7 +121,7 @@ jQuery('document').ready(function(){
 	});
 
 	/* prepopulated queries */
-	jQuery('ul.query_bank li').draggable({revert:true, helper: 'clone'});
+	jQuery('ul.query_bank li').draggable({revert:true});
 
 	/* remove query from query area */
 	jQuery('.rm_query').live('click',function(){
@@ -182,6 +183,25 @@ jQuery('document').ready(function(){
 	  jar.put('firstvisit', 1)
 	}
 
+
+
+	function chartSummary(summary){
+		if(summary){
+			jQuery('#buy_and_hold_value').text(summary.buy_and_hold_value);
+			jQuery('#strategy_value').text(summary.strategy_value);
+			jQuery('#performance_delta').text(summary.performance_delta+'%');
+			jQuery('div.query_summary table').remove();
+			var table = '<table><tr><th>Date</th><th>Action</th><th>Price</th></tr>';
+			summary.trade_history.each(function(n){
+				table += '<tr><td>'+n[0]+'</td><td>'+n[1]+'</td><td>'+n[2];
+			});
+			table += '</table>';
+			jQuery(table).prependTo('div.query_summary');
+		}
+	}
+
+
+
 	/* submit query */
 	function formsub(){
 		priceData = [];
@@ -206,6 +226,7 @@ jQuery('document').ready(function(){
 				delete rdata;
 				QUERYDATA = data;
 				chartData(data.contents);
+				chartSummary(data.contents.summary);
 				$('loader').hide();
 			},
 			dataType: 'json',
