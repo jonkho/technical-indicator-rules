@@ -106,10 +106,16 @@ div.query_summary dd{
 	font-weight:bold;
 }
 div.trade_history table{
-	margin-top:10px;
+    margin-top:10px;
+    width:100%;
+}
+div.trade_history table th{
+    text-align:center;
 }
 div.trade_history table td{
-	padding:2px 4px;
+    padding:2px 4px;
+    border:1px solid #ccc;
+    border-collapse:collapse;
 }
 
 div#graph_section{

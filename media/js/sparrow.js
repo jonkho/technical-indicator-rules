@@ -194,9 +194,9 @@ jQuery('document').ready(function(){
 			jQuery('#strategy_value').text(summary.strategy_value);
 			jQuery('#performance_delta').text(summary.performance_delta+'%');
 			jQuery('div.trade_history table').remove();
-			var table = '<table><tr><th>Date</th><th>Action</th><th>Price</th></tr>';
+			var table = '<table><tr><th>Date</th><th>Action</th><th>Price</th><th>Shares Balance</th><th>Cash Balance</th><th>Account Value</th></tr>';
 			summary.trade_history.each(function(n){
-				table += '<tr><td>'+n[0]+'</td><td>'+n[1]+'</td><td>'+n[2];
+				table += '<tr><td>'+n[0]+'</td><td>'+n[1]+'</td><td>$'+n[2]+'</td><td>'+n[3]+'</td><td>$'+n[4]+'</td><td>$'+n[5]+'</td>';
 			});
 			table += '</table>';
 			jQuery(table).prependTo('div.trade_history');
