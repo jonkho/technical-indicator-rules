@@ -256,6 +256,25 @@ class Macd_Signal(object):
         data_formatter = MacdDataFormatter()
         formatted_data = data_formatter.cut(unformatted_data)
         return formatted_data
+        
+class Macd_Histogram(object):
+    def __init__(self, long_term_ma, short_term_ma, period):
+        self.long_term_ma = long_term_ma
+        self.short_term_ma = short_term_ma
+        self.period = period
+
+    def __call__(self, prices, latest_record, memo={}):
+        macd = Macd(self.long_term_ma, self.short_term_ma)
+        macd_signal = Macd_Signal(self.long_term_ma, self.short_term_ma, self.period)
+        
+        histogram_bar = macd(prices, latest_record, memo) - macd_signal(prices, latest_record, memo) 
+        return histogram_bar
+        
+    def cut_data(self, unformatted_data):
+        data_formatter = MacdDataFormatter()
+        formatted_data = data_formatter.cut(unformatted_data)
+        return formatted_data
+                    
                         
 
 #----------------------------STOCHASTIC FORMULAS---------------------------------------

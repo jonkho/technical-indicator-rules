@@ -102,7 +102,28 @@ class Macd_Test(TestCase):
         macd_signal = Macd_Signal(long_term_ma=17, short_term_ma=8, period=9)
         rule = Is_Crossing(operand1=macd, operand2=macd_signal)
         result = rule(past_data=prices, latest_record=("2010-03-02", 111.02))
-        self.failUnlessEqual(result, False)     
+        self.failUnlessEqual(result, False)
+        
+    def test_given_a_price_and_price_history_Then_a_macd_histogram_bar_can_be_calculated(self):
+        days = open(DATAFILE_PATH).readlines()
+        data = [day[:-2].split(',') for day in days]
+        data.reverse()
+        prices = [(record[0], record[4]) for record in data]
+        
+        f = Macd(long_term_ma=17, short_term_ma=8)
+        result = f(prices=prices[:-1], latest_record=("2010-03-02", 111.02))
+        self.failUnlessEqual("%.6f" % result, '0.609794')
+        
+        f2 = Macd_Signal(long_term_ma=17, short_term_ma=8, period=9)
+        result2 = f2(prices=prices[:-1], latest_record=("2010-03-02", 111.02))
+        self.failUnlessEqual("%.6f" % result2, '0.276538')
+        
+        histogram_value = result - result2
+         
+        f3 = Macd_Histogram(17,8,9)
+        result3 = f3(prices=prices[:-1], latest_record=("2010-03-02", 111.02))
+        self.failUnlessEqual("%.6f" % histogram_value, "%.6f" % result3)
+                     
         
 class Stochastic_Test(TestCase):
     def test_given_a_price_and_price_history_Then_stochastic_can_be_calculated(self):
