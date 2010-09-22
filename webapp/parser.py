@@ -7,7 +7,7 @@ class Tokenizer(object):
     def __init__(self, query_text):
         if not query_text:
             query_text = ""
-        self.tokens = re.findall(r'[0-9]\.[0-9]|[0-9]+|[0-9]|>=|<=|-|\|-\||\w+', query_text)
+        self.tokens = re.findall(r'[0-9]\.[0-9]+|[0-9]+|[0-9]|>=|<=|-|\|-\||\w+', query_text)
         super(Tokenizer, self).__init__()
         
     def peek(self, ahead=0):
