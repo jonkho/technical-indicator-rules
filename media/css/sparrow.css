@@ -35,6 +35,16 @@ div.container div.header h1{
 /*	color:#AFC4D0; */
 	color: white;
 	font-size:2.5em;
+	display:inline;
+}
+div.container div.header div.header_nav{
+	float:right;
+	padding:10px;
+}
+div.container div.header div.header_nav a{
+	color:white;
+	text-decoration:none;
+
 }
 div.container div.left_main{
 	position:relative;
@@ -187,3 +197,20 @@ div.query_section .query_area li a.rm_query{
   border-right: 2px solid #4a740b;
   border-bottom: 2px solid #4a740b;
 }
+
+dl#faq{
+	margin-left:15px;
+
+}
+#faq dt{
+	font-weight:bold;
+}
+#faq dd{
+	padding-bottom:10px;
+	margin-left:10px;
+}
+#faq dd ol{
+	margin-left:15px;
+}
+
+
