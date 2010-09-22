@@ -64,11 +64,11 @@ class test_bed(TestCase):
                 
 #         rsi_points = service.execute_query("GLD", "20091101", "20100820", ["rsi(14) is_crossing 50", "rsi(14) gradient >= 0"])
 #         print rsi_points.data
-        response = self.client.get("/query/", {"symbol":"gld", "start_date":"20090101", "end_date":"20100301", "buy_query":["macd_histogram(17,8,9) >= 0"]})
-                
-        return_code = json.loads(response.content)
-        self.failUnlessEqual(int(return_code["value"]), 3000)
-        self.failUnlessEqual(len(return_code["contents"]["data"]), 291)
+#         response = self.client.get("/query/", {"symbol":"orcl", "start_date":"20100101", "end_date":"20110101", "buy_query":["macd_histogram(17,8,9) is_increasing", "macd_histogram(17,8,9) <= 0", "macd_histogram(17,8,9) gradient is_increasing", "rsi(14) <= 40", "macd_histogram(17,8,9) gradient >= 0.01"]})
+#                 
+#         return_code = json.loads(response.content)
+#         self.failUnlessEqual(int(return_code["value"]), 3000)
+#         self.failUnlessEqual(len(return_code["contents"]["data"]), 291)
 
                 
 

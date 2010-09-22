@@ -267,7 +267,7 @@ class Macd_Histogram(object):
         macd = Macd(self.long_term_ma, self.short_term_ma)
         macd_signal = Macd_Signal(self.long_term_ma, self.short_term_ma, self.period)
         
-        histogram_bar = macd(prices, latest_record, memo) - macd_signal(prices, latest_record, memo) 
+        histogram_bar = macd(prices, latest_record, memo) - macd_signal(prices, latest_record, memo)
         return histogram_bar
         
     def cut_data(self, unformatted_data):
@@ -621,7 +621,7 @@ class Gradient(object):
         self.operand = operand
         
     def __call__(self, past_data, latest_record, memo={}):
-#               print("%s %s - %s = %s" % (latest_record[0], self.operand(past_data, latest_record, memo), self.operand(past_data[:-1], past_data[-1], memo), self.operand(past_data, latest_record, memo) - self.operand(past_data[:-1], past_data[-1], memo)))
+#         print("%s %s - %s = %s" % (latest_record[0], self.operand(past_data, latest_record, memo), self.operand(past_data[:-1], past_data[-1], memo), self.operand(past_data, latest_record, memo) - self.operand(past_data[:-1], past_data[-1], memo)))
         return self.operand(past_data, latest_record, memo) - self.operand(past_data[:-1], past_data[-1], memo)
                 
     def cut_data(self, raw_data):                   
@@ -683,8 +683,8 @@ class Is_Greater_Than_Or_Equal_To(Base_Operator):
         super(Is_Greater_Than_Or_Equal_To, self).__init__(operand1, operand2)
 
     def __call__(self, past_data, latest_record, memo={}):
-        #print("%s %s %s %s" % (latest_record[0], self.operand1(past_data, latest_record, memo), self.operand2(past_data, latest_record, memo),
-        #self.operand1(past_data, latest_record, memo) >= self.operand2(past_data, latest_record, memo)))
+#         print("%s %s %s %s" % (latest_record[0], self.operand1(past_data, latest_record, memo), self.operand2(past_data, latest_record, memo),
+#         self.operand1(past_data, latest_record, memo) >= self.operand2(past_data, latest_record, memo)))
         return self.operand1(past_data, latest_record, memo) >= self.operand2(past_data, latest_record, memo)
         
 
