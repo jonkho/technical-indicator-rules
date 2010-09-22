@@ -16,6 +16,7 @@ div.container{
 	background-color:white;
 	padding:10px 0px 25px 5px;
 	text-align:left;
+	min-width:960px;
 }
 div.container h2{
 	color:#C8400E;
@@ -24,14 +25,15 @@ div.container h2{
 }
 div.container div.header{
 	text-align:left;
-	background-color:#08526D;
+	position:relative;
 	margin-bottom:10px;
+	background: #08526D url(/images/sparrow_90.png) no-repeat 0px -30px;;
 }
 div.container div.header h1{
 	font-family:Helvetica;
 	margin-bottom:0px;
 	padding:5px;
-	padding-left:15px;
+	padding-left:100px;
 /*	color:#AFC4D0; */
 	color: white;
 	font-size:2.5em;
