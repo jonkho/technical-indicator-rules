@@ -488,7 +488,10 @@ class Parser_Test(TestCase):
         self.failUnlessEqual(parser.indicator_operands[1][0], "macd_signal(17,8,9)")
         self.assert_(rule != None)
         
-        
+        # test negative floats
+        tokenizer = Tokenizer(query_text="macd(17,8) <= -0.523")
+        print tokenizer.tokens
+        self.failUnlessEqual(len(tokenizer.tokens), 5)
         
 class Execution_Env_Test(TestCase):
     def test_Given_an_expression_and_uncut_data_When_it_is_executed_against_the_query_analyzer_Then_it_returns_the_result(self):
