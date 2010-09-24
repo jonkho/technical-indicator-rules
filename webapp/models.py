@@ -60,8 +60,6 @@ class Utils(object):
         return data  
         
                
-
-
 class Return_Code(object):
     value = ""
     contents = None
@@ -70,6 +68,7 @@ class Return_Code(object):
         super(Return_Code, self).__init__()
         self.value = value
         self.contents = contents
+                  
 
 class Indicator_History(object):
     def __init__(self):
@@ -79,7 +78,7 @@ class Indicator_History(object):
     def process_indicator_string(self, indicator_string, data):
         parser = Parser()
         tokenizer = Tokenizer(indicator_string)
-        indicator = parser.parse_indicator(tokenizer)   
+        indicator, indicator_string = parser.parse_indicator(tokenizer)   
         final_list = self.process_indicator(indicator, data)
         
         return final_list

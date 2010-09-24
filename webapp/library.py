@@ -1,14 +1,65 @@
 
-
-# cache = {}
-# 
-# def get(key):
-#       return cache[key]
-#       
-# def set_key(key, value):
-#       pass
-# #     if value != None:
-# #             cache[key] = value
+# class Data_Transformer(object):
+#     def process(self, indicator, data):
+#         final_list = []
+#         memo = {}
+#         for (counter, point) in enumerate(data):
+#             date = data[counter][0]
+#             
+#             try:
+#                 indicator_value = indicator(data[:counter], data[counter], memo)
+#                 date_value_pair = [date, indicator_value]
+#                 final_list.append(date_value_pair) 
+#             except Exception as e:
+#                 pass
+#                 
+#         return final_list
+        
+class Transform(object):
+    def __init__(self, indicator, next_transform=None):
+        self.indicator = indicator
+        self.next_transform = next_transform        
+    
+    def add(self, next_indicator):
+        self.next_transform = Transform(next_indicator)
+        return self
+        
+    def process(self, past_data, latest_record, memo):
+        if self.next_transform == None:
+            return self.indicator(past_data, latest_record, memo)
+        else:
+            transformed_past_data, transformed_latest_record = self.transform_it(past_data, latest_record, memo) 
+            return self.next_transform(transformed_past_data, transformed_latest_record, memo)
+            
+    def transform_it(self, past_data, latest_record, memo):
+        transformed_data = []
+        
+        try:
+            past_data = self.indicator.cut_data(past_data)
+        except:
+            pass
+        
+        for (counter, point) in enumerate(past_data):
+            date = past_data[counter][0]
+            
+            try:
+                indicator_value = self.indicator(past_data[:counter], past_data[counter], memo)
+                date_value_pair = [date, indicator_value]
+                transformed_data.append(date_value_pair) 
+            except Exception as e:
+                pass
+                
+        transformed_latest_value = self.indicator(past_data, latest_record, memo)
+        transformed_latest_record = [latest_record[0], transformed_latest_value]
+        
+        return transformed_data, transformed_latest_record
+                   
+        
+    def __call__(self, past_data, latest_record, memo={}):
+        return self.process(past_data, latest_record, memo)
+        
+    def cut_data(self, unformatted_data):
+        return self.indicator.cut_data(unformatted_data)             
 
 #-----------------------PRICE---------------------------
 class Price(object):
@@ -120,9 +171,15 @@ class Ema_Value(object):
 class Ema(object):
     def __init__(self, period):
         self.period = period
+            
         
-
     def __call__(self, past_data, latest_record, memo={}):
+#         if self.transform:
+#             data_transformer = Data_Transformer()
+#             latest_record_value = self.transform(past_data, latest_record)
+#             latest_record = (latest_record[0], latest_record_value)
+#             past_data = data_transformer.process(self.transform, past_data)
+        
         pre_key, value = latest_record
         key = ema_derive_key(pre_key, self.period)
         
@@ -231,6 +288,7 @@ class Macd_Signal(object):
     def __call__(self, prices, latest_record, memo={}):
         pre_key, value = latest_record
         key = macd_derive_key(pre_key, self.long_term_ma, self.short_term_ma, self.period)
+        
         try:
             return memo[key]
         except:
@@ -432,8 +490,10 @@ class Full_Stochastic_Signal(object):
     
         full_stochastic_compute_all = Full_Stochastic_Compute_All(n=self.n, ma=self.ma)
         list_of_full_stochastics = full_stochastic_compute_all(past_data, memo)
+        
         full_stochastic = Full_Stochastic(n=self.n, ma=self.ma)
         current_full_stochastic = full_stochastic(past_data, latest_record=latest_record, memo=memo)
+        
         sma = Sma(period=self.smoothing)
         result = sma(list_of_full_stochastics, latest_record=(key, current_full_stochastic), memo=memo)
         
@@ -546,6 +606,18 @@ class Rsi(object):
         return formatted_data   
 
 
+#-----------------TRANSFORMS------------------------
+class Histogram(object):
+    def __init__(self, fast_signal, slow_signal):
+        self.fast_signal = fast_signal
+        self.slow_signal = slow_signal
+    
+    def __call__(self, past_data, latest_record, memo={}):
+        return self.fast_signal(past_data, latest_record, memo) - self.slow_signal(past_data, latest_record, memo)  
+        
+    def cut_data(self, raw_data):
+        return self.fast_signal.cut_data(raw_data)    
+
 
 #--------------------MODIFIERS---------------------
 
@@ -629,7 +701,7 @@ class Gradient(object):
             return self.operand.cut_data(raw_data)
         except Exception as e:  
             raise e
-            
+                      
             
 #----------------BASE OPERATOR----------------------
 

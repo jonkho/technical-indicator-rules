@@ -77,9 +77,13 @@ class Macd_Test(TestCase):
         
         f = Macd_Signal(long_term_ma=17, short_term_ma=8, period=9)
         result = f(prices=prices[:-1], latest_record=("2010-03-02", 111.02))
-        self.failUnlessEqual("%.6f" % result, '0.276538')       
-
-
+        self.failUnlessEqual("%.6f" % result, '0.276538')   
+        
+#         f2 = Ema(9, Macd(17,8))
+#         result = f2(past_data=prices[:-1], latest_record=("2010-03-02", 111.02))
+#         self.failUnlessEqual("%.6f" % result, '0.276538')
+        
+        
     def test_given_a_price_and_price_history_Then_macd_speed_can_be_calculated_for_that_price(self):
         days = open(DATAFILE_PATH).readlines()
         data = [day[:-2].split(',') for day in days]
@@ -123,6 +127,10 @@ class Macd_Test(TestCase):
         f3 = Macd_Histogram(17,8,9)
         result3 = f3(prices=prices[:-1], latest_record=("2010-03-02", 111.02))
         self.failUnlessEqual("%.6f" % histogram_value, "%.6f" % result3)
+        
+        f4 = Histogram(Macd(17,8), Macd_Signal(17,8,9))
+        result4 = f4(past_data=prices[:-1], latest_record=("2010-03-02", 111.02))
+        self.failUnlessEqual("%.6f" % histogram_value, "%.6f" % result4)
                      
         
 class Stochastic_Test(TestCase):
@@ -490,8 +498,79 @@ class Parser_Test(TestCase):
         
         # test negative floats
         tokenizer = Tokenizer(query_text="macd(17,8) <= -0.523")
-        print tokenizer.tokens
         self.failUnlessEqual(len(tokenizer.tokens), 5)
+        
+        # test parsing transforms
+        tokenizer = Tokenizer(query_text="macd_signal(17,8,9)->histogram >= 0")
+        parser = Parser()
+        rule = parser.parse_query(tokenizer)    
+        self.assert_(rule != None)
+        self.failUnlessEqual(parser.indicator_operands[0][0], "macd_signal(17,8,9)")
+        self.failUnlessEqual(parser.indicator_operands[1][0], "macd_signal(17,8,9)->histogram")
+        
+
+class Transform_Test(TestCase):
+    def test_transform_should_be_able_to_process_data_properly(self):
+    
+        days = open(DATAFILE_PATH).readlines()
+        data = [day[:-2].split(',') for day in days]
+        data.reverse()
+        prices = [(record[0], record[4]) for record in data]    
+    
+        one_transform = Transform(Macd(long_term_ma=17, short_term_ma=8))
+        result = one_transform(prices[:-1], latest_record=("2010-03-02", 111.02)) 
+        self.failUnlessEqual("%.6f" % result, '0.609794')
+        
+        
+        two_transforms = one_transform.add(Ema(9))
+        result = two_transforms(prices[:-1], latest_record=("2010-03-02", 111.02))
+        self.failUnlessEqual("%.6f" % result, '0.276538')
+    
+    def test_parser_should_be_able_to_read_transform_queries(self):
+    
+        days = open(DATAFILE_PATH).readlines()
+        data = [day[:-2].split(',') for day in days]
+        data.reverse()
+        data = data[:-1]
+        data_with_flag = []
+        for record in data:
+            record.append(None)
+            data_with_flag.append(record)
+        parser = Parser(data_with_flag)
+
+
+        # These two macds queries should be mathematically identical
+        tokenizer = Tokenizer(query_text="macd_signal(17,8,9) >= 0")
+        rule = parser.parse_query(tokenizer)
+        exe_box = Query_Execution_Box(data_with_flag)    
+        result = exe_box.exe(rule)
+        self.failUnlessEqual(result.number_of_points, 171)
+        
+        tokenizer = Tokenizer(query_text="macd(17,8)->ema(9) >= 0")
+        rule = parser.parse_query(tokenizer)
+        exe_box = Query_Execution_Box(data_with_flag)   
+        result = exe_box.exe(rule)
+        self.failUnlessEqual(result.number_of_points, 171)
+        self.failUnlessEqual(parser.indicator_operands[0][0], "macd(17,8)")
+        self.failUnlessEqual(parser.indicator_operands[1][0], "ema(9)")
+        self.failUnlessEqual(parser.indicator_operands[2][0], "macd(17,8)->ema(9)")
+        
+        # These two stochastic queries should be mathematically identical
+        tokenizer = Tokenizer(query_text="slow_stochastic(5) >= 0")
+        rule = parser.parse_query(tokenizer)
+        exe_box = Query_Execution_Box(data_with_flag)   
+        result = exe_box.exe(rule)
+        self.failUnlessEqual(result.number_of_points, 284)
+        
+        tokenizer = Tokenizer(query_text="stochastic(5)->sma(3) >= 0")
+        rule = parser.parse_query(tokenizer)
+        exe_box = Query_Execution_Box(data_with_flag)   
+        result = exe_box.exe(rule)
+        self.failUnlessEqual(result.number_of_points, 284)
+        self.failUnlessEqual(parser.indicator_operands[0][0], "stochastic(5)") 
+        self.failUnlessEqual(parser.indicator_operands[1][0], "sma(3)")
+        self.failUnlessEqual(parser.indicator_operands[2][0], "stochastic(5)->sma(3)")    
+                    
         
 class Execution_Env_Test(TestCase):
     def test_Given_an_expression_and_uncut_data_When_it_is_executed_against_the_query_analyzer_Then_it_returns_the_result(self):
@@ -625,6 +704,18 @@ class Execution_Env_Test(TestCase):
         box = Query_Execution_Box(data_with_flag)
         result = box("price 3 days_later >= price")
         self.failUnlessEqual(result.number_of_points, 209)
+        
+        
+        box = Query_Execution_Box(data_with_flag)
+        result = box("macd_histogram(17,8,9) >= 0")
+        self.failUnlessEqual(result.number_of_points, 172)
+        
+        
+        box = Query_Execution_Box(data_with_flag)
+        result = box("macd_signal(17,8,9)->histogram >= 0")
+        self.failUnlessEqual(result.number_of_points, 172)
+
+        
 
     def test_execution_box_should_return_the_history_of_the_technical_indicators_being_queried(self):
         data = get_historical_prices(symbol="gld", start_date="20080101", end_date="20100601")

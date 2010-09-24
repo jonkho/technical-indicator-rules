@@ -7,11 +7,14 @@ class Tokenizer(object):
     def __init__(self, query_text):
         if not query_text:
             query_text = ""
-        self.tokens = re.findall(r'-?[0-9]\.[0-9]+|[0-9]+|[0-9]|>=|<=|-|\|-\||\w+', query_text)
+        self.tokens = re.findall(r'-?[0-9]\.[0-9]+|[0-9]+|[0-9]|->|>=|<=|-|\|-\||\w+', query_text)
         super(Tokenizer, self).__init__()
         
     def peek(self, ahead=0):
-        return self.tokens[ahead]
+        try:
+            return self.tokens[ahead]
+        except:
+            return None
         
     def consume(self):
         the_token = self.tokens[0]
@@ -24,6 +27,7 @@ class Tokenizer(object):
 class Parser(object):
     INDICATORS = ["macd", "macd_signal", "macd_histogram", "sma", "ema", "stochastic", "stochastic_signal", "full_stochastic", "full_stochastic_signal", "slow_stochastic", "slow_stochastic_signal","rsi", "price", "volume"]
     ARITHOPERATOR = ["-", "|-|"]
+    TRANSFORMS = ["ema", "sma", "macd", "macd_signal"]
     
     
     def __init__(self, full_data=None):
@@ -55,7 +59,7 @@ class Parser(object):
         token = tokenizer.peek()
         
         if token in self.INDICATORS:
-            operand = indicator = self.parse_indicator(tokenizer)
+            operand, s = indicator, s = self.parse_indicator(tokenizer)
             
             if not tokenizer.tokens:
                 return operand
@@ -139,8 +143,8 @@ class Parser(object):
             n = self.parse_number(tokenizer)
             smoothing = self.parse_number(tokenizer)
             indicator = Full_Stochastic_Signal(n, 3, smoothing)
-            indicator_string = "slow_stochastic_signal(%s,%s)" % (n, smoothing)     
-    
+            indicator_string = "slow_stochastic_signal(%s,%s)" % (n, smoothing) 
+                 
         elif token == "sma":
             period = self.parse_number(tokenizer)
             indicator = Sma(period)
@@ -162,11 +166,38 @@ class Parser(object):
         elif token == "rsi":
             period = self.parse_number(tokenizer)
             indicator = Rsi(period)
-            indicator_string = "rsi(%s)" % period
-    
-        self.indicator_operands.append((indicator_string, indicator))   
+            indicator_string = "rsi(%s)" % period    
+            
+        token = tokenizer.peek()
         
-        return indicator        
+        if token == "->":
+            tokenizer.consume()
+            self.indicator_operands.append([indicator_string, indicator]) 
+            indicator_string, indicator = self.parse_transform(tokenizer, indicator_string, indicator)      
+            
+        self.indicator_operands.append([indicator_string, indicator])   
+        
+        return indicator, indicator_string        
+         
+    def parse_transform(self, tokenizer, indicator_string, indicator):
+        token = tokenizer.peek()
+              
+        if token == "histogram":
+            tokenizer.consume()
+            p = Parser()
+            slow_signal, slow_signal_indicator_string = p.parse_indicator(Tokenizer(indicator_string))
+            fast_signal, fast_signal_indicator_string = p.parse_indicator(Tokenizer(indicator_string.replace("_signal", "")))            
+            indicator = Histogram(fast_signal, slow_signal)
+            indicator_string = "%s->%s" % (indicator_string, token)
+            
+        elif token in self.TRANSFORMS:
+            transform_indicator, transform_indicator_string = self.parse_indicator(tokenizer)
+            transform_1 = Transform(indicator)
+            transform_2 = transform_1.add(transform_indicator)
+            indicator = transform_2
+            indicator_string = "%s->%s" % (indicator_string, transform_indicator_string)
+            
+        return indicator_string, indicator     
                 
     def parse_modifier(self, tokenizer, operand):
         modified_operand = operand

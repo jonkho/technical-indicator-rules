@@ -34,8 +34,8 @@ class test_bed(TestCase):
                 #buy_points = service.execute_query("DIG", "20100101", "20100820", "macd(17,8) speed is_increasing", "macd(17,8) gradient >= 0.5", "macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) <= 0", "full_stochastic(5,3) gradient >= 0")
 
 
-        buy_points = service.execute_query("ADBE", "20100101", "20100915", ["macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) gradient >= 0"])
-        sell_points = service.execute_query("ADBE", "20100101", "20100915", ["macd(17,8) speed is_decreasing", "full_stochastic(5,3) speed is_decreasing", "macd(17,8) >= 0"])
+#         buy_points = service.execute_query("ADBE", "20100101", "20100915", ["macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) gradient >= 0"])
+#         sell_points = service.execute_query("ADBE", "20100101", "20100915", ["macd(17,8) speed is_decreasing", "full_stochastic(5,3) speed is_decreasing", "macd(17,8) >= 0"])
                 
 
                 #sell_points = service.execute_query("GLD", "20100101", "20100820", "full_stochastic(5,5) is_crossing 80", "full_stochastic(5,5) gradient <= 0")
@@ -47,10 +47,10 @@ class test_bed(TestCase):
 # 
 #        
 #                 
-        backtester = Backtester()
-        account = Account(cash_balance=10000)
-        timeline, account_summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
-        print account_summary
+#         backtester = Backtester()
+#         account = Account(cash_balance=10000)
+#         timeline, account_summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
+#         print account_summary
 #               
 #               self.failUnlessEqual(summary, "100")
                 
@@ -72,6 +72,15 @@ class test_bed(TestCase):
 
                 
 
+#         tokenizer = Tokenizer(query_text="macd_signal(17,8,9)->histogram >= 0")
+#         parser = Parser()
+#         rule = parser.parse_query(tokenizer)    
+#         self.assert_(rule != None)
+#         self.failUnlessEqual(parser.indicator_operands[0][0], "macd_signal(17,8,9)")
+#         self.failUnlessEqual(parser.indicator_operands[1][0], "macd_signal(17,8,9)->histogram")
+#         print parser.indicator_operands
+        
+    
 
 from tests_web_api_01 import *
 from tests_lib import *
