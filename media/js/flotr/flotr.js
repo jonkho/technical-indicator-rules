@@ -1829,6 +1829,8 @@ Flotr.Graph = Class.create({
 			selX = options.selection.mode.indexOf('x') != -1,
 			selY = options.selection.mode.indexOf('y') != -1;
 		
+		window.HFarea = area;
+		
 		this.clearSelection();
 
 		this.selection.first.y  = (selX && !selY) ? 0 : (ya.max - area.y1) * vertScale;

@@ -50,11 +50,11 @@
     opacity:0.3;
 }
 .flagpole-1 {
-    border-left: 1px solid green;
+    border-left: 2px solid green;
 }
 .flagpole-2 {
-    border-left: 1px solid orange;
-    opacity:0.2;
+    border-left: 2px solid #B26B00;
+    opacity:0.4;
 }
 .flotr-grid-label {
     font-size: 11px;

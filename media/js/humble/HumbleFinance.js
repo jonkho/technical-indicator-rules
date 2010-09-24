@@ -144,14 +144,16 @@ var HumbleFinance = {
         
         // Initialize graphs, setting selection on summary
         var area = {
-            x1: 0, 
+            x1: this.bounds.xmin, 
             y1: this.bounds.ymin, 
-            x2: 100, 
+            x2: this.bounds.xmax, 
             y2: this.bounds.ymax
         };
         this.graphs.summary = this.summaryGraph(this.summaryData, this.bounds);
         
         this.graphs.summary.setSelection(area);
+        
+        
     },
     
     /**

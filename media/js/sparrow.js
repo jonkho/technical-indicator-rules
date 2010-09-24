@@ -14,48 +14,10 @@ function showTour() {
 	  Modalbox.show('/tour/', {title: 'WELCOME TO TRADESPARROW', width: 600});
 	}
 
-function tourStep(i) {
-  if (i == 1) {
-    $('symbol').prototip.show();
-  }
-
-  if (i == 4) {
-    $('symbol').prototip.hide();
-    $('start_date').prototip.show();
-  }
-
-  if (i == 7) {
-    $('start_date').prototip.hide();
-    $('end_date').prototip.show();
-  }
-
-  if (i == 10) {
-    $('end_date').prototip.hide();
-    $('querybank').prototip.show();
-    $('query').prototip.show();
-  }
-
-  if (i == 16) {
-    $('query').prototip.hide();
-    $('querybank').prototip.hide();
-    $('fsubmit').prototip.show();
-  }
-
-  if (i == 20) {
-    $('fsubmit').prototip.hide();
-  }
-
-  if (i != 20) {
-    window.setTimeout(function(){tourStep(++i);}, 1000);
-  }
-}
-
 function tourStart(tic) {
   Modalbox.hide();
   s = $('symbol');
   s.value = tic;
-
-  window.setTimeout(function(){tourStep(1);}, 1000);
 }
 jQuery('document').ready(function(){
 	
@@ -81,23 +43,6 @@ jQuery('document').ready(function(){
 			}, 100);
 		}
 	}
-	
-
-  /*
-  new Tip($('symbol'), 'TICKER SYMBOL');
-  new Tip($('start_date'), 'START DATE (YYYYMMDD)');
-  new Tip($('end_date'), 'END DATE (YYYYMMDD)');
-  new Tip($('querybank'), 'DRAG FROM HERE');
-  new Tip($('query'), "TO HERE");
-  new Tip($('fsubmit'), "AND CLICK GO", {
-    offset: {x:-110, y:0},
-  });
-  
-  document.observe('prototip:shown', function(event) {
-    event.element().pulsate({pulses:2, duration: 1.5});
-  });
-  */
-
 
 	/* load data if supplied */
 	if(js){
@@ -119,6 +64,7 @@ jQuery('document').ready(function(){
 			//redraw flags
 			//TODO: redraw slider
 			HumbleFinance.drawFlags();
+			HumbleFinance.graphs.summary.setSelection(HFarea);
 		}	
 	});
 
@@ -137,6 +83,9 @@ jQuery('document').ready(function(){
 			type = 'sell';
 		}
 		jQuery('<li><a href="" class="rm_query">x</a><input name="'+type+'_query" type="hidden" value=""/><p class="query_string" style="display:none"></p><input class="query_input" type="text" value=""/><button class="modify_query" type="button">Save</button></li>').appendTo(list).find('input.query_input').focus();
+		
+		HumbleFinance.graphs.summary.setSelection(HFarea);
+		HumbleFinance.drawFlags();
 		return false;
 	});
 

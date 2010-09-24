@@ -94,6 +94,7 @@ function chartData(rawJson) {
     };
     
     HumbleFinance.xTickFormatter = function (n) { 
+        n = Math.floor(n);
         
         if (n == 0) {
             return false;
@@ -113,14 +114,17 @@ function chartData(rawJson) {
     var prevSelection = HumbleFinance.graphs.summary.prevSelection;
     var xmin = 0;
     var xmax = jsonData.length - 1;
-    var area = {
+    window.HFarea = {
         x1: xmin,
         y1: 0,
         x2: xmax,
         y2: 0
     };
+    var area = HFarea;
     
-    HumbleFinance.graphs.summary.setSelection(area);
+    window.setTimeout(function() {
+      HumbleFinance.graphs.summary.setSelection(HFarea);
+    }, 50);
     
     $('dateRange').update(jsonData[xmin].date + ' - ' + jsonData[xmax].date);
     Event.observe(HumbleFinance.containers.summary, 'flotr:select', function (e) {
@@ -134,4 +138,6 @@ function chartData(rawJson) {
         
         $('dateRange').update(jsonData[xmin].date + ' - ' + jsonData[xmax].date);
     });
+    
+    
 }

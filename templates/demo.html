@@ -4,7 +4,6 @@
   <link rel="stylesheet" href="/css/finance.css" type="text/css" media="screen" charset="utf-8">
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/ui-lightness/jquery-ui.css" type="text/css" media="screen" charset="utf-8">
   <link rel="stylesheet" href="/css/modalbox.css" type="text/css" media="screen" charset="utf-8">
-  <link rel="stylesheet" href="/css/prototip.css" type="text/css" media="screen" charset="utf-8">
   <!-- <link rel="stylesheet" href="/css/styles.css" type="text/css" media="screen" charset="utf-8"> -->
 {% endblock %}
 
@@ -41,7 +40,7 @@
 		<div class="queries grid_12">
 			<div class="bull_queries grid_4">
 			  <h2>Bullish Heuristics</h2>
-			  <ul class="query_bank buy_queries">
+			  <ul id="buybank" class="query_bank buy_queries">
 					<li class="immutable">rsi(14) <= 30</li>
 					<li class="immutable">rsi(14) is_crossing 30</li>
 					<li class="immutable">rsi(14) is_increasing</li>
@@ -93,7 +92,7 @@
 
 		<div class="query_drop grid_12">
 			<div class="droppable grid_6">
-				<div class="drop_header">
+				<div id="buydrop" class="drop_header">
 					<h2>Buy when</h2>
 					 <a href="" class="add_query buy_query">[+]</a>
 				</div>
