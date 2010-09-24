@@ -48,7 +48,10 @@ macd_signal(17,8,9)->histogram
 <signal_transform> : histogram
                    : <transform>
                    
-<transform> : ema(<number>)                   	
+<transform> : ema(<number>)
+            : sma(<number>)
+            : macd(<number>,<number>) 
+            : macd_signal(<number>,<number>,<number>)                  	
 		
 <modifier> : speed [<day_displacement>]
 		   : gradient [<day_displacement>]
