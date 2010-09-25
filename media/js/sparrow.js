@@ -74,6 +74,9 @@ jQuery('document').ready(function(){
 	/* remove query from query area */
 	jQuery('.rm_query').live('click',function(){
 		jQuery(this).parent('li').remove();
+		
+		HumbleFinance.graphs.summary.setSelection(HFarea);
+		HumbleFinance.drawFlags();
 		return false;
 	});
 	jQuery('.add_query').click(function(){
@@ -117,6 +120,9 @@ jQuery('document').ready(function(){
 		}
 		jQuery(this).remove();
 		new_query.remove();
+		
+		HumbleFinance.graphs.summary.setSelection(HFarea);
+		HumbleFinance.drawFlags();
 	});
 
 
