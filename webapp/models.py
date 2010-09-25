@@ -424,28 +424,28 @@ class Account(object):
         price = float(price)
         self.number_of_shares = self.cash_balance / price
         self.cash_balance = 0
-        self.trade_history.append([date, "bought", '%.2f' % price, self.number_of_shares, self.cash_balance, self.value(price)])
+        self.trade_history.append([date, "bought", '%.2f' % price, '%.2f' % self.number_of_shares, '%.2f' % self.cash_balance, '%.2f' % self.value(price)])
         return self.cash_balance, self.number_of_shares
     
     def sell_at_price(self, price, date):
         price = float(price)
         self.cash_balance = self.number_of_shares * price
         self.number_of_shares = 0
-        self.trade_history.append([date, "sold", '%.2f' % price, self.number_of_shares, self.cash_balance, self.value(price)])
+        self.trade_history.append([date, "sold", '%.2f' % price, '%.2f' % self.number_of_shares, '%.2f' % self.cash_balance, '%.2f' % self.value(price)])
         return self.cash_balance,  self.number_of_shares
         
     def short_at_price(self, price, date):
         price = float(price)
         self.cash_balance += 10000
         self.number_of_shares = -10000 / price
-        self.trade_history.append([date, "shorted", '%.2f' % price, self.number_of_shares, self.cash_balance, self.value(price)])
+        self.trade_history.append([date, "shorted", '%.2f' % price, '%.2f' % self.number_of_shares, '%.2f' % self.cash_balance, '%.2f' % self.value(price)])
         return self.cash_balance, self.number_of_shares
         
     def cover_at_price(self, price, date):
         price = float(price)
         self.cash_balance = self.cash_balance + (self.number_of_shares * price)
         self.number_of_shares = 0
-        self.trade_history.append([date, "covered", '%.2f' % price, self.number_of_shares, self.cash_balance, self.value(price)])
+        self.trade_history.append([date, "covered", '%.2f' % price, '%.2f' % self.number_of_shares, '%.2f' % self.cash_balance, '%.2f' % self.value(price)])
         return self.cash_balance, self.number_of_shares     
         
     def value(self, current_share_price=None):
