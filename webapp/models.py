@@ -142,12 +142,15 @@ class Query_Execution_Box(object):
     # this class creates the execution environment by cutting the data
     # then running the scan
     
-    def __init__(self, data, indicators_data=None):
+    def __init__(self, data, indicators_data=None, memo=None):
         # data holds the running query result
         # number_of_points is the running count of the resulting number of points that is evaluated True
         # memo is the dictionary for memoization that must be passed to the scanner 
         # indicators_data holds the operands which are indicators and their data    
-        self.memo = {}
+        if memo == None:
+            self.memo = {}
+        else:
+            self.memo = memo    
         self.data = data
         
         if indicators_data:
@@ -213,7 +216,7 @@ class Query_Execution_Box(object):
         result = self.logical_and(this_querys_results, self.data)   
 
         # return    
-        return Query_Execution_Box(data=result, indicators_data=self.indicators_data)   
+        return Query_Execution_Box(data=result, indicators_data=self.indicators_data, memo=self.memo)   
             
         
         # find the intersection between the current query results and the parent query results to get the FINAL result

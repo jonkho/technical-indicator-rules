@@ -42,9 +42,11 @@ class test_bed(TestCase):
                 #sell_points = service.execute_query("DIG", "20100101", "20100820", "full_stochastic(5,5) gradient 1 days_ago >= 0", "full_stochastic(5,5) gradient <= 0")
                 
                 
-#         buy_points = service.execute_query("BP", "20100101", "20100912", ["macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) gradient >= 0", "macd(17,8) <= 0", "full_stochastic(5,5) speed is_increasing"])
+        # buy_points = service.execute_query("BP", "20100101", "20100912", ["macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) gradient >= 0", "macd(17,8) <= 0", "full_stochastic(5,5) speed is_increasing"])
 #         sell_points = service.execute_query("BP", "20100101", "20100912", ["macd(17,8) speed is_decreasing", "full_stochastic(5,3) speed is_decreasing", "macd(17,8) >= 0"])
-# 
+
+        buy_points = service.execute_query("gld", "20090101", "20101112", ["macd(17,8) 2 days_ago >= macd_signal(17,8,9) 2 days_ago", "macd(17,8) 3 days_ago >= macd_signal(17,8,9) 3 days_ago", "macd(17,8) 1 days_ago >= macd_signal(17,8,9) 1 days_ago", "macd(17,8) >= macd_signal(17,8,9)"])
+#         sell_points = service.execute_query("gld", "20090101", "20101112", ["macd(17,8) is_crossing macd_signal(17,8,9)"])
 #        
 #                 
 #         backtester = Backtester()
