@@ -469,7 +469,10 @@ class Account(object):
     def summarize(self, price_history_data):
         buy_and_hold_value = self.hypothetical_buy_and_hold_value(price_history_data[0][4], price_history_data[-1][4])
         strategy_value = self.value(price_history_data[-1][4])
-        performance_delta = (strategy_value - buy_and_hold_value) / 100
+        
+        buy_and_hold_value_as_percent_of_strategy_value = buy_and_hold_value / strategy_value
+        performance_delta = 100 - buy_and_hold_value_as_percent_of_strategy_value
+        
         summary = {"buy_and_hold_value":'%.2f' % buy_and_hold_value, "strategy_value": '%.2f' % strategy_value, "performance_delta":'%.2f' % performance_delta, "trade_history":self.trade_history}
         return summary
                            
