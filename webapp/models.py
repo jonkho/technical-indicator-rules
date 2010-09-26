@@ -265,7 +265,7 @@ class Query_Execution_Box(object):
         return result   
             
 class Service(object):
-    def execute_query(self, symbol, start_date, end_date, query):
+    def execute_query(self, symbol, start_date, end_date, query, memo=None):
 
         # get the extra runway data
         utils = Utils()
@@ -281,8 +281,9 @@ class Service(object):
             record.append(None)
             data_with_flag.append(record)
             
-        # execute the query 
-        box = Query_Execution_Box(data_with_flag)
+            
+        # execute the query
+        box = Query_Execution_Box(data_with_flag, memo=memo)
         
         for phrase in query:
             box = box(phrase)   

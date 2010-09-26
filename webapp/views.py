@@ -66,7 +66,7 @@ def query_data(request):
         
         if len(buy_query) > 0 and len(sell_query) > 0:
             buy_points = service.execute_query(symbol, start_date, end_date, buy_query)
-            sell_points = service.execute_query(symbol, start_date, end_date, sell_query)
+            sell_points = service.execute_query(symbol, start_date, end_date, sell_query, memo=buy_points.memo)
                 
             backtester = Backtester()
             account = Account(cash_balance=10000)
