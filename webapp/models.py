@@ -151,6 +151,7 @@ class Query_Execution_Box(object):
             self.memo = {}
         else:
             self.memo = memo    
+        
         self.data = data
         
         if indicators_data:
@@ -197,6 +198,7 @@ class Query_Execution_Box(object):
             self.indicators_data[phrase_indicator_key] = indicator_list
         
         result = self.exe(expression)
+        
         return result
         
     def exe(self, expression):
@@ -206,6 +208,7 @@ class Query_Execution_Box(object):
         
         # initialize the records for this query's results
         this_querys_results = copy.deepcopy(self.data)
+        
         for record in this_querys_results:
             record[-1] = False
                         
@@ -274,7 +277,7 @@ class Service(object):
         runway_data.reverse()
         runway_data = runway_data[:-1]
 
-        
+    
         # add the extra flag for each record
         data_with_flag = []
         for record in runway_data:
@@ -285,37 +288,23 @@ class Service(object):
         # execute the query
         box = Query_Execution_Box(data_with_flag, memo=memo)
         
+        
         for phrase in query:
-            box = box(phrase)   
+            box = box(phrase) 
+              
         
         # remove the runway from the result query data
         box.data = utils.remove_runway(box.data, start_date)
         
+        
         # remove the runway from the result indicators data
         for phrase_indicator_key, indicator_record in box.indicators_data.items():
             for indicator_string_data_pair in indicator_record:
-                indicator_string_data_pair[-1] = utils.remove_runway(indicator_string_data_pair[-1], start_date)
-            #box.indicators_data[indicator][-1] = utils.remove_runway(indicator_record[-1], start_date)   
+                indicator_string_data_pair[-1] = utils.remove_runway(indicator_string_data_pair[-1], start_date)   
                 
-        
+                
         # convert the box data boolean flags to integer flags
         box.data = utils.convert_query_flags_to_integer(box.data)
-        
-#         i = 0
-#         temp = ["i"]
-#         for x in box.indicators_data.keys():
-#             temp.append(x)
-#         
-#         size = len(box.indicators_data[x][2])
-#         temp = [temp]
-#         for y in range(size):
-#             t2 = [i]
-#             for x in box.indicators_data.keys():
-#                 t2.append(box.indicators_data[x][2][y][1])
-#             i += 1
-#             temp.append(t2)
-#         
-#         box.indicators_data = temp;
         
         return box
         
@@ -330,8 +319,8 @@ class Service(object):
         
         indicator_history = Indicator_History()
         indicator_data = indicator_history.process_indicator_string(indicator_string, data)
-        #print indicator_data
         final_data = utils.remove_runway(indicator_data, start_date)
+        
         return final_data           
         
             

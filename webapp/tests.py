@@ -24,8 +24,30 @@ class test_bed(TestCase):
 #         self.failUnlessEqual(return_code["contents"]["indicators_data"][0][0][0], "macd(17,8)")
 #         self.failUnlessEqual(return_code["contents"]["indicators_data"][0][1][0], "macd_signal(17,8,9)")
         
+#         days = open(DATAFILE_PATH).readlines()
+#         data = [day[:-2].split(',') for day in days]
+#         data.reverse()
+#         data = data[:-1]
+#         data_with_flag = []
+#         for record in data:
+#             record.append(None)
+#             data_with_flag.append(record)
+#         parser = Parser(data_with_flag)
 
         service = Service()
+        
+#         result2 = service.execute_query("GLD", "20090101", "20100301", ["macd_signal(17,8,9) >= 0"])
+#         self.failUnlessEqual(result2.number_of_points, 197)  
+        
+#         tokenizer = Tokenizer(query_text="macd(17,8)->ema(9) >= 0")
+#         rule = parser.parse_query(tokenizer)
+#         exe_box = Query_Execution_Box(data_with_flag)
+#         result = exe_box.exe(rule) 
+#         
+#         result = service.execute_query("GLD", "20090101", "20100301", ["macd(17,8)->ema(9) >= 0"])
+#         self.failUnlessEqual(result.number_of_points, 197)
+        
+
 #               buy_points = service.execute_query("GLD", "20100101", "20100601", "macd(17,8) is_crossing macd_signal(17,8,9)")
                 
                 
@@ -45,7 +67,7 @@ class test_bed(TestCase):
         # buy_points = service.execute_query("BP", "20100101", "20100912", ["macd(17,8) is_crossing macd_signal(17,8,5)", "macd(17,8) gradient >= 0", "macd(17,8) <= 0", "full_stochastic(5,5) speed is_increasing"])
 #         sell_points = service.execute_query("BP", "20100101", "20100912", ["macd(17,8) speed is_decreasing", "full_stochastic(5,3) speed is_decreasing", "macd(17,8) >= 0"])
 
-        buy_points = service.execute_query("gld", "20090101", "20101112", ["macd(17,8) 2 days_ago >= macd_signal(17,8,9) 2 days_ago", "macd(17,8) 3 days_ago >= macd_signal(17,8,9) 3 days_ago", "macd(17,8) 1 days_ago >= macd_signal(17,8,9) 1 days_ago", "macd(17,8) >= macd_signal(17,8,9)"])
+#         buy_points = service.execute_query("gld", "20090101", "20101112", ["macd(17,8) 2 days_ago >= macd_signal(17,8,9) 2 days_ago", "macd(17,8) 3 days_ago >= macd_signal(17,8,9) 3 days_ago", "macd(17,8) 1 days_ago >= macd_signal(17,8,9) 1 days_ago", "macd(17,8) >= macd_signal(17,8,9)"])
 #         sell_points = service.execute_query("gld", "20090101", "20101112", ["macd(17,8) is_crossing macd_signal(17,8,9)"])
 #        
 #                 

@@ -191,7 +191,8 @@ class Parser(object):
             indicator_string = "%s->%s" % (indicator_string, token)
             
         elif token in self.TRANSFORMS:
-            transform_indicator, transform_indicator_string = self.parse_indicator(tokenizer)
+            p = Parser()
+            transform_indicator, transform_indicator_string = p.parse_indicator(tokenizer)
             transform_1 = Transform(indicator)
             transform_2 = transform_1.add(transform_indicator)
             indicator = transform_2

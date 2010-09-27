@@ -521,7 +521,6 @@ class Transform_Test(TestCase):
         result = one_transform(prices[:-1], latest_record=("2010-03-02", 111.02)) 
         self.failUnlessEqual("%.6f" % result, '0.609794')
         
-        
         two_transforms = one_transform.add(Ema(9))
         result = two_transforms(prices[:-1], latest_record=("2010-03-02", 111.02))
         self.failUnlessEqual("%.6f" % result, '0.276538')
@@ -552,8 +551,8 @@ class Transform_Test(TestCase):
         result = exe_box.exe(rule)
         self.failUnlessEqual(result.number_of_points, 171)
         self.failUnlessEqual(parser.indicator_operands[0][0], "macd(17,8)")
-        self.failUnlessEqual(parser.indicator_operands[1][0], "ema(9)")
-        self.failUnlessEqual(parser.indicator_operands[2][0], "macd(17,8)->ema(9)")
+        self.failUnlessEqual(parser.indicator_operands[1][0], "macd(17,8)->ema(9)")
+        #self.failUnlessEqual("%.6f" % parser.indicator_operands[2][1][-1], '0.276538')
         
         # These two stochastic queries should be mathematically identical
         tokenizer = Tokenizer(query_text="slow_stochastic(5) >= 0")
@@ -568,8 +567,16 @@ class Transform_Test(TestCase):
         result = exe_box.exe(rule)
         self.failUnlessEqual(result.number_of_points, 284)
         self.failUnlessEqual(parser.indicator_operands[0][0], "stochastic(5)") 
-        self.failUnlessEqual(parser.indicator_operands[1][0], "sma(3)")
-        self.failUnlessEqual(parser.indicator_operands[2][0], "stochastic(5)->sma(3)")    
+        self.failUnlessEqual(parser.indicator_operands[1][0], "stochastic(5)->sma(3)")  
+        
+        
+        # test service
+        service = Service()
+#         result = service.execute_query("GLD", "20090101", "20100301", ["macd(17,8)->ema(9) >= 0"])
+#         self.failUnlessEqual(result.number_of_points, 197)
+        
+        result2 = service.execute_query("GLD", "20090101", "20100301", ["macd_signal(17,8,9) >= 0"])
+        self.failUnlessEqual(result2.number_of_points, 197)  
                     
         
 class Execution_Env_Test(TestCase):

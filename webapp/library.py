@@ -59,7 +59,9 @@ class Transform(object):
         return self.process(past_data, latest_record, memo)
         
     def cut_data(self, unformatted_data):
-        return self.indicator.cut_data(unformatted_data)             
+        return self.indicator.cut_data(unformatted_data)
+        
+                             
 
 #-----------------------PRICE---------------------------
 class Price(object):
@@ -207,6 +209,7 @@ class Ema(object):
 #-----------------------MACD FORMULAS-------------------------- 
 class MacdDataFormatter(object):
     def cut(self, unformatted_records):
+        #print unformatted_records[0]
         formatted_records = [(record[0], record[4]) for record in unformatted_records]
         #formatted_records = formatted_records[:-1]
         return formatted_records
