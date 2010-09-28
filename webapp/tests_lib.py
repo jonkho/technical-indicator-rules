@@ -572,8 +572,8 @@ class Transform_Test(TestCase):
         
         # test service
         service = Service()
-#         result = service.execute_query("GLD", "20090101", "20100301", ["macd(17,8)->ema(9) >= 0"])
-#         self.failUnlessEqual(result.number_of_points, 197)
+        result = service.execute_query("GLD", "20090101", "20100301", ["macd(17,8)->ema(9) >= 0"])
+        self.failUnlessEqual(result.number_of_points, 197)
         
         result2 = service.execute_query("GLD", "20090101", "20100301", ["macd_signal(17,8,9) >= 0"])
         self.failUnlessEqual(result2.number_of_points, 197)  

@@ -127,7 +127,7 @@ div.trade_history table{
     width:100%;
 }
 div.trade_history table th{
-    text-align:center;
+    text-align:left;
 }
 div.trade_history table td{
     padding:2px 4px;
