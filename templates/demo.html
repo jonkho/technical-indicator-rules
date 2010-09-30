@@ -38,7 +38,7 @@
     <div class="query_section clearfix">
       <form id="queryform" action="/query/" method="get">
 		<div class="queries grid_12">
-			<div class="bull_queries grid_4">
+			<div class="bull_queries grid_4 ">
 			  <h2>Bullish Heuristics</h2>
 			  <ul id="buybank" class="query_bank buy_queries">
 					<li class="immutable">rsi(14) <= 30</li>
@@ -93,7 +93,7 @@
 		<div class="query_drop grid_12">
 			<div class="droppable grid_6">
 				<div id="buydrop" class="drop_header">
-					<h2>Buy when</h2>
+					<h2 id="buy_when_header">Buy when&nbsp;</h2>
 					 <a href="" class="add_query buy_query">[+]</a>
 				</div>
 				<ul id="query" class="query_area buy_queries">
@@ -106,16 +106,25 @@
 			</div>
 			<div class="droppable grid_6">
 				<div class="drop_header">
-					<h2>Sell when</h2>
+					<h2 id="sell_when_header">Sell when&nbsp;</h2>
 					 <a href="" class="add_query sell_query">[+]</a>
 				</div>
 				<ul class="query_area sell_queries"></ul>
 			</div>
 		</div>
         <div class="query_input grid_12">
-            <input name="symbol" id="symbol" type="text" value="{{params.symbol}}"/>
-            <input name="start_date" id="start_date" type="text" value="{{params.start_date}}"/>
-            <input name="end_date" id="end_date" type="text" value="{{params.end_date}}"/>
+			<div class="grid_4">
+				<h3>Symbol</h3>
+           		<input name="symbol" id="symbol" type="text" value="{{params.symbol}}"/>
+			</div>
+			<div class="grid_4">
+				<h3>Start Date</h3>
+            	<input name="start_date" id="start_date" type="text" value="{{params.start_date}}"/>
+			</div>
+			<div class="grid_4">
+				<h3>End Date</h3>
+            	<input name="end_date" id="end_date" type="text" value="{{params.end_date}}"/>
+			</div>
         </div>
         <input id="fsubmit" type="submit" value="Submit!"/>
       </form>
@@ -125,6 +134,7 @@
 				<dt>Strategy Value:</dt><dd id="strategy_value"></dd>
 				<dt>Performance Over Buy and Hold:</dt><dd id="performance_delta"></dd>
 			</dl>
+			<a href="" id='alert_me_link'>Alert me!</a>
 		</div>
     </div>
 		<div id="loader" style="display:none;">&nbsp;</div>
@@ -139,6 +149,15 @@
 		  </div>
 		</div> <!-- close graph_section -->
 		<div class="trade_history"></div>
+		<!--
+		<div id="alert_me_box">
+			<form action="signup" method="post">
+				<label>Email</label>
+				<input type="text" value=""/>
+				<input type="submit" value="Sign Up"/>
+			</form>
+		</div>
+		-->
 
   </div> <!-- close left main -->
 {% endblock %}

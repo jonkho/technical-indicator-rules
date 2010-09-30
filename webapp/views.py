@@ -31,8 +31,8 @@ def logout(request):
 def tour(request):
     GoalRecord.record("tour", WebUser(request))
     return render_to_response("tour.html", context_instance=RequestContext(request))
-def faq(request):
-	return render_to_response("faq.html")
+def about(request):
+	return render_to_response("about.html")
 
 def demo(request):
     try:

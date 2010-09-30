@@ -1,5 +1,6 @@
 body{
 	background-color:#F0F0F0;
+	font-family:verdana,sans-serif;
 }
 ul{
 	list-style-type:none;
@@ -20,7 +21,7 @@ div.container{
 }
 div.container h2{
 	color:#C8400E;
-	font-size:1.6em;
+	font-size:1.1em;
 	margin-bottom:0px;
 }
 div.container div.header{
@@ -30,7 +31,6 @@ div.container div.header{
 	background: #08526D url(/images/sparrow_90.png) no-repeat 0px -30px;;
 }
 div.container div.header h1{
-	font-family:Helvetica;
 	margin-bottom:0px;
 	padding:5px;
 	padding-left:100px;
@@ -58,23 +58,36 @@ div.container div.left_main{
 }
 div.query_section{
 	background-color:#F4F8FA;
-	border:1px solid #F2F8FA;
+	border:1px solid #CDDADD;
 	margin-bottom:10px;
+	padding-left:2.5%;
 }
 div.query_input{
-	padding:10px 0px;
 }
-div.query_input input[type="text"]{
+div.query_input h3{
+	color:#C8400E;
+	margin-bottom:0px;
+	font-size:1.1em;
+
+}
+/*
+div.query_input div{
+	float:left;
 	width:32%;
+}
+*/
+div.query_input input[type="text"]{
+	width:99%;
 	height:20px;
 	border:1px solid #C1D3D9;
 	font-size:1.3em;
 }
 
 div.queries{
-	background-color:white;
-	margin-bottom:10px;
+	/*background-color:white;
 	border:1px solid #C1D3D9;
+	*/
+	margin-bottom:10px;
 	z-index:100;
 }
 
@@ -85,6 +98,20 @@ div.query_section div.drop_header{
 div.query_section div.drop_header h2{
 	display:inline;
 }
+#buy_when_header{
+	color:green;
+}
+#sell_when_header{
+	color:#B26B00;
+}
+/*
+#buy_when_header{
+	border-right: 2px solid green;
+}
+#sell_when_header{
+	border-right: 2px solid #B26B00;
+}
+*/
 div.query_section div.drop_header a{
 	display:inline;
 	text-decoration:none;
@@ -93,7 +120,6 @@ div.query_section div.drop_header a{
 }
 div.query_section .query_area{
 	border:1px solid #C1D3D9;
-	margin:5px;
 	min-height:100px;
 	width:98%;
 	list-style-type:none;
@@ -103,15 +129,16 @@ div.query_section .query_area{
 }
 
 div.query_section .query_bank{
-	border:1px solid gray;
+	border:1px solid #C1D3D9;
 	border-bottom:0px;
 }
 div.query_section .query_bank li{
 	cursor:move;
 	padding:3px;
 	margin:0px;
-	background-color:#C1D3D9;
-	border-bottom:1px solid gray;
+/*	background-color:#C1D3D9;*/
+	background-color:#CDDADD;
+	border-bottom:1px solid #C1D3D9;
 	z-index:100;
 }
 div.query_summary dt{
@@ -142,11 +169,11 @@ div#graph_section{
 
 
 div.query_section .query_area li{
-	font-size:1.2em;
+	font-size:1.1em;
 	cursor:pointer;
 	padding:3px;
-	background-color:#C1D3D9;
-	border-bottom:1px solid gray;
+	background-color:#CDDADD;
+	border-bottom:1px solid #C1D3D9;
 	margin:0px 0px;
 }
 div.query_section .query_area li[type="text"]{
@@ -183,6 +210,8 @@ p.query_string:hover{
 
 div.query_section .query_area li a.rm_query{
 	float:left;
+	color:#C8400E;
+	padding-right:5px;
 }
 
 .feedback_btn{
@@ -204,10 +233,15 @@ div.query_section .query_area li a.rm_query{
   border-right: 2px solid #4a740b;
   border-bottom: 2px solid #4a740b;
 }
-
+div.about_content{
+	background-color: #F4F8FA;
+/*	text-shadow: white 1px 1px 1px;*/
+}
+div.about_content h1{
+	text-align:center;
+}
 dl#faq{
-	margin-left:15px;
-
+	margin:0px 15px;
 }
 #faq dt{
 	font-weight:bold;
@@ -215,9 +249,11 @@ dl#faq{
 #faq dd{
 	padding-bottom:10px;
 	margin-left:10px;
+	max-width:75%;
 }
 #faq dd ol{
 	margin-left:15px;
 }
 
-
+div#alert_me_box{
+}

@@ -20,7 +20,13 @@ function tourStart(tic) {
   s.value = tic;
 }
 jQuery('document').ready(function(){
-	
+
+	/*
+	jQuery('#alert_me_link').click(function(){
+		Modalbox.show($('alert_me_box'),{tile: 'sign up', width:600});
+		return false;
+	});
+	*/
 	window.timer = null;
 	window.onresize = function() {
 		if (window.timer === null) {
@@ -69,7 +75,7 @@ jQuery('document').ready(function(){
 	});
 
 	/* prepopulated queries */
-	jQuery('ul.query_bank li').draggable({revert:true});
+	jQuery('ul.query_bank li').draggable({revert:true,zIndex: 200});
 
 	/* remove query from query area */
 	jQuery('.rm_query').live('click',function(){
@@ -115,7 +121,7 @@ jQuery('document').ready(function(){
 			} else{
 				var list = jQuery('.query_bank.sell_queries');
 			}
-			var link = jQuery('<li>'+new_query.val()+'</li>').appendTo(list).draggable({revert:true, helper: 'clone'});
+			var link = jQuery('<li>'+new_query.val()+'</li>').appendTo(list).draggable({revert:true, zIndex:200});
 			jQuery(this).parent().data('link',link);
 		}
 		jQuery(this).remove();
@@ -145,8 +151,8 @@ jQuery('document').ready(function(){
 	function chartSummary(summary){
 		if(summary){
 			jQuery('div.query_summary').show();
-			jQuery('#buy_and_hold_value').text(summary.buy_and_hold_value);
-			jQuery('#strategy_value').text(summary.strategy_value);
+			jQuery('#buy_and_hold_value').text('$'+summary.buy_and_hold_value);
+			jQuery('#strategy_value').text('$'+summary.strategy_value);
 			jQuery('#performance_delta').text(summary.performance_delta+'%');
 			jQuery('div.trade_history table').remove();
 			var table = '<table><tr><th>Date</th><th>Action</th><th>Price</th><th>Shares Balance</th><th>Cash Balance</th><th>Account Value</th></tr>';
