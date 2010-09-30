@@ -12,6 +12,9 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
