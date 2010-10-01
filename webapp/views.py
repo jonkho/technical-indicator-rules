@@ -41,15 +41,15 @@ def demo(request):
     except KeyError as e:
         symbol = 'dow'
         
-#     if cache.get('20090101;20100301;rsi(14) is_crossing 50;') == None:
-    service = Service()
-    utils = Utils()
-    result = service.execute_query(symbol, "20090101", "20100301", ["rsi(14) is_crossing 50"])
-    result.indicators_data = utils.convert_indicators_data_to_nicks_specifications(result.indicators_data)
-    cache.set('20090101;20100301;rsi(14) is_crossing 50;', result, 30)
+    if cache.get('20090101;20100301;rsi(14).is_crossing 50;') == None:
+        service = Service()
+        utils = Utils()
+        result = service.execute_query(symbol, "20090101", "20100301", ["rsi(14) is_crossing 50"])
+        result.indicators_data = utils.convert_indicators_data_to_nicks_specifications(result.indicators_data)
+        cache.set('20090101;20100301;rsi(14).is_crossing 50;', result, 30)
     
-#     else:
-#         result = cache.get('20090101;20100301;rsi(14) is_crossing 50;')        
+    else:
+        result = cache.get('20090101;20100301;rsi(14).is_crossing 50;')        
          
     return render_to_response("demo.html", {'params': {'symbol':symbol, 'start_date': '20090101' ,'end_date': '20100301', 'query':'rsi(14) is_crossing 50'},"result":jsonpickle.encode(Return_Code(value="3000", contents=result))}, context_instance=RequestContext(request))
 
