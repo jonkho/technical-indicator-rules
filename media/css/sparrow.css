@@ -43,7 +43,6 @@ div.container div.header h1{
 div.container div.header h1 a{
 	text-decoration:none;
 	color:white;
-
 }
 div.container div.header div.header_nav{
 	float:right;
@@ -57,26 +56,42 @@ div.container div.header div.header_nav a{
 div.container div.left_main{
 	position:relative;
 }
+div.section{
+	background-color:#F4F8FA;
+	border:1px solid #CDDADD;
+	margin-bottom:20px;
+}
+h3.instructions{
+	font-weight:normal;
+	font-size:1.35em;
+	color:#666;
+	margin-bottom:5px;
+}
+h3.instructions span{
+	font-weight:bold;
+
+}
+/*
 div.query_section{
 	background-color:#F4F8FA;
 	border:1px solid #CDDADD;
 	margin-bottom:10px;
 	padding-left:2.5%;
 }
+*/
+div.query_drop{
+	margin-bottom:10px;
+}
 div.query_input{
+	padding:.5%;
+	padding-bottom:1%;
 }
 div.query_input h3{
-	color:#C8400E;
+	color:#333;
 	margin-bottom:0px;
+	font-weight:normal;
 	font-size:1.1em;
-
 }
-/*
-div.query_input div{
-	float:left;
-	width:32%;
-}
-*/
 div.query_input input[type="text"]{
 	width:99%;
 	height:20px;
@@ -99,25 +114,14 @@ div.query_section div.drop_header{
 div.query_section div.drop_header h2{
 	display:inline;
 }
-#buy_when_header{
-	color:green;
-}
-#sell_when_header{
-	color:#B26B00;
-}
-/*
-#buy_when_header{
-	border-right: 2px solid green;
-}
-#sell_when_header{
-	border-right: 2px solid #B26B00;
-}
-*/
 div.query_section div.drop_header a{
 	display:inline;
 	text-decoration:none;
 	font-weight:normal;
-	color:#C1D3D9;
+	color:#333
+}
+div.query_section div.drop_header a:hover{
+	color:#666;
 }
 div.query_section .query_area{
 	border:1px solid #C1D3D9;
@@ -143,6 +147,9 @@ div.query_section .query_bank li{
 	border-bottom:1px solid #C1D3D9;
 	z-index:100;
 }
+div.query_section .query_bank li:hover{
+	background-color:#EDE0C1;
+}
 div.query_summary dt{
 	display:inline;
 }
@@ -164,11 +171,12 @@ div.trade_history table td{
     border-collapse:collapse;
 }
 
+/*
 div#graph_section{
 	background-color:#F4F8FA;
 	border:1px solid #C1D3D9;
 }
-
+*/
 
 div.query_section .query_area li{
 	font-size:1.1em;

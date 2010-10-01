@@ -10,15 +10,7 @@ closeData = [];
 highData = [];
 lowData = [];
 var QUERYDATA = js;
-function showTour() {
-	  Modalbox.show('/tour/', {title: 'WELCOME TO TRADESPARROW', width: 600});
-	}
 
-function tourStart(tic) {
-  Modalbox.hide();
-  s = $('symbol');
-  s.value = tic;
-}
 jQuery('document').ready(function(){
 
 	/*
@@ -130,22 +122,6 @@ jQuery('document').ready(function(){
 		HumbleFinance.graphs.summary.setSelection(HFarea);
 		HumbleFinance.drawFlags();
 	});
-
-
-
-  //check for cookie
-	jar = new CookieJar({
-	  expires:60*60*24*365,
-	  path: '/'
-  });
-	
-	c = jar.get('firstvisit');
-	if (c == null) {
-	  //this is the first visit, show the tour
-	  showTour();
-	  jar.put('firstvisit', 1)
-	}
-
 
 
 	function chartSummary(summary){
