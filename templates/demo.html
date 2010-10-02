@@ -13,20 +13,21 @@
   <script language="javascript" type="text/javascript"  src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"></script>
   <script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
   <script language="javascript" type="text/javascript" src="/js/scriptaculous.js"></script>
+  <!-- do we need any of these? -->
+  <!--
   <script language="javascript" type="text/javascript" src="/js/flotr/base64.js"></script>
   <script language="javascript" type="text/javascript" src="/js/flotr/canvas2image.js"></script>
   <script language="javascript" type="text/javascript" src="/js/flotr/canvastext.js"></script>
+  -->
   <script language="javascript" type="text/javascript" src="/js/flotr/flotr.js"></script>
-  <script language="javascript" type="text/javascript"  src="/js/effects.js"></script> 
-  <script language="javascript" type="text/javascript"  src="/js/controls.js"></script> 
-  <script language="javascript" type="text/javascript"  src="/js/builder.js"></script>
-  <script type="text/javascript"  src="/js/modalbox.js"></script>
-  <script language="javascript" type="text/javascript"  src="/js/dragdrop.js"></script> 
   <script type="text/javascript" src="/js/humble/HumbleFinance.js"></script>
   <script type="text/javascript" src="/js/charting.js"></script>
+  <script type="text/javascript" src="/js/jquery.maskedinput.js"></script>
+  <!--
   <script type="text/javascript" src="/js/prototip/prototip.js"></script>
   <script type="text/javascript" src="/js/custom.js"></script>
   <script language="javascript" type="text/javascript"  src="/js/experiments.js"></script>
+  -->
   <script type="text/javascript" >
     js = {{ result|safe }};
   </script>
@@ -124,21 +125,21 @@
 			<div class="grid_4">
 				<h3 style="float:left">From:&nbsp;&nbsp;</h3>
 				<div class="date_changer">
-					<a href="">start of year</a>
-					<a href="">1y ago</a>
-					<a href="">3y ago</a>
-					<a href="">5y ago</a>
+					<a href="" rel="start_of_year">start of year</a>
+					<a href="" rel="1y">1y ago</a>
+					<a href="" rel="3y">3y ago</a>
+					<a href="" rel="5y">5y ago</a>
 				</div>
 				<input name="start_date" id="start_date" type="text" value="{{params.start_date}}"/>
 			</div>
 			<div class="grid_4">
 				<h3 style="float:left">To:&nbsp;&nbsp;</h3>
 				<div class="date_changer">
-					<a href="">today</a>
-					<a href="">6m ago</a>
-					<a href="">1y ago</a>
-					<a href="">2y ago</a>
-					<a href="">3y ago</a>
+					<a href="/" rel="today">today</a>
+					<a href="/" rel="6m">6m ago</a>
+					<a href="/" rel="1y">1y ago</a>
+					<a href="/" rel="2y">2y ago</a>
+					<a href="/" rel="3y">3y ago</a>
 				</div>
 				<input name="end_date" id="end_date" type="text" value="{{params.end_date}}"/>
 			</div>
