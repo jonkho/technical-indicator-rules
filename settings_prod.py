@@ -1,7 +1,7 @@
 # Django settings for sparrow project.
 import socket, os
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
