@@ -19,6 +19,34 @@ jQuery('document').ready(function(){
 		return false;
 	});
 	*/
+
+	//init from and to date mask
+	jQuery('#end_date').mask('9999/99/99');
+	jQuery('#start_date').mask('9999/99/99');
+
+	jQuery('div.date_changer a').click(function(e){
+		var modifier = jQuery(this).attr('rel');
+		var d = new Date();
+		var modifiedDate = '';
+		if(modifier === 'today'){
+			modifiedDate = jQuery.datepicker.formatDate('yy/mm/dd',d);
+		}
+		else if(modifier == 'start_of_year'){
+			modifiedDate = jQuery.datepicker.formatDate('yy/mm/dd',new Date(d.getFullYear()+'/01/01'));
+		} else{
+			var type = modifier[modifier.length - 1];
+			var num = parseInt(modifier.substr(0,modifier.length - 1));
+			if(type === 'm'){
+				modifiedDate = jQuery.datepicker.formatDate('yy/mm/dd',new Date(d.getFullYear()+'/'+(d.getMonth() - num + 1)+'/'+d.getDate()));
+			} else if(type === 'y'){
+				modifiedDate = jQuery.datepicker.formatDate('yy/mm/dd',new Date((d.getFullYear() - num)+'/'+d.getMonth()+'/'+d.getDate()));
+			}
+		}
+		jQuery(this).parent().siblings('input').val(modifiedDate);
+		return false;
+	});
+
+
 	window.timer = null;
 	window.onresize = function() {
 		if (window.timer === null) {
@@ -160,7 +188,6 @@ jQuery('document').ready(function(){
 		lowData = [];
 		
 		$('loader').show();
-
 		jQuery.ajax({
 			type: 'GET',
 			url: jQuery(this).attr('action'),

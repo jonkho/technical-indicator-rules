@@ -61,8 +61,8 @@ def query_data(request):
         GoalRecord.record("query", WebUser(request))
         try:
             symbol = request.GET["symbol"]
-            start_date = request.GET["start_date"]
-            end_date = request.GET["end_date"]
+            start_date = request.GET["start_date"].replace('/','')
+            end_date = request.GET["end_date"].replace('/','')
             buy_query = request.GET.getlist("buy_query")
             sell_query = request.GET.getlist("sell_query")
         except Exception as e:
