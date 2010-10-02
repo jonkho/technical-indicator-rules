@@ -37,7 +37,7 @@ jQuery('document').ready(function(){
 			var type = modifier[modifier.length - 1];
 			var num = parseInt(modifier.substr(0,modifier.length - 1));
 			if(type === 'm'){
-				modifiedDate = jQuery.datepicker.formatDate('yy/mm/dd',new Date(d.getFullYear()+'/'+(d.getMonth() - num)+'/'+d.getDate()));
+				modifiedDate = jQuery.datepicker.formatDate('yy/mm/dd',new Date(d.getFullYear()+'/'+(d.getMonth() - num + 1)+'/'+d.getDate()));
 			} else if(type === 'y'){
 				modifiedDate = jQuery.datepicker.formatDate('yy/mm/dd',new Date((d.getFullYear() - num)+'/'+d.getMonth()+'/'+d.getDate()));
 			}
