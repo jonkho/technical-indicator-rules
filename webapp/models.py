@@ -325,7 +325,7 @@ class Service(object):
         
             
 class Backtester(object):   
-    def execute_long_strategy(self, buy_points, sell_points, account):
+    def execute_long_strategy(self, buy_points, sell_points, account, stop_loss_percent=None):
         timeline = copy.deepcopy(buy_points)
         
         # buy points are marked as "buy".
@@ -344,15 +344,27 @@ class Backtester(object):
         
         #print timeline
         looking_to = "buy"
+        stop_loss_price = 0
         
         for day in timeline:
-            if looking_to == "buy" and day[-1] == "buy":
+            #print "price is %s, stop loss is %s, looking to %s" % (day[4], stop_loss_price, looking_to)
+            #print float(day[4]) <= stop_loss_price
+            if float(day[4]) <= stop_loss_price and looking_to != "buy":
+                account.sell_at_price(price=day[4], date=day[0])
+                stop_loss_price = 0
+                looking_to = "buy"
+                #print "stopped out"    
+                    
+            elif looking_to == "buy" and day[-1] == "buy":
                 account.buy_at_price(price=day[4], date=day[0])
+                stop_loss_price = self.calculate_stop_loss_price(day[4], stop_loss_percent)
+                #print stop_loss_price
                 looking_to = "sell"
                 #print "%s bought at %s" % (day[0], day[4])
             
             elif looking_to == "sell" and day[-1] == "sell":
                 account.sell_at_price(price=day[4], date=day[0])
+                stop_loss_price = 0
                 looking_to = "buy"
                 #print "%s sold at %s" % (day[0], day[4])
            
@@ -403,8 +415,18 @@ class Backtester(object):
         account.current_share_price = timeline[-1][4]                
                         
         return account
-                            
-    
+        
+    def calculate_stop_loss_price(self, price, stop_loss_percent):
+        try:
+            price = float(price)
+            stop_loss_percent = float(stop_loss_percent)
+            stop_loss_price = price - (price * stop_loss_percent / 100)
+            #print "price %s, stop loss price %s" % (price, stop_loss_price)
+            return stop_loss_price
+                     
+        except Exception as e:
+            return 0
+            
         
 class Account(object):
     def __init__(self, cash_balance=0, number_of_shares=0):

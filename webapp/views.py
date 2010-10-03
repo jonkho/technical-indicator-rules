@@ -87,6 +87,7 @@ def query_data(request):
             end_date = request.GET["end_date"].replace('/','')
             buy_query = request.GET.getlist("buy_query")
             sell_query = request.GET.getlist("sell_query")
+            stop_loss_percent = request.GET.get("stop_loss_percent", None)
         except Exception as e:
             return HttpResponse(jsonpickle.encode(Return_Code(value="3001", contents=e)))
         
@@ -100,9 +101,8 @@ def query_data(request):
                 
             backtester = Backtester()
             account = Account(cash_balance=10000)
-            timeline, account_summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
+            timeline, account_summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account, stop_loss_percent)
             
-            # FIX: need to merge with sell points as well
             indicators_data = utils.convert_indicators_data_to_nicks_specifications(buy_points.indicators_data, sell_points.indicators_data)
             result = {"data":timeline, "indicators_data":indicators_data, "summary":account_summary}
         

@@ -16,6 +16,10 @@ DATAFILE_PATH = APP_ROOT+"/test_data/data.txt"
 
 class test_bed(TestCase):
     def test1(self):
+
+    
+    
+    
 #         response = self.client.get("/query/", {"symbol":"gld", "start_date":"20100228", "end_date":"20100301", "buy_query":["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0"], "sell_query":["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient <= 0"]})
 #         return_code = json.loads(response.content)
 #         self.failUnlessEqual(int(return_code["value"]), 3000)
@@ -103,7 +107,8 @@ class test_bed(TestCase):
 #         self.failUnlessEqual(parser.indicator_operands[0][0], "macd_signal(17,8,9)")
 #         self.failUnlessEqual(parser.indicator_operands[1][0], "macd_signal(17,8,9)->histogram")
 #         print parser.indicator_operands
-        
+
+                
     
 
 from tests_web_api_01 import *
