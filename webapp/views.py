@@ -40,18 +40,40 @@ def demo(request):
         symbol = request.GET['symbol']
     except KeyError as e:
         symbol = 'dow'
-        
-    if cache.get('20090101;20100301;rsi(14)__is_crossing__50;') == None:
+
+	service = Service()
+	utils = Utils()
+	buy_points = service.execute_query(symbol, "20090101", "20100301",['rsi(14) is_crossing 50'])
+	sell_points = service.execute_query(symbol, "20090101", "20100301", ['rsi(14) >= 70'], memo=buy_points.memo)
+	backtester = Backtester()
+	account = Account(cash_balance=10000)
+	timeline, account_summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
+	
+	# FIX: need to merge with sell points as well
+	indicators_data = utils.convert_indicators_data_to_nicks_specifications(buy_points.indicators_data, sell_points.indicators_data)
+	result = {"data":timeline, "indicators_data":indicators_data, "summary":account_summary}
+	cache.set('20090101;20100301;rsi(14)__is_crossing__50;rsi(14)__>=__70;', result, 30)
+
+	#TODO: could not get the cache working for some reason????
+	''' 
+    if cache.get('20090101;20100301;rsi(14)__is_crossing__50;rsi(14)__>=__70;') == None:
         service = Service()
         utils = Utils()
-        result = service.execute_query(symbol, "20090101", "20100301", ["rsi(14) is_crossing 50"])
-        result.indicators_data = utils.convert_indicators_data_to_nicks_specifications(result.indicators_data)
-        cache.set('20090101;20100301;rsi(14)__is_crossing__50;', result, 30)
+        buy_points = service.execute_query(symbol, "20090101", "20100301",['rsi(14) is_crossing 50'])
+        sell_points = service.execute_query(symbol, "20090101", "20100301", ['rsi(14) >= 70'], memo=buy_points.memo)
+        backtester = Backtester()
+        account = Account(cash_balance=10000)
+        timeline, account_summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
+		
+		# FIX: need to merge with sell points as well
+        indicators_data = utils.convert_indicators_data_to_nicks_specifications(buy_points.indicators_data, sell_points.indicators_data)
+        result = {"data":timeline, "indicators_data":indicators_data, "summary":account_summary}
+        cache.set('20090101;20100301;rsi(14)__is_crossing__50;rsi(14)__>=__70;', result, 30)
     
     else:
-        result = cache.get('20090101;20100301;rsi(14)__is_crossing__50;')        
-         
-    return render_to_response("demo.html", {'params': {'symbol':symbol, 'start_date': '20090101' ,'end_date': '20100301', 'query':'rsi(14) is_crossing 50'},"result":jsonpickle.encode(Return_Code(value="3000", contents=result))}, context_instance=RequestContext(request))
+        result = cache.get('20090101;20100301;rsi(14)__is_crossing__50;rsi(14)__>=__70;')        
+	'''
+	return render_to_response("demo.html", {'params': {'symbol':symbol, 'start_date': '20090101' ,'end_date': '20100301', 'buy_query':'rsi(14) is_crossing 50', 'sell_query':'rsi(14) >= 70'},"result":jsonpickle.encode(Return_Code(value="3000", contents=result))}, context_instance=RequestContext(request))
 
 @csrf_exempt
 def query_data(request):        

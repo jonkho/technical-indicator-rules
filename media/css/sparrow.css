@@ -82,6 +82,13 @@ div.query_section{
 div.query_drop{
 	margin-bottom:10px;
 }
+div.date_changer a{
+	text-decoration:none;
+	color:#666;
+}
+div.date_changer a:hover{
+	text-decoration:underline;
+}
 div.query_input{
 	padding:.5%;
 	padding-bottom:1%;
@@ -150,6 +157,14 @@ div.query_section .query_bank li{
 div.query_section .query_bank li:hover{
 	background-color:#EDE0C1;
 }
+
+div.query_summary{
+	clear:both;
+	display:block;
+}
+div.query_summary dl{
+	float:left;
+}
 div.query_summary dt{
 	display:inline;
 }
@@ -157,6 +172,11 @@ div.query_summary dd{
 	display:inline;
 	font-size:1.3em;
 	font-weight:bold;
+}
+div.query_summary a{
+	text-decoration:none;
+	padding-left:15px;
+	color:#C8400E;
 }
 div.trade_history table{
     margin-top:10px;
@@ -177,6 +197,19 @@ div#graph_section{
 	border:1px solid #C1D3D9;
 }
 */
+div#legend p{
+	float:left;
+	padding:0px 10px;
+}
+div#legend p#sell_legend{
+	border-right: 2px solid #B26B00
+}
+div#legend p#buy_legend{
+	border-right:2px solid green;
+}
+div#dateRange{
+	text-align:center;
+}
 
 div.query_section .query_area li{
 	font-size:1.1em;
@@ -186,14 +219,9 @@ div.query_section .query_area li{
 	border-bottom:1px solid #C1D3D9;
 	margin:0px 0px;
 }
-div.query_section .query_area li[type="text"]{
-	width:70%;
-	height:20px;
-}
 div.query_section .query_area li a{
 	text-decoration:none;
 	color:#C8400E;
-
 }
 div.query_section .query_area li.add_query{
 	border-top:0px;

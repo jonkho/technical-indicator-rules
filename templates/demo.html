@@ -101,8 +101,8 @@
 					<ul id="query" class="query_area buy_queries">
 						<li>
 							<a href="" class="rm_query">x </a>
-							<input name="buy_query" type="hidden" value="{{params.query}}"/>
-							<p class="query_string">{{params.query}}</p>
+							<input name="buy_query" type="hidden" value="{{params.buy_query}}"/>
+							<p class="query_string">{{params.buy_query}}</p>
 						</li>
 					</ul>
 				</div>
@@ -111,7 +111,13 @@
 						<h2>Sell when&nbsp;</h2>
 						 <a href="" class="add_query sell_query">[+]</a>
 					</div>
-					<ul class="query_area sell_queries"></ul>
+					<ul class="query_area sell_queries">
+						<li>
+							<a href="" class="rm_query">x </a>
+							<input name="sell_query" type="hidden" value="{{params.sell_query}}"/>
+							<p class="query_string">{{params.sell_query}}</p>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div> <!-- close section -->
@@ -135,12 +141,12 @@
 			<div class="grid_4">
 				<h3 style="float:left">To:&nbsp;&nbsp;</h3>
 				<div class="date_changer">
-					<a href="/" rel="today">today</a>
-					<a href="/" rel="6m">6m ago</a>
-					<a href="/" rel="3m">3m ago</a>
-					<a href="/" rel="1y">1y ago</a>
-					<a href="/" rel="2y">2y ago</a>
-					<a href="/" rel="3y">3y ago</a>
+					<a href="" rel="today">today</a>
+					<a href="" rel="6m">6m ago</a>
+					<a href="" rel="3m">3m ago</a>
+					<a href="" rel="1y">1y ago</a>
+					<a href="" rel="2y">2y ago</a>
+					<a href="" rel="3y">3y ago</a>
 				</div>
 				<input name="end_date" id="end_date" type="text" value="{{params.end_date}}"/>
 			</div>
@@ -164,25 +170,21 @@
 					<dt>Performance Over Buy and Hold:</dt><dd id="performance_delta"></dd>
 				</dl>
 				<a href="" id='alert_me_link'>Alert me when to trade these signals!</a>
+				<div class="spacer"></div>
 			</div>
 		  <div id="graphcontainer">
 			<div id="finance">
 			  <div id="labels">
+			  	<div id='legend'>
+					<p id='buy_legend'>Buy</p>
+					<p id='sell_legend'>Sell</p>
+				</div>
 				<div id="dateRange">&nbsp;</div>
 			  </div>
 			</div>
 		  </div>
 		</div> <!-- close graph_section -->
 		<div class="trade_history"></div>
-		<!--
-		<div id="alert_me_box">
-			<form action="signup" method="post">
-				<label>Email</label>
-				<input type="text" value=""/>
-				<input type="submit" value="Sign Up"/>
-			</form>
-		</div>
-		-->
 
   </div> <!-- close left main -->
 {% endblock %}

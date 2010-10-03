@@ -13,12 +13,25 @@ var QUERYDATA = js;
 
 jQuery('document').ready(function(){
 
-	/*
 	jQuery('#alert_me_link').click(function(){
-		Modalbox.show($('alert_me_box'),{tile: 'sign up', width:600});
+		jQuery('<form action="signup" method="post"><label>Email</label><input name="email" type="text" value=""/><input type="submit" value="Sign Up"/></form>').dialog({title:'Alert Sign Up'}).submit(function(){
+			alert('thank you for signing up');
+			/*
+			jQuery.ajax({
+				type: 'GET',
+				url: jQuery(this).attr('action'),
+				success: function(data){
+					
+				},
+				dataType: 'json',
+				data: jQuery(this).serialize()
+			});
+			*/
+			return false;		
+
+	});
 		return false;
 	});
-	*/
 
 	//init from and to date mask
 	jQuery('#end_date').mask('9999/99/99');
@@ -30,8 +43,7 @@ jQuery('document').ready(function(){
 		var modifiedDate = '';
 		if(modifier === 'today'){
 			modifiedDate = jQuery.datepicker.formatDate('yy/mm/dd',d);
-		}
-		else if(modifier == 'start_of_year'){
+		} else if(modifier == 'start_of_year'){
 			modifiedDate = jQuery.datepicker.formatDate('yy/mm/dd',new Date(d.getFullYear()+'/01/01'));
 		} else{
 			var type = modifier[modifier.length - 1];
@@ -39,7 +51,7 @@ jQuery('document').ready(function(){
 			if(type === 'm'){
 				modifiedDate = jQuery.datepicker.formatDate('yy/mm/dd',new Date(d.getFullYear()+'/'+(d.getMonth() - num + 1)+'/'+d.getDate()));
 			} else if(type === 'y'){
-				modifiedDate = jQuery.datepicker.formatDate('yy/mm/dd',new Date((d.getFullYear() - num)+'/'+d.getMonth()+'/'+d.getDate()));
+				modifiedDate = jQuery.datepicker.formatDate('yy/mm/dd',new Date((d.getFullYear() - num)+'/'+(d.getMonth() + 1)+'/'+d.getDate()));
 			}
 		}
 		jQuery(this).parent().siblings('input').val(modifiedDate);
@@ -63,7 +75,7 @@ jQuery('document').ready(function(){
 				closeData = [];
 				highData = [];
 				lowData = [];
-				jQuery('#finance').html("<div id=\"labels\"><div id=\"dateRange\">&nbsp;</div></div>");
+				jQuery('#finance').html("<div id=\"labels\"><div id='legend'><p id='buy_legend'>Buy</p><p id='sell_legend'>Sell</p></div><div id=\"dateRange\">&nbsp;</div></div>");
 				delete rdata;
 				chartData(QUERYDATA.contents);
 			}, 100);
@@ -192,7 +204,7 @@ jQuery('document').ready(function(){
 			type: 'GET',
 			url: jQuery(this).attr('action'),
 			success: function(data){
-				jQuery('#finance').html("<div id=\"labels\"><div id=\"dateRange\">&nbsp;</div></div>");
+				jQuery('#finance').html("<div id=\"labels\"><div id='legend'><p id='buy_legend'>Buy</p><p id='sell_legend'>Sell</p></div><div id=\"dateRange\">&nbsp;</div></div>");
 				delete rdata;
 				QUERYDATA = data;
 				chartSummary(data.contents.summary);
