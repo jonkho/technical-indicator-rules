@@ -19,7 +19,7 @@ jQuery('document').ready(function(){
 				type: 'post',
 				url: 'alert/',
 				success: function(data){
-					jQuery('#alert_box').append('<p style="color:green;text-align:center;">Thank you for signing up</p>');
+					jQuery('#alert_box').append('<p style="color:green;">Thank you for signing up</p>');
 				},
 				data: jQuery(this).serialize()
 			});
