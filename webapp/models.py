@@ -7,6 +7,11 @@ from webapp.quotes import *
 import copy
 # Create your models here.
 
+class Email_Collector(models.Model):
+    email = models.EmailField()
+
+
+
 class Utils(object):
     def convert_indicators_data_to_nicks_specifications(self, indicators_data, indicators_data2=None):
         indicator_data_list = []    
