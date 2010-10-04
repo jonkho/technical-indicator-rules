@@ -14,19 +14,15 @@ var QUERYDATA = js;
 jQuery('document').ready(function(){
 
 	jQuery('#alert_me_link').click(function(){
-		jQuery('<form action="signup" method="post"><label>Email</label><input name="email" type="text" value=""/><input type="submit" value="Sign Up"/></form>').dialog({title:'Alert Sign Up'}).submit(function(){
-			alert('thank you for signing up');
-			/*
+		jQuery('<div id="alert_box"><form action="alert/" method="post"><label>Email</label><input name="email" type="text" value=""/><input type="submit" value="Sign Up"/></form></div>').dialog({title:'Alert Sign Up'}).children('form').submit(function(){
 			jQuery.ajax({
-				type: 'GET',
-				url: jQuery(this).attr('action'),
+				type: 'post',
+				url: 'alert/',
 				success: function(data){
-					
+					jQuery('#alert_box').append('<p style="color:green;text-align:center;">Thank you for signing up</p>');
 				},
-				dataType: 'json',
 				data: jQuery(this).serialize()
 			});
-			*/
 			return false;		
 
 	});

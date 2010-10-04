@@ -7,3 +7,4 @@ sloccount.sc
 uwsgi.conf
 django_wsgi.py
 local.db
+webapp/migrations
