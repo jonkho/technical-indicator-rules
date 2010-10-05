@@ -16,7 +16,7 @@ div.spacer{
 div.container{
 	margin:10px auto;
 	background-color:white;
-	padding:10px 0px 25px 5px;
+	padding:10px 0px 10px 5px;
 	text-align:left;
 	min-width:960px;
 }
@@ -314,6 +314,7 @@ div#alert_box input[type="submit"]{
 
 p#disclaimer{
 	font-style:italic;
+	margin-bottom:0px;
 	font-size:.9em;
 }
 
