@@ -311,7 +311,10 @@ div#alert_box input[type="submit"]{
 }
 
 
-
+p#disclaimer{
+	font-style:italic;
+	font-size:.9em;
+}
 
 
 
