@@ -176,7 +176,12 @@
 					<dt>Strategy Value:</dt><dd id="strategy_value"></dd>
 					<dt>Performance Over Buy and Hold:</dt><dd id="performance_delta"></dd>
 				</dl>
+				{% experiment bigger_alert_link control %}
 				<a href="" id='alert_me_link'>Alert me when to trade these signals!</a>
+				{% endexperiment %}
+				{% experiment bigger_alert_link test %}
+				<a href="" id='alert_me_link' style="font-size:1.2em">Alert me when to trade these signals!</a>
+				{% endexperiment %}
 				<div class="spacer"></div>
 			</div>
 		  <div id="graphcontainer">

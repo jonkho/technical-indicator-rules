@@ -99,7 +99,7 @@ class Experiment(models.Model):
             participant = Participant.objects.create(
                 user=self.experiment_user.get_registered_user(),
                 experiment=experiment, group=group_id,
-                anonymous_visitor=AnonymousVisitor.objects.get(id=experiment_user.get_anonymous_id())
+                anonymous_visitor=AnonymousVisitor.objects.get(id=self.experiment_user.get_anonymous_id())
             )
             user_enrolled.send(sender=self.__class__,
                                experiment=experiment,
@@ -145,10 +145,10 @@ class Experiment(models.Model):
 
     @classmethod
     def __create_user(cls, experiment_user):
-        if not experiment_user.is_anonymous():
-            return cls.__RegisteredUser(experiment_user)
-        else:
-            return cls.__AnonymousUser(experiment_user)
+        #if not experiment_user.is_anonymous():
+        #    return cls.__RegisteredUser(experiment_user)
+        #else:
+        return cls.__AnonymousUser(experiment_user)
 
     DISABLED_STATE = 0
     ENABLED_STATE = 1

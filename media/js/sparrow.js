@@ -14,7 +14,7 @@ var QUERYDATA = js;
 jQuery('document').ready(function(){
 
 	jQuery('#alert_me_link').click(function(){
-		var fb = jQuery.facebox('<div id="alert_box"><h2>Sign up to receive alerts</h2><form action="alert/" method="post"><label>Email</label><input name="email" type="text" value=""/><input type="submit" value="Sign Up"/></form></div>');
+		var fb = jQuery.facebox('<div id="alert_box"><h2>Sign up to receive alerts</h2><form action="alert/" method="post"><label>Email</label><input name="email" type="text" value=""/><input type="submit" value="Sign Up"/></form><img src="/django-lean/goal/emailclick" height="1" width="1" /></div>');
 		return false;
 	});
 
