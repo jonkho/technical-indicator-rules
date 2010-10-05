@@ -75,6 +75,18 @@ def demo(request):
 	'''
 	return render_to_response("demo.html", {'params': {'symbol':symbol, 'start_date': '20090101' ,'end_date': '20100301', 'buy_query':'rsi(14) is_crossing 50', 'sell_query':'rsi(14) >= 70'},"result":jsonpickle.encode(Return_Code(value="3000", contents=result))}, context_instance=RequestContext(request))
 
+def alert(request):
+	if request.method == 'GET':
+		raise Http404
+	else:
+		email = request.POST['email']
+		new_email = Email_Collector(email=email)
+		new_email.save()
+		return HttpResponse('ok')	
+
+
+
+
 @csrf_exempt
 def query_data(request):        
     if request.method == "POST":

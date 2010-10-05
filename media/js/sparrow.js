@@ -14,22 +14,20 @@ var QUERYDATA = js;
 jQuery('document').ready(function(){
 
 	jQuery('#alert_me_link').click(function(){
-		jQuery('<form action="signup" method="post"><label>Email</label><input name="email" type="text" value=""/><input type="submit" value="Sign Up"/></form>').dialog({title:'Alert Sign Up'}).submit(function(){
-			alert('thank you for signing up');
-			/*
-			jQuery.ajax({
-				type: 'GET',
-				url: jQuery(this).attr('action'),
-				success: function(data){
-					
-				},
-				dataType: 'json',
-				data: jQuery(this).serialize()
-			});
-			*/
-			return false;		
-
+		var fb = jQuery.facebox('<div id="alert_box"><h2>Sign up to receive alerts</h2><form action="alert/" method="post"><label>Email</label><input name="email" type="text" value=""/><input type="submit" value="Sign Up"/></form></div>');
+		return false;
 	});
+
+	jQuery('#alert_box form').live('submit',function(){
+		var form_wrapper = jQuery(this).parent();
+		jQuery.ajax({
+			type: 'post',
+			url: 'alert/',
+			success: function(data){
+				form_wrapper.append('<p style="color:green;">Thank you for signing up</p>');
+			},
+			data: jQuery(this).serialize()
+		});
 		return false;
 	});
 
