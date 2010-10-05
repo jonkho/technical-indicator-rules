@@ -1,5 +1,6 @@
 build/
 logs/
+webapp/migrations/
 *.pyc
 .coverage
 coverage.xml

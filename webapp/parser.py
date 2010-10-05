@@ -241,6 +241,12 @@ class Parser(object):
         
         if booloperator == "is_crossing":
             return Is_Crossing
+            
+        elif booloperator == "is_crossing_above":
+            return Is_Crossing_Above
+        
+        elif booloperator == "is_crossing_below":
+            return Is_Crossing_Below        
     
         elif booloperator == "<=":
             return Is_Less_Than_Or_Equal_To
