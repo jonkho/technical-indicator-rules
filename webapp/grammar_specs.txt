@@ -65,3 +65,41 @@ macd_signal(17,8,9)->histogram
 <float> : all floats
 
 <number> : -1,2,3,4,5...		
+
+
+
+ENBF FORM:
+expression = operand booloperator operand? .
+operand = ( indicator modifier? ( arithoperator operand )?) | unit .
+indicator = (
+          (
+            "price"
+          ) | ( 
+            "sma"
+          | "ema"
+          | "stochastic"
+          | "rsi"
+          ) "(" NUMBER ")" | (
+            "full_stochastic"
+          | "macd"
+          ) "(" NUMBER "," NUMBER ")" 
+          ) "->" transform | (
+          (
+            "stochastic_signal"
+          ) "(" NUMBER "," NUMBER ")" | (
+            "macd_signal"
+          | "full_stochastic_signal"
+          ) "(" NUMBER "," NUMBER "," NUMBER ")" 
+          ) "->" signal_transform .
+signal_transform = "histogram" | transform .
+transform = "ema" "(" NUMBER ")"
+          | "sma" "(" NUMBER ")"
+          | "macd" "(" NUMBER "," NUMBER ")"
+          | "macd_signal" "(" NUMBER "," NUMBER "," NUMBER ")" .
+modifier = ("speed" | "gradient")? day_displacement .
+day_displacement = NUMBER ("days_ago" | "days_later") .
+unit = FLOAT .
+booloperator = ">=" | "<=" | "is_crossing" | "is_increasing" .
+arithoperator = "-" | "|-|" .
+FLOAT = PRIMATIVE .
+NUMBER = PRIMATIVE .

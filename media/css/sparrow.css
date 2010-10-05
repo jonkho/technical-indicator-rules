@@ -46,6 +46,7 @@ div.container div.header h1 a{
 }
 div.container div.header div.header_nav{
 	float:right;
+	color: gray;
 	padding:10px;
 }
 div.container div.header div.header_nav a{
