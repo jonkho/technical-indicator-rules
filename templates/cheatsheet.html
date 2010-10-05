@@ -10,6 +10,22 @@
 {% block content %}
 <div class="about_content clearfix grid_12">
 	<h1>Query Language Reference</h1>
+	<h3>Indicator Reference:</h3>
+	<ul>
+	 <li>macd(long-term moving average, short-term moving average)</li>
+	 <li>macd_signal(long-term moving average, short-term moving average, period)</li>
+	 <li>sma(period)</li>
+	 <li>ema(period)</li>
+	 <li>rsi(period)</li>
+	 <li>stochastic(period)</li>
+	 <li>stochastic_signal(period, smoothing)</li>
+	 <li>full_stochastic(period, moving average)</li>
+	 <li>full_stochastic_signal(period, moving average, smoothing)</li>
+	 <li>price</li>
+	</ul>
+	<h3>Transforms</h3>
+	<p>You can place transforms after any of the non-signal indicators to perform one of the following: ema, sma, macd, macd_signal. They take the same parameters as the indicator varieties.</p>
+	<p>e.g. rsi(14)->ema(7)</p>
   <h3>Syntax:</h3>
   <img src="/images/grammar_diagram.png" />
   Last Updated 10/4/2010
