@@ -294,5 +294,35 @@ dl#faq{
 	margin-left:15px;
 }
 
-div#alert_me_box{
+div#alert_box{
+
 }
+div#alert_box h2{
+	font-weight:normal;
+	font-size:1.4em;
+	color:#C8400E;
+	text-align:center;
+}
+div#alert_box input[type="text"]{
+	width:80%;
+	margin-left:10px;
+}
+div#alert_box input[type="submit"]{
+	margin-left:40%;
+}
+
+
+p#disclaimer{
+	font-style:italic;
+	font-size:.9em;
+}
+
+
+
+
+
+
+
+
+
+

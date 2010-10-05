@@ -1,5 +1,6 @@
 build/
 logs/
+webapp/migrations/
 *.pyc
 .coverage
 coverage.xml
@@ -7,3 +8,4 @@ sloccount.sc
 uwsgi.conf
 django_wsgi.py
 local.db
+webapp/migrations

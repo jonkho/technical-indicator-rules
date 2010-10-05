@@ -260,6 +260,18 @@ class Operator_Test(TestCase):
         result = rule_5(past_data=prices, latest_record=("2010-03-02", 111.02)) 
         self.failUnlessEqual(result, True)
         
+        # here is a macd crossing above threshold rule
+        macd = Macd(long_term_ma=17, short_term_ma=8)
+        rule_5 = Is_Crossing_Above(operand1=macd, operand2=Unit(0.4))
+        result = rule_5(past_data=prices, latest_record=("2010-03-02", 111.02)) 
+        self.failUnlessEqual(result, True)
+        
+        # here is a macd crossing below threshold rule
+        macd = Macd(long_term_ma=17, short_term_ma=8)
+        rule_5 = Is_Crossing_Below(operand1=macd, operand2=Unit(0.4))
+        result = rule_5(past_data=prices, latest_record=("2010-03-02", 111.02)) 
+        self.failUnlessEqual(result, False)
+        
         # here is a macd to macd signal difference rule
         macd = Macd(long_term_ma=17, short_term_ma=8)
         macd_signal = Macd_Signal(long_term_ma=17, short_term_ma=8, period=9)
@@ -615,6 +627,17 @@ class Execution_Env_Test(TestCase):
         rule = parser.parse_query(tokenizer)    
         result = exe_box.exe(rule)
         self.failUnlessEqual(result.number_of_points, 25)
+        
+        tokenizer = Tokenizer(query_text="macd(17,8) is_crossing_above macd_signal(17,8,9)")
+        rule = parser.parse_query(tokenizer)    
+        result = exe_box.exe(rule)
+        self.failUnlessEqual(result.number_of_points, 13)
+        
+        tokenizer = Tokenizer(query_text="macd(17,8) is_crossing_below macd_signal(17,8,9)")
+        rule = parser.parse_query(tokenizer)    
+        result = exe_box.exe(rule)
+        self.failUnlessEqual(result.number_of_points, 12)
+        
 
         tokenizer = Tokenizer(query_text="full_stochastic(10,3) is_crossing 20")
         rule = parser.parse_query(tokenizer)    
