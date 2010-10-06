@@ -37,8 +37,8 @@ class GoalRecord(models.Model):
         """
         Records a goal achievement for the experiment user.
         If the user does not have an anonymous visitor ID, does nothing.
-        If the goal name is not known, throws an Exception.
-        """
+        If the goal name is not known, creates a goal with that name.
+        """    
         anonymous_id = experiment_user.get_anonymous_id()
         if anonymous_id:
             anonymous_visitor = AnonymousVisitor.objects.get(id=anonymous_id)
@@ -56,6 +56,9 @@ class GoalRecord(models.Model):
 
     @classmethod
     def record(cls, goal_name, experiment_user):
+        if experiment_user.is_bot:
+            return
+        
         try:
             return cls._record(goal_name, experiment_user)
         except GoalType.DoesNotExist:

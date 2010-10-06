@@ -16,6 +16,11 @@ class WebUser(object):
         self.user = request.user
         self.session = request.session
         self.anonymous_visitor = self.get_or_create_anonymous_visitor()
+        self.is_bot = self.is_bot()
+        
+    def is_bot(self):
+        return 'Chrome' in self.request.META['HTTP_USER_AGENT']
+        return 'chartbeat/uptimeping' in self.request.META['HTTP_USER_AGENT']
 
     def is_anonymous(self):
         return self.user.is_anonymous()
