@@ -64,6 +64,21 @@ class Utils(object):
                 record[-1] = 0
         return data  
         
+    def logical_or(self, list_of_list_of_records):
+        a_list = list_of_list_of_records[0]
+        result = copy.deepcopy(a_list)
+        
+        for index, record in enumerate(result):
+            is_true = False
+            
+            for a_list in list_of_list_of_records:
+                is_true = is_true or a_list[index][-1]
+                   
+            record[-1] = is_true
+            
+        return result
+                
+        
                
 class Return_Code(object):
     value = ""
