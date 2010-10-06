@@ -19,8 +19,10 @@ class WebUser(object):
         self.is_bot = self.is_bot()
         
     def is_bot(self):
-        return 'Chrome' in self.request.META['HTTP_USER_AGENT']
-        return 'chartbeat/uptimeping' in self.request.META['HTTP_USER_AGENT']
+        try:
+            return 'chartbeat/uptimeping' in self.request.META['HTTP_USER_AGENT']
+        except KeyError:
+            return False
 
     def is_anonymous(self):
         return self.user.is_anonymous()
