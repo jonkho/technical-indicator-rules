@@ -867,6 +867,21 @@ class Utils_Test(TestCase):
         self.failUnlessEqual(len(combined_indicators_data[0]), 2)
         self.failUnlessEqual(combined_indicators_data[0][0][0], "macd(17,8)")
         self.failUnlessEqual(combined_indicators_data[0][1][0], "macd_signal(17,8,9)")
+        
+    def test_given_two_query_results_data_Then_the_results_can_be_logically_ORed(self):
+        service = Service()
+        buy_points_1 = service.execute_query("GLD", "20100101", "20100601", ["macd(17,8) is_crossing macd_signal(17,8,9)"])
+        buy_points_2 = service.execute_query("GLD", "20100101", "20100601", ["macd(17,8) >= macd_signal(17,8,9)"])
+        
+        utils = Utils()
+        all_buy_points = utils.logical_or([buy_points_1.data, buy_points_2.data])
+        
+        count = 0
+        for record in all_buy_points:
+            if record[-1]:
+                count += 1
+        
+        self.failUnlessEqual(count, 63)        
                         
 
 #from tests_web_api_01 import *
