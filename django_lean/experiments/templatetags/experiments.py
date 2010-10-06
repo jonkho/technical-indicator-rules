@@ -38,6 +38,8 @@ class ExperimentNode(BaseExperimentNode):
     def render(self, context):
         user = self.get_user(context)
         should_render = False
+        if user.is_bot:
+            return ""
         
         if self.group_name == "test":
             should_render = Experiment.test(self.experiment_name, user)
