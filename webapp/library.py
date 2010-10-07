@@ -530,7 +530,11 @@ class Rs(object):
 
     def __call__(self, past_data, latest_record):
         previous_average_gain, previous_average_loss = self.first_average_gain_loss(past_data[:self.period+1])
-        result = previous_average_gain / previous_average_loss
+        
+        try:
+            result = previous_average_gain / previous_average_loss
+        except:
+            result = previous_average_gain / 0.0001    
 
         for i in range(self.period+1, len(past_data)):
             if self.is_gain(past_data[i], past_data[i-1]):
