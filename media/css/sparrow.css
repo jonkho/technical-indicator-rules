@@ -72,6 +72,10 @@ h3.instructions span{
 	font-weight:bold;
 
 }
+h2 span{
+    color:#666;
+}
+
 /*
 div.query_section{
 	background-color:#F4F8FA;
