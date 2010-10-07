@@ -160,8 +160,6 @@
 			<div id="loader" style="display:none;">&nbsp;</div>
 			<div class="query_summary">
 				<dl>
-					<dt>Buy and Hold Value:</dt><dd id="buy_and_hold_value"></dd>
-					<dt>Strategy Value:</dt><dd id="strategy_value"></dd>
 					<dt>Performance Over Buy and Hold:</dt><dd id="performance_delta"></dd>
 				</dl>
 				{% experiment bigger_alert_link control %}
@@ -185,6 +183,11 @@
 		  </div>
 		</div> <!-- close graph_section -->
 		<div class="trade_history"></div>
+        <div class="query_summary">
+            <dt>Buy and Hold Value:</dt><dd id="buy_and_hold_value"></dd>
+            <dt>Strategy Value:</dt><dd id="strategy_value"></dd>
+		</div>
+		<br />
 		<p id="disclaimer" class="footer">This software is provided as-is. TradeSparrow makes no guarantee of any kind, explicit or implicit. Trading involves risk and potential loss of capital. Past performance may not be a good predictor of future performance. TradeSparrow recommends using stop-losses to help manage risk.</p>
   </div> <!-- close left main -->
 {% endblock %}
