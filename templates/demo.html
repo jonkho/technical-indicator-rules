@@ -31,7 +31,7 @@
 		<div class="section query_section clearfix">
 			<div class="queries grid_12">
 				<div class="bull_queries grid_6">
-				  <h2>Bullish Indicators <span>by professional opinion</span></h2>
+				  <h2>Bullish Indicators <span>generally recognized by professionals</span></h2>
 				  <ul id="buybank" class="query_bank buy_queries">
 						<li class="immutable">rsi(14) <= 30</li>
 						<li class="immutable">rsi(14) is_crossing 30</li>
@@ -64,7 +64,7 @@
 				</div>
 -->
 				<div class="bear_queries grid_6">
-				  <h2>Bearish Indicators <span>by professional opinion</span></h2>     
+				  <h2>Bearish Indicators <span>generally recognized by professionals</span></h2>     
 				  <ul class="query_bank sell_queries">
 						<li class="immutable">rsi(14) >= 70</li>
 						<li class="immutable">rsi(14) is_crossing 70</li>
@@ -77,7 +77,7 @@
 						<li class="immutable">slow_stochastic(5) gradient is_decreasing</li>
 						<li class="immutable">slow_stochastic_signal(5,5) is_crossing 70</li>
 						<li class="immutable">slow_stochastic(5) is_crossing_below slow_stochastic_signal(5,5)</li>
-						<li class="immutable">macd(17,8) <= macd_signal(17,8,9)</li>
+						<li class="immutable">macd(17,8) <= macd_signal(17,8,5)</li>
 						<li class="immutable">macd(17,8) is_decreasing</li>
 						<li class="immutable">macd(17,8) gradient is_decreasing</li>
 						<li class="immutable">macd(17,8) is_crossing_below 0</li>
@@ -154,8 +154,7 @@
 
 
 
-
-		<h3 class="instructions"><span>step 3:</span> read the chart and trading data.</h3>
+        <h3 class="instructions"><span>step 3:</span> read the chart and trading data.</h3>		
 		<div id="graph_section" class="section">
 			<div id="loader" style="display:none;">&nbsp;</div>
 			<div class="query_summary">

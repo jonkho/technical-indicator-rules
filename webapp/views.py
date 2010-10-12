@@ -102,7 +102,15 @@ def query_data(request):
             end_date = request.GET["end_date"].replace('/','')
             buy_query = request.GET.getlist("buy_query")
             sell_query = request.GET.getlist("sell_query")
+#             sell_query_1 = request.GET.getlist("sell_query_1")
+#             buy_query_1 = request.GET.getlist("buy_query_1")
+#             sell_query_1 = request.GET.getlist("sell_query_1")
+#             buy_query_2 = request.GET.getlist("buy_query_2")
+#             sell_query_2 = request.GET.getlist("sell_query_2")
+#             buy_query_3 = request.GET.getlist("buy_query_3")
+#             sell_query_3 = request.GET.getlist("sell_query_3")
             stop_loss_percent = request.GET.get("stop_loss_percent", None)
+            
         except Exception as e:
             return HttpResponse(jsonpickle.encode(Return_Code(value="3001", contents=e)))
         

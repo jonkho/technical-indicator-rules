@@ -88,11 +88,12 @@ div.query_drop{
 	margin-bottom:10px;
 }
 div.date_changer a{
-	text-decoration:none;
+	text-decoration:underline;
 	color:#666;
 }
 div.date_changer a:hover{
 	text-decoration:underline;
+	color:#CC0000;
 }
 div.query_input{
 	padding:.5%;
@@ -202,6 +203,8 @@ div#graph_section{
 	border:1px solid #C1D3D9;
 }
 */
+
+
 div#legend p{
 	float:left;
 	padding:0px 10px;
@@ -209,9 +212,12 @@ div#legend p{
 div#legend p#sell_legend{
 	border-right: 2px solid #B26B00
 }
+
 div#legend p#buy_legend{
 	border-right:2px solid green;
 }
+
+
 div#dateRange{
 	text-align:center;
 }
