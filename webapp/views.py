@@ -55,7 +55,7 @@ def demo(request):
     timeline, account_summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
     
     # FIX: need to merge with sell points as well
-    indicators_data = utils.convert_indicators_data_to_nicks_specifications(buy_points.indicators_data, sell_points.indicators_data)
+    indicators_data = utils.convert_indicators_data_to_nicks_specifications([buy_points.indicators_data, sell_points.indicators_data])
     result = {"data":timeline, "indicators_data":indicators_data, "summary":account_summary}
     cache.set('20090101;20100301;rsi(14)__is_crossing__50;rsi(14)__>=__70;', result, 30)
 
