@@ -13,28 +13,41 @@ class Email_Collector(models.Model):
 
 
 class Utils(object):
-    def convert_indicators_data_to_nicks_specifications(self, indicators_data, indicators_data2=None):
+    def convert_indicators_data_to_nicks_specifications(self, indicators_data_list):
         indicator_data_list = []    
         
-        if indicators_data2 == None:
-            for phrase_indicator_key, indicator_record in indicators_data.items():
-                indicator_data_list.append(indicator_record)
-                 
-            return indicator_data_list
+#         if indicators_data2 == None:
+#             for phrase_indicator_key, indicator_record in indicators_data.items():
+#                 indicator_data_list.append(indicator_record)
+#                  
+#             return indicator_data_list
+#         
+#         else:
+        combined_indicators_data = {}
         
-        else:
-            combined_indicators_data = {}
-            
+        for indicators_data in indicators_data_list:
+                    
             for phrase_indicator_key, indicator_record in indicators_data.items():
                 combined_indicators_data[phrase_indicator_key] = indicator_record
-                
-            for phrase_indicator_key, indicator_record in indicators_data2.items():
-                combined_indicators_data[phrase_indicator_key] = indicator_record
-                
-            for phrase_indicator_key, indicator_record in combined_indicators_data.items():
+            
+#             for phrase_indicator_key, indicator_record in indicators_data2.items():
+#                 combined_indicators_data[phrase_indicator_key] = indicator_record
+            
+        for phrase_indicator_key, indicator_record in combined_indicators_data.items():
+            if not self.key_is_a_composing_member_of_another_key(phrase_indicator_key, combined_indicators_data):
                 indicator_data_list.append(indicator_record)
-                 
-            return indicator_data_list
+             
+        return indicator_data_list
+       
+    def key_is_a_composing_member_of_another_key(self, key_to_be_tested, key_value_dict):
+        for key, value in key_value_dict.items():
+            if key_to_be_tested == key:
+                pass # not composing member
+            elif key_to_be_tested in key:
+                return True
+        
+        return False                 
+           
                                              
 
     def one_year_earlier(self, start_date):

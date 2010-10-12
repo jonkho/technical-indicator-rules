@@ -118,6 +118,24 @@ def query_data(request):
         service = Service()
         query_result = None
         
+#             buy_query_results_to_or = []
+#             buy_query_result_1 = service.execute_query(symbol, start_date, end_date, buy_query_1)
+#             
+#             if buy_query_2:
+#                 buy_query_result_2 = service.execute_query(symbol, start_date, end_date, buy_query_2)
+#                 buy_query_results_to_or.append(buy_query_result_1.data)
+#                 buy_query_results_to_or.append(buy_query_result_2.data)
+#             
+#             if buy_query_3:
+#                 buy_query_result_3 = service.execute_query(symbol, start_date, end_date, buy_query_3)
+#                 buy_query_results_to_or.append(buy_query_result_3.data)
+#             
+#             if len(buy_query_results_to_or) > 0:    
+#                 all_buy_points = utils.logical_or(buy_query_results_to_or)
+#                
+#             else:
+#                 all_buy_points = buy_query_result_1
+        
         if len(buy_query) > 0 and len(sell_query) > 0:
             buy_points = service.execute_query(symbol, start_date, end_date, buy_query)
             sell_points = service.execute_query(symbol, start_date, end_date, sell_query, memo=buy_points.memo)
@@ -126,17 +144,18 @@ def query_data(request):
             account = Account(cash_balance=10000)
             timeline, account_summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account, stop_loss_percent)
             
-            indicators_data = utils.convert_indicators_data_to_nicks_specifications(buy_points.indicators_data, sell_points.indicators_data)
+            indicators_data = utils.convert_indicators_data_to_nicks_specifications([buy_points.indicators_data, sell_points.indicators_data])
             result = {"data":timeline, "indicators_data":indicators_data, "summary":account_summary}
         
         elif len(buy_query) > 0 and len(sell_query) == 0:
             query_result = service.execute_query(symbol, start_date, end_date, buy_query) 
-            query_result.indicators_data = utils.convert_indicators_data_to_nicks_specifications(query_result.indicators_data)
-            result = {"data":query_result.data, "indicators_data":query_result.indicators_data, "summary":None}
+            query_result.indicators_data = utils.convert_indicators_data_to_nicks_specifications([query_result.indicators_data])
+            result = {"data":query_result.data, "indicators_data":query_result.indicators_data, "summary":None} 
+                         
         
         elif len(sell_query) > 0:
             query_result = service.execute_query(symbol, start_date, end_date, sell_query)  
-            query_result.indicators_data = utils.convert_indicators_data_to_nicks_specifications(query_result.indicators_data)
+            query_result.indicators_data = utils.convert_indicators_data_to_nicks_specifications([query_result.indicators_data])
             result = {"data":query_result.data, "indicators_data":query_result.indicators_data, "summary":None}       
              
         return HttpResponse(jsonpickle.encode(Return_Code(value="3000", contents=result)))    

@@ -841,7 +841,7 @@ class Utils_Test(TestCase):
         service = Service()
         utils = Utils()
         buy_points = service.execute_query("GLD", "20090101", "20100801", ["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0"])
-        buy_points.indicators_data = utils.convert_indicators_data_to_nicks_specifications(buy_points.indicators_data)
+        buy_points.indicators_data = utils.convert_indicators_data_to_nicks_specifications([buy_points.indicators_data])
         
         # results of buy_points.indicators_data should be:
         # [
@@ -861,7 +861,18 @@ class Utils_Test(TestCase):
         buy_points = service.execute_query("GLD", "20090101", "20100801", ["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0"])
         sell_points = service.execute_query("GLD", "20090101", "20100801", ["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient <= 0"])
         
-        combined_indicators_data = utils.convert_indicators_data_to_nicks_specifications(buy_points.indicators_data, sell_points.indicators_data)
+        combined_indicators_data = utils.convert_indicators_data_to_nicks_specifications([buy_points.indicators_data, sell_points.indicators_data])
+        
+        self.failUnlessEqual(len(combined_indicators_data), 1)
+        self.failUnlessEqual(len(combined_indicators_data[0]), 2)
+        self.failUnlessEqual(combined_indicators_data[0][0][0], "macd(17,8)")
+        self.failUnlessEqual(combined_indicators_data[0][1][0], "macd_signal(17,8,9)")
+        
+        # another test
+        buy_points = service.execute_query("GLD", "20090101", "20100801", ["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0"])
+        sell_points = service.execute_query("GLD", "20090101", "20100801", ["macd(17,8) is_crossing_below 0"])
+        
+        combined_indicators_data = utils.convert_indicators_data_to_nicks_specifications([buy_points.indicators_data, sell_points.indicators_data])
         
         self.failUnlessEqual(len(combined_indicators_data), 1)
         self.failUnlessEqual(len(combined_indicators_data[0]), 2)
