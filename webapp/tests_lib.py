@@ -800,6 +800,17 @@ class Service_Test(TestCase):
         service = Service()
         result = service.execute_query("GLD", "20090101", "20100301", ["macd(17,8) is_crossing macd_signal(17,8,9)"])
         self.failUnlessEqual(result.number_of_points, 28)
+        
+    def test_queries_can_be_logical_or(self):
+        service = Service()
+        result, indicators_data_list = service.execute_logical_or_queries("GLD", "20100101", "20100601", [["macd(17,8) is_crossing macd_signal(17,8,9)"], ["macd(17,8) >= macd_signal(17,8,9)"], None])
+        
+        count = 0
+        for record in result:
+            if record[-1]:
+                count += 1
+        
+        self.failUnlessEqual(count, 63)   
 
 
 class Backtester_Test(TestCase):
@@ -892,7 +903,11 @@ class Utils_Test(TestCase):
             if record[-1]:
                 count += 1
         
-        self.failUnlessEqual(count, 63)        
+        self.failUnlessEqual(count, 63)
+        
+
+        
+            
                         
 
 #from tests_web_api_01 import *

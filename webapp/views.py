@@ -116,25 +116,16 @@ def query_data(request):
         
         utils = Utils()
         service = Service()
-        query_result = None
         
-#             buy_query_results_to_or = []
-#             buy_query_result_1 = service.execute_query(symbol, start_date, end_date, buy_query_1)
-#             
-#             if buy_query_2:
-#                 buy_query_result_2 = service.execute_query(symbol, start_date, end_date, buy_query_2)
-#                 buy_query_results_to_or.append(buy_query_result_1.data)
-#                 buy_query_results_to_or.append(buy_query_result_2.data)
-#             
-#             if buy_query_3:
-#                 buy_query_result_3 = service.execute_query(symbol, start_date, end_date, buy_query_3)
-#                 buy_query_results_to_or.append(buy_query_result_3.data)
-#             
-#             if len(buy_query_results_to_or) > 0:    
-#                 all_buy_points = utils.logical_or(buy_query_results_to_or)
-#                
-#             else:
-#                 all_buy_points = buy_query_result_1
+#         all_buy_points, buy_indicators_data_list = service.execute_logical_or_queries(symbol, start_date, end_date, [buy_query_1, buy_query_2, buy_query_3])
+#         all_sell_points, sell_indicators_data_list = service.execute_logical_or_queries(symbol, start_date, end_date, [sell_query_1, sell_query_2, sell_query_3])
+#                    
+#         for indicators_data in sell_indicators_data_list:
+#             buy_indicators_data_list.append(indicators_data)
+#                     
+#         indicators_data = utils.convert_indicators_data_to_nicks_specifications(buy_indicators_data_list)
+                     
+        
         
         if len(buy_query) > 0 and len(sell_query) > 0:
             buy_points = service.execute_query(symbol, start_date, end_date, buy_query)

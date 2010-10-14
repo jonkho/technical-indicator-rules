@@ -78,18 +78,22 @@ class Utils(object):
         return data  
         
     def logical_or(self, list_of_list_of_records):
-        a_list = list_of_list_of_records[0]
-        result = copy.deepcopy(a_list)
+        try:
+            a_list = list_of_list_of_records[0]
+            result = copy.deepcopy(a_list)
+            
+            for index, record in enumerate(result):
+                is_true = False
+                
+                for a_list in list_of_list_of_records:
+                    is_true = is_true or a_list[index][-1]
+                       
+                record[-1] = is_true
+                
+            return result
         
-        for index, record in enumerate(result):
-            is_true = False
-            
-            for a_list in list_of_list_of_records:
-                is_true = is_true or a_list[index][-1]
-                   
-            record[-1] = is_true
-            
-        return result
+        except:
+            raise RuntimeError
                 
         
                
@@ -301,6 +305,33 @@ class Query_Execution_Box(object):
         return result   
             
 class Service(object):
+    def execute_logical_or_queries(self, symbol, start_date, end_date, queries, memo=None):            
+        
+        list_of_query_result = []
+        list_of_query_result_data = []
+        
+        # execute all the queries the create the list of query boxes
+        for query in queries:
+            if query != None:    
+                result = self.execute_query(symbol, start_date, end_date, query, memo)
+                list_of_query_result.append(result)
+                list_of_query_result_data.append(result.data)
+            
+        # logical or all the data
+        utils = Utils()
+        all_points = utils.logical_or(list_of_query_result_data) 
+        
+        
+        # collect all the indicators data
+        list_of_indicators_data = []
+        for query_result in list_of_query_result:
+            list_of_indicators_data.append(query_result.indicators_data)
+            
+        return all_points, list_of_indicators_data    
+       
+            
+                  
+
     def execute_query(self, symbol, start_date, end_date, query, memo=None):
 
         # get the extra runway data
