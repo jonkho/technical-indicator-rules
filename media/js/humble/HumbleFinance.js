@@ -168,7 +168,7 @@ var HumbleFinance = {
         this.containers.volume = new Element('div', {id: 'volumeGraph', style: 'width: 100%; height: 80px;'});
         this.containers.inds = [];
         for (var i=0; i < iData.length; i++) {
-          this.containers.inds[i] = new Element('div', {id: 'iGraph'+i, style: 'width: 100%; height: 60px;'});
+          this.containers.inds[i] = new Element('div', {id: 'iGraph'+i, style: 'width: 100%; height: 100px;'});
         };
         this.containers.summary = new Element('div', {id: 'summaryGraph', style: 'width: 100%; height: 60px;'});
         this.containers.flags = new Element('div', {id: 'flagContainer'/*, style: 'width: 0px; height: 0px;'*/});
