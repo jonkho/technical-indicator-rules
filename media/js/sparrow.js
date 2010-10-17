@@ -13,6 +13,7 @@ var QUERYDATA = js;
 
 jQuery('document').ready(function(){
 
+	//alert pop up
 	jQuery('#alert_me_link').click(function(){
 		var fb = jQuery.facebox('<div id="alert_box"><h2>Sign up to receive alerts</h2><form action="alert/" method="post"><label>Email</label><input name="email" type="text" value=""/><input type="submit" value="Sign Up"/></form><img src="/django-lean/goal/emailclick" height="1" width="1" /></div>');
 		return false;
@@ -30,6 +31,24 @@ jQuery('document').ready(function(){
 		});
 		return false;
 	});
+	//*********************************************************//
+
+
+	//stop loss event handler
+	jQuery('div.stop_loss_control ul li').click(function(){
+		var slp = jQuery(this);
+		slp.siblings('li').removeClass('active').end().toggleClass('active');
+		if(slp.hasClass('active')){
+			jQuery('#stop_loss_input').val(slp.text());
+		} else{
+			jQuery('#stop_loss_input').val('');
+		}
+	});
+
+
+
+
+
 
 	//init from and to date mask
 	jQuery('#end_date').mask('9999/99/99');
@@ -55,7 +74,7 @@ jQuery('document').ready(function(){
 		jQuery(this).parent().siblings('input').val(modifiedDate);
 		return false;
 	});
-
+	//**************************************************//
 
 	window.timer = null;
 	window.onresize = function() {

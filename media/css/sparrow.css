@@ -124,8 +124,24 @@ div.query_section div.drop_header{
 	clear:both;
 	text-align:left;	
 }
+div.drop_header div.stop_loss_control{
+	float:right;
+}
 div.query_section div.drop_header h2{
 	display:inline;
+}
+div.drop_header div.stop_loss_control ul{
+	display:inline;
+}
+div.drop_header div.stop_loss_control ul li{
+	display:inline;
+	cursor:pointer;
+	padding:0px 3px 2px 3px;
+	font-size:1.1em;
+}
+div.drop_header div.stop_loss_control ul li.active{
+	background-color:#C1D3D9;
+	font-weight:bold;
 }
 div.query_section div.drop_header a{
 	display:inline;
@@ -139,7 +155,6 @@ div.query_section div.drop_header a:hover{
 div.query_section .query_area{
 	border:1px solid #C1D3D9;
 	min-height:100px;
-	width:98%;
 	list-style-type:none;
 	background-color:white;
 	padding-bottom:10px;
