@@ -29,7 +29,10 @@ macd_signal(17,8,9)->histogram
 <booloperator> : >=
 			   : <=
 			   : is_crossing
+			   : is_crossing_above
+			   : is_crossing_below
 			   : is_increasing
+			   : is_decreasing
 
 <arithoperator> : -
 				: |-|
