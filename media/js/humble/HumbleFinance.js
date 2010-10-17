@@ -703,7 +703,7 @@ var HumbleFinance = {
                 yaxis: {min: ymin, max: ymax, tickFormatter: this.yTickFormatter, noTicks: 3, autoscaleMargin: .5,  tickDecimals: 0},
                 xaxis: {min: xmin, max: xmax, showLabels: false},
                 grid: {verticalLines: false, horizontalLines: true, outlineWidth: 0, labelMargin: 0, tickColor:"rgba(0,0,0,0.07)"},
-                mouse: {track: true, sensibility: 1, trackDecimals: 4, trackFormatter: this.trackFormatter, position: 'ne'},
+                mouse: {track: true, sensibility: 1, trackDecimals: 4, trackFormatter: this.trackFormatter, position: 'nw'},
                 shadowSize: false,
                 HtmlText: true,
                 bgData: bgData
@@ -735,7 +735,7 @@ var HumbleFinance = {
                 yaxis: {min: ymin, max: ymax, autoscaleMargin: .5, showLabels: false, tickDecimals: 0},
                 xaxis: {min: xmin, max: xmax, showLabels: false, labelsAngle: 60},
                 grid: {verticalLines: false, horizontalLines: false, outlineWidth: 0, labelMargin: 0},
-                mouse: {track: true, sensibility: .3, position: 'ne', trackDecimals: 0},
+                mouse: {track: true, sensibility: .3, position: 'nw', trackDecimals: 0},
                 shadowSize: false,
                 HtmlText: true
             }
@@ -767,7 +767,7 @@ var HumbleFinance = {
                 yaxis: {min: ymin, max: ymax, showLabels: false, noTicks: 2, tickDecimals: 0},
                 xaxis: {min: xmin, max: xmax, showLabels: false, labelsAngle: 60},
                 grid: {verticalLines: false, horizontalLines: true, outlineWidth: 0, labelMargin: 0},
-                mouse: {track: true, sensibility: .3, position: 'ne', trackDecimals: 0, trackFormatter: this.iFormatter},
+                mouse: {track: true, sensibility: .3, position: 'nw', trackDecimals: 0, trackFormatter: this.iFormatter},
                 shadowSize: false,
                 HtmlText: true,
                 iid: k
