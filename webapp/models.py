@@ -417,6 +417,7 @@ class Backtester(object):
                 account.sell_at_price(price=day[4], date=day[0])
                 stop_loss_price = 0
                 looking_to = "buy"
+                day[-1] = "sell"
                 #print "stopped out"    
                     
             elif looking_to == "buy" and day[-1] == "buy":

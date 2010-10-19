@@ -23,7 +23,7 @@ Modifiers.prototype.set_change = function(value) {
 
 function StochasticDoc(period) {
     this.text = "Stochastic(" + period + ")";
-    this.description = this.text + " calculates the day's price as a percentile of the entire price range over the past " + period + " days. A lower percentile indicates that the price is relatively depressed and could be poised to move up. ";
+    this.description = this.text + " Stochastic(5) is the percentile of where the price ranks over the past " + period + " days. A lower percentile indicates that the price is relatively depressed and could be poised to move up. ";
     this.description_lead_in = this.description + "This rule selects the days where this percentile ";
 };
 
@@ -265,4 +265,17 @@ ChangeDoc.prototype.compose_literal = function(modifiers) {
 
     modifiers.days_ago = modifiers.set_change(this.description_lead_in);
     return this.operand.compose_literal(modifiers);
+}
+
+
+
+function TransformDoc(operand1, operand2) {
+    this.operand1 = operand1;
+    this.operand2 = operand2;
+    this.text = operand1.text + "->" + operand2.text;
+    this.description = this.text + "takes"
+}
+
+TransformDoc.prototype.compose_lead_in = function(modifiers) {
+
 }
