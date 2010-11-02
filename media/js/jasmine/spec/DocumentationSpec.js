@@ -3,6 +3,7 @@ describe("Documentation", function() {
     beforeEach(function() {
         stochastic_doc = new StochasticDoc(5);
         float_doc = new FloatDoc(30);
+        ema_doc = new EmaDoc(10);
         greater_than_or_equal_to_doc = new IsLessThanOrEqualToDoc(stochastic_doc, float_doc);
     });
    
@@ -116,17 +117,35 @@ describe("Documentation", function() {
     it("should be able to construct a Transform doc", function() {
         var transform_doc = new TransformDoc(stochastic_doc, ema_doc);
         var is_crossing_above_doc = new IsCrossingAboveDoc(stochastic_doc, transform_doc);
-        expect(is_crossing_above_doc.compose_lead_in()).toEqual("Stochastic(5)->ema(9) takes the day's Stochastic(5) and then calculates its 9 day exponential moving average.");
+        expect(is_crossing_above_doc.compose_lead_in()).toEqual("Stochastic(5)->ema(9) is the 9 day exponential moving average of the Stochastic(5).");
     
     });
 
-/*
-    it("should be able to construct a Transform doc", function() {
+    it("should be able to construct a Transform doc with modifiers", function() {
         var transform_doc = new TransformDoc(stochastic_doc, ema_doc);
-        var is_crossing_above_doc = new IsCrossingAboveDoc(stochastic_doc, transform_doc);
-        expect(is_crossing_above_doc.compose_lead_in()).toEqual("Stochastic(5)->ema(9) takes the day's Stochastic(5) and then calculates its 9 day exponential moving average. Indicators with values greater than its moving averages are generally bullish signs. This rule selects the days where the its Stochastic(5) has crossed above its 9 day exponential moving average.");
+        var change_doc = new ChangeDoc(transform_doc);
+        var change_doc2 = new ChangeDoc(stochastic_doc);
+        var is_crossing_above_doc = new IsCrossingAboveDoc(change_doc, change_doc2);
+        expect(is_crossing_above_doc.compose_lead_in()).toEqual("'Stochastic(5)'s 10 day exponential moving average is the 10 day exponential moving average of the Stochastic(5). Indicators moving above its averages are generally bullish signs. This rule selects the days where the change in the Stochastic(5)'s 10 day exponential moving average has crossed above the day's change in Stochastic(5).");
     
     });
-*/
+    
+    it("should be able to construct an sma doc", function() {
+        var sma_doc = new SmaDoc(10);
+        var is_crossing_above_doc = new IsCrossingAboveDoc(sma_doc, float_doc);
+        expect(is_crossing_above_doc.compose_lead_in()).toEqual("")
+        
+    });
+    
+        it("should be able to construct an rsi doc", function() {
+        var rsi_doc = new RsiDoc(14);
+        var is_crossing_above_doc = new IsCrossingAboveDoc(rsi_doc, float_doc);
+        expect(is_crossing_above_doc.compose_lead_in()).toEqual("")
+        
+    });
+
+    
+
+    
     
 }); 

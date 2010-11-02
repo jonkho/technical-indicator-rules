@@ -21,17 +21,105 @@ Modifiers.prototype.set_change = function(value) {
 
 
 
+
+function EmaDoc(period) {
+    this.text = period + " day Exponential Moving Average";
+    this.hint = "Indicators moving above its averages are generally bullish signs."
+    this.description = this.text + " is a weighted average of the price over the past " + period + " days with greater weight given to later days."
+    this.description_lead_in = this.description + " " + this.hint; 
+}
+
+EmaDoc.prototype.compose_lead_in = function(modifiers) {
+    if (modifiers != undefined) {
+        this.description_lead_in = this.description_lead_in + " This rule selects the days where" + modifiers.days_ago_with_comma + modifiers.change_no_comma + " this average ";
+        return this.description_lead_in;
+    }
+    return this.description_lead_in + " This rule selects the days where this average ";
+}
+
+EmaDoc.prototype.compose_literal = function(modifiers) {
+    if (modifiers != undefined) {
+        return modifiers.literal_days_ago + modifiers.change_no_the + this.text;
+    }
+    
+    return this.text;    
+};
+
+
+
+
+
+
+function SmaDoc(period) {
+    this.text = period + " day Simple Moving Average";
+    this.hint = "Indicators moving above its averages are generally bullish signs."
+    this.description = this.text + " is the mean of the price over the past " + period + " days."
+    this.description_lead_in = this.description + " " + this.hint;
+}
+
+SmaDoc.prototype.compose_lead_in = function(modifiers) {
+    if (modifiers != undefined) {
+        this.description_lead_in = this.description_lead_in + " This rule selects the days where" + modifiers.days_ago_with_comma + modifiers.change_no_comma + " this average ";
+        return this.description_lead_in;
+    }
+    return this.description_lead_in + " This rule selects the days where this average ";    
+}
+
+SmaDoc.prototype.compose_literal = function(modifiers) {
+    if (modifiers != undefined) {
+        return modifiers.literal_days_ago + modifiers.change_no_the + this.text;
+    }
+    
+    return this.text;  
+}
+
+
+
+
+
+
+function RsiDoc(period) {
+    this.text = "Rsi(" + period + ")";
+    this.hint = "A low rsi that is moving up above the 30 or 50 value can be interpreted as bullish."
+    this.description = this.text + " is the " + period + " day Relative Strength Index. This is the ratio of up vs down days for the past " + period + " days, expressed as a percentage.";
+    this.description_lead_in = this.description + " " + this.hint;
+}
+
+RsiDoc.prototype.compose_lead_in = function(modifiers) {
+    if (modifiers != undefined) {
+        this.description_lead_in = this.description_lead_in + " This rule selects the days where" + modifiers.days_ago_with_comma + modifiers.change_no_comma + " this percentage ";
+        return this.description_lead_in;
+    }
+    return this.description_lead_in + " This rule selects the days where this percentage ";    
+
+}
+
+RsiDoc.prototype.compose_literal = function(modifiers) {
+    if (modifiers != undefined) {
+        return modifiers.literal_days_ago + modifiers.change_no_the + this.text;
+    }
+    
+    return this.text;          
+}
+
+
+
+
+
+
 function StochasticDoc(period) {
     this.text = "Stochastic(" + period + ")";
-    this.description = this.text + " Stochastic(5) is the percentile of where the price ranks over the past " + period + " days. A lower percentile indicates that the price is relatively depressed and could be poised to move up. ";
-    this.description_lead_in = this.description + "This rule selects the days where this percentile ";
+    this.hint = "A lower percentile indicates a pullback could be underway and an upward move could be due in the near future."
+    this.description = this.text + " is the percentile of where the price ranks over the past " + period + " days. ";
+    this.description_lead_in = this.description + " " + this.hint;
 };
 
 StochasticDoc.prototype.compose_lead_in = function(modifiers) {
     if (modifiers != undefined) {
-        this.description_lead_in = this.description + "This rule selects the days where" + modifiers.days_ago_with_comma + modifiers.change_no_comma + " this percentile ";
+        this.description_lead_in = this.description_lead_in + " This rule selects the days where" + modifiers.days_ago_with_comma + modifiers.change_no_comma + " this percentile ";
+        return this.description_lead_in;
     }
-    return this.description_lead_in;
+    return this.description_lead_in + " This rule selects the days where this percentile ";
 };
 
 StochasticDoc.prototype.compose_literal = function(modifiers) {
@@ -39,8 +127,40 @@ StochasticDoc.prototype.compose_literal = function(modifiers) {
         return modifiers.literal_days_ago + modifiers.change_no_the + this.text;
     }
     
-    return modifiers.literal_days_ago + this.text;    
+    return this.text;    
 };
+
+
+
+
+
+
+
+
+function StochasticSignalDoc(period, n) {
+    this.text = "Stochastic Signal(" + period + ", " + n + ")";
+    this.hint = "A lower percentile indicates a pullback could be underway and an upward move could be due in the near future."
+    this.description = this.text + " is the percentile of where the price ranks over the past " + period + " days. ";
+    this.description_lead_in = this.description + " " + this.hint;
+};
+
+StochasticDoc.prototype.compose_lead_in = function(modifiers) {
+    if (modifiers != undefined) {
+        this.description_lead_in = this.description_lead_in + " This rule selects the days where" + modifiers.days_ago_with_comma + modifiers.change_no_comma + " this percentile ";
+        return this.description_lead_in;
+    }
+    return this.description_lead_in + " This rule selects the days where this percentile ";
+};
+
+StochasticDoc.prototype.compose_literal = function(modifiers) {
+    if (modifiers != undefined) {
+        return modifiers.literal_days_ago + modifiers.change_no_the + this.text;
+    }
+    
+    return this.text;    
+};
+
+
 
 
 
@@ -214,6 +334,8 @@ DaysAgoDoc.prototype.compose_literal = function() {
 
 
 
+
+
 function SpeedDoc(operand) {
     this.text = "absolute change of";
     this.description = this.text;
@@ -238,6 +360,8 @@ SpeedDoc.prototype.compose_literal = function(modifiers) {
     modifiers.days_ago = modifiers.set_change(this.description_lead_in);
     return this.operand.compose_literal(modifiers);
 }
+
+
 
 
 
@@ -269,13 +393,25 @@ ChangeDoc.prototype.compose_literal = function(modifiers) {
 
 
 
+
+
+
 function TransformDoc(operand1, operand2) {
     this.operand1 = operand1;
     this.operand2 = operand2;
-    this.text = operand1.text + "->" + operand2.text;
-    this.description = this.text + "takes"
+    this.text = operand1.text + "'s " + operand2.text;
+    this.description = this.text + " is the " + this.operand2.text + " of the " + this.operand1.text + ".";
 }
 
 TransformDoc.prototype.compose_lead_in = function(modifiers) {
+    if (modifiers != undefined) {
+        return this.description + " " + this.operand2.hint + " This rule selects the days where" + modifiers.days_ago_with_comma + modifiers.change_no_comma + " the " + this.text + " ";
+    }
+    return this.description + " " + this.operand2.hint + " This rule selects the days where the day's " + this.text + " ";
 
+
+}
+
+TransformDoc.prototype.compose_literal = function(modifiers) {
+    return "its " + this.operand2.text;
 }
