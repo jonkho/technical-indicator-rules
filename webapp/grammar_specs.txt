@@ -1,4 +1,4 @@
-Examples:
+ Examples:
 
 macd(17,8) - macd_signal(17,8,9) 2 days_ago >= 1
 macd(17,8) - macd_signal(17,8,9) <= 1
@@ -44,7 +44,7 @@ macd_signal(17,8,9)->histogram
 			: stochastic(<number>)[->transform]
 			: stochastic_signal(<number>, <number>)[-><signal_transform>] #commentary: parameters are n, smoothing
 			: slow_stochastic(<number>)[-><signal_transform>]
-			: slow_stochastic_signal(<number>)[-><signal_transform>]
+			: slow_stochastic_signal(<number>,<number>)[-><signal_transform>]
 			: full_stochastic(<number>, <number>)[->transform] #commentary: parameters are n, moving average
 			: full_stochastic_signal(<number>,<number>,<number>)[-><signal_transform>] #commentary: parameters are n, moving average, smoothing
 			: rsi(<number>)[->transform]

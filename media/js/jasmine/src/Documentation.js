@@ -3,7 +3,7 @@ function Modifiers() {
     this.change_no_comma = "";
     this.days_ago_no_comma = "";
     this.change_no_the = "";
-    this.literal_days_ago = "the day's "
+    this.literal_days_ago = "its "
 }
 
 Modifiers.prototype.set_days_ago = function(value) {
@@ -24,7 +24,7 @@ Modifiers.prototype.set_change = function(value) {
 
 function EmaDoc(period) {
     this.text = period + " day Exponential Moving Average";
-    this.hint = "Indicators moving above its averages are generally bullish signs."
+    this.hint = "Indicators moving above its averages are bullish signs."
     this.description = this.text + " is a weighted average of the price over the past " + period + " days with greater weight given to later days."
     this.description_lead_in = this.description + " " + this.hint; 
 }
@@ -52,7 +52,7 @@ EmaDoc.prototype.compose_literal = function(modifiers) {
 
 function SmaDoc(period) {
     this.text = period + " day Simple Moving Average";
-    this.hint = "Indicators moving above its averages are generally bullish signs."
+    this.hint = "Indicators moving above its averages are bullish signs."
     this.description = this.text + " is the mean of the price over the past " + period + " days."
     this.description_lead_in = this.description + " " + this.hint;
 }
@@ -80,8 +80,8 @@ SmaDoc.prototype.compose_literal = function(modifiers) {
 
 function RsiDoc(period) {
     this.text = "Rsi(" + period + ")";
-    this.hint = "A low rsi that is moving up above the 30 or 50 value can be interpreted as bullish."
-    this.description = this.text + " is the " + period + " day Relative Strength Index. This is the ratio of up vs down days for the past " + period + " days, expressed as a percentage.";
+    this.hint = "A low rsi that is moving up above the 30 or 50 value is a bullish sign."
+    this.description = this.text + " is the " + period + " day Relative Strength Index. This is the ratio of up versus down days for the past " + period + " days, expressed as a percentage.";
     this.description_lead_in = this.description + " " + this.hint;
 }
 
@@ -109,7 +109,7 @@ RsiDoc.prototype.compose_literal = function(modifiers) {
 
 function StochasticDoc(period) {
     this.text = "Stochastic(" + period + ")";
-    this.hint = "A lower percentile indicates a pullback could be underway and an upward move could be due in the near future."
+    this.hint = "A lower percentile indicates a pullback is happening and an upward move could occur soon.";
     this.description = this.text + " is the percentile of where the price ranks over the past " + period + " days. ";
     this.description_lead_in = this.description + " " + this.hint;
 };
@@ -138,21 +138,21 @@ StochasticDoc.prototype.compose_literal = function(modifiers) {
 
 
 function StochasticSignalDoc(period, n) {
-    this.text = "Stochastic Signal(" + period + ", " + n + ")";
-    this.hint = "A lower percentile indicates a pullback could be underway and an upward move could be due in the near future."
-    this.description = this.text + " is the percentile of where the price ranks over the past " + period + " days. ";
+    this.text = "Stochastic Signal(" + period + "," + n + ")";
+    this.hint = "The Stochastic moving above the Stochastic Signal is a bullish sign.";
+    this.description = this.text + " is the " + n + " day moving average of the Stochastic(" + period + ").";
     this.description_lead_in = this.description + " " + this.hint;
 };
 
-StochasticDoc.prototype.compose_lead_in = function(modifiers) {
+StochasticSignalDoc.prototype.compose_lead_in = function(modifiers) {
     if (modifiers != undefined) {
-        this.description_lead_in = this.description_lead_in + " This rule selects the days where" + modifiers.days_ago_with_comma + modifiers.change_no_comma + " this percentile ";
+        this.description_lead_in = this.description_lead_in + " This rule selects the days where" + modifiers.days_ago_with_comma + modifiers.change_no_comma + " the " + this.text + " ";
         return this.description_lead_in;
     }
-    return this.description_lead_in + " This rule selects the days where this percentile ";
+    return this.description_lead_in + " This rule selects the days where the " + this.text + " ";
 };
 
-StochasticDoc.prototype.compose_literal = function(modifiers) {
+StochasticSignalDoc.prototype.compose_literal = function(modifiers) {
     if (modifiers != undefined) {
         return modifiers.literal_days_ago + modifiers.change_no_the + this.text;
     }
@@ -161,6 +161,149 @@ StochasticDoc.prototype.compose_literal = function(modifiers) {
 };
 
 
+
+
+
+
+
+function SlowStochasticDoc(period) {
+    this.text = "Slow Stochastic(" + period + ")";
+    this.hint = "The Slow Stochastic value less than 30 is considered oversold; a value over 70 is considered overbought. Slow Stochastic value that is increasing or is moving above the Slow Stochastic Signal is a bullish sign.";
+    this.description = this.text + " is the 3 day moving average of the Stochastic(" + period + ").";
+    this.description_lead_in = this.description + " " + this.hint; 
+};
+
+
+SlowStochasticDoc.prototype.compose_lead_in = function(modifiers) {
+    if (modifiers != undefined) {
+        this.description_lead_in = this.description_lead_in + " This rule selects the days where" + modifiers.days_ago_with_comma + modifiers.change_no_comma + " the " + this.text + " ";
+        return this.description_lead_in;
+    }
+    return this.description_lead_in + " This rule selects the days where the " + this.text + " ";
+};
+
+SlowStochasticDoc.prototype.compose_literal = function(modifiers) {
+    if (modifiers != undefined) {
+        return modifiers.literal_days_ago + modifiers.change_no_the + this.text;
+    }
+    
+    return this.text;    
+};
+
+
+
+
+
+
+
+function SlowStochasticSignalDoc(period, n) {
+    this.text = "Slow Stochastic Signal(" + period + "," + n + ")"
+    this.hint = "The Slow Stochastic that is moving above or crossing above the Slow Stochastic Signal is a bullish sign.";
+    this.description = this.text + " is the " + n + " day moving average of the Slow Stochastic(" + period + ").";
+    this.description_lead_in = this.description + " " + this.hint; 
+}
+
+SlowStochasticSignalDoc.prototype.compose_lead_in = function(modifiers) {
+    if (modifiers != undefined) {
+        this.description_lead_in = this.description_lead_in + " This rule selects the days where" + modifiers.days_ago_with_comma + modifiers.change_no_comma + " the " + this.text + " ";
+        return this.description_lead_in;
+    }
+    return this.description_lead_in + " This rule selects the days where the " + this.text + " ";
+};
+
+SlowStochasticSignalDoc.prototype.compose_literal = function(modifiers) {
+    if (modifiers != undefined) {
+        return modifiers.literal_days_ago + modifiers.change_no_the + this.text;
+    }
+    
+    return this.text;    
+};
+
+
+
+
+
+
+function PriceDoc() {
+    this.text = "Price";
+    this.hint = "Prices that are moving above or crossing above its moving averages can be considered a bullish sign.";
+    this.description = "Price is the price of the equity.";
+    this.description_lead_in = this.description + " " + this.hint; 
+}
+
+PriceDoc.prototype.compose_lead_in = function(modifiers) {
+    if (modifiers != undefined) {
+        this.description_lead_in = this.description_lead_in + " This rule selects the days where" + modifiers.days_ago_with_comma + modifiers.change_no_comma + " the " + this.text + " ";
+        return this.description_lead_in;
+    }
+    return this.description_lead_in + " This rule selects the days where the " + this.text + " ";
+};
+
+PriceDoc.prototype.compose_literal = function(modifiers) {
+    if (modifiers != undefined) {
+        return modifiers.literal_days_ago + modifiers.change_no_the + this.text;
+    }
+    
+    return this.text;    
+};
+
+
+
+
+
+
+
+
+function MacdDoc(short_ma, long_ma) {
+    this.text = "MACD(" + short_ma + "," + long_ma + ")";
+    this.hint = "The MACD is used to identify the start and end of trends. MACD greater than zero suggests an uptrend; MACD less than zero suggests a downtrend. A MACD that is deeply negative but is crossing strongly above the MACD Signal suggests a start of an bullish uptrend."
+    this.description = "The Moving Average Convergence/Divergence (MACD) measures the convergence or divergence between a short and long moving average. " + this.text + " measures the convergence/divergence between the " + short_ma + " day and " + long_ma + " day moving average."
+    this.description_lead_in = this.description + " " + this.hint;
+}
+
+MacdDoc.prototype.compose_lead_in = function(modifiers) {
+    if (modifiers != undefined) {
+        this.description_lead_in = this.description_lead_in + " This rule selects the days where" + modifiers.days_ago_with_comma + modifiers.change_no_comma + " the " + this.text + " ";
+        return this.description_lead_in;
+    }
+    return this.description_lead_in + " This rule selects the days where the " + this.text + " ";
+};
+
+MacdDoc.prototype.compose_literal = function(modifiers) {
+    if (modifiers != undefined) {
+        return modifiers.literal_days_ago + modifiers.change_no_the + this.text;
+    }
+    
+    return this.text;
+}
+
+
+
+
+
+
+function MacdSignalDoc(short_ma, long_ma, n) {
+    this.text = "MACD Signal(" + short_ma + "," + long_ma + "," + n + ")";
+    this.hint = "A MACD that is greater than the MACD Signal suggests a bullish uptrend. A MACD that is less than the MACD Signal suggests a bearish downtrend."
+    this.description = this.text + " is the " + n + " day moving average of the MACD(" + short_ma + "," + long_ma + ")."
+    this.description_lead_in = this.description + " " + this.hint;
+}
+
+MacdSignalDoc.prototype.compose_lead_in = function(modifiers) {
+    if (modifiers != undefined) {
+        this.description_lead_in = this.description_lead_in + " This rule selects the days where" + modifiers.days_ago_with_comma + modifiers.change_no_comma + " the " + this.text + " ";
+        return this.description_lead_in;
+    }
+    return this.description_lead_in + " This rule selects the days where the " + this.text + " ";
+};
+
+MacdSignalDoc.prototype.compose_literal = function(modifiers) {
+    if (modifiers != undefined) {
+        return modifiers.literal_days_ago + modifiers.change_no_the + this.text;
+    }
+    
+    return this.text;
+}
 
 
 
@@ -309,9 +452,9 @@ FloatDoc.prototype.compose_literal = function() {
 
 
 function DaysAgoDoc(value, operand) {
-    this.text = value.toString() + " days back";
+    this.text = value.toString() + " days ago";
     if (value == 1) {
-        this.text = value.toString() + " day back";
+        this.text = value.toString() + " day ago";
     }
     
     this.description = this.text;
@@ -407,7 +550,7 @@ TransformDoc.prototype.compose_lead_in = function(modifiers) {
     if (modifiers != undefined) {
         return this.description + " " + this.operand2.hint + " This rule selects the days where" + modifiers.days_ago_with_comma + modifiers.change_no_comma + " the " + this.text + " ";
     }
-    return this.description + " " + this.operand2.hint + " This rule selects the days where the day's " + this.text + " ";
+    return this.description + " " + this.operand2.hint + " This rule selects the days where its " + this.text + " ";
 
 
 }
