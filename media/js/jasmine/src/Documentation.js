@@ -110,16 +110,16 @@ RsiDoc.prototype.compose_literal = function(modifiers) {
 function StochasticDoc(period) {
     this.text = "Stochastic(" + period + ")";
     this.hint = "A lower percentile indicates a pullback is happening and an upward move could occur soon.";
-    this.description = this.text + " is the percentile of where the price ranks over the past " + period + " days. ";
+    this.description = this.text + " is the percentile of where the price ranks over the past " + period + " days.";
     this.description_lead_in = this.description + " " + this.hint;
 };
 
 StochasticDoc.prototype.compose_lead_in = function(modifiers) {
     if (modifiers != undefined) {
-        this.description_lead_in = this.description_lead_in + " This rule selects the days where" + modifiers.days_ago_with_comma + modifiers.change_no_comma + " this percentile ";
+        this.description_lead_in = this.description_lead_in + " This rule selects the days where" + modifiers.days_ago_with_comma + modifiers.change_no_comma + " the percentile ";
         return this.description_lead_in;
     }
-    return this.description_lead_in + " This rule selects the days where this percentile ";
+    return this.description_lead_in + " This rule selects the days where the percentile ";
 };
 
 StochasticDoc.prototype.compose_literal = function(modifiers) {
@@ -139,7 +139,7 @@ StochasticDoc.prototype.compose_literal = function(modifiers) {
 
 function StochasticSignalDoc(period, n) {
     this.text = "Stochastic Signal(" + period + "," + n + ")";
-    this.hint = "The Stochastic moving above the Stochastic Signal is a bullish sign.";
+    this.hint = "The Stochastic greater than the Stochastic Signal is a bullish sign.";
     this.description = this.text + " is the " + n + " day moving average of the Stochastic(" + period + ").";
     this.description_lead_in = this.description + " " + this.hint;
 };
@@ -168,7 +168,7 @@ StochasticSignalDoc.prototype.compose_literal = function(modifiers) {
 
 function SlowStochasticDoc(period) {
     this.text = "Slow Stochastic(" + period + ")";
-    this.hint = "The Slow Stochastic value less than 30 is considered oversold; a value over 70 is considered overbought. Slow Stochastic value that is increasing or is moving above the Slow Stochastic Signal is a bullish sign.";
+    this.hint = "The Slow Stochastic value less than 30 is considered oversold; a value over 70 is considered overbought. The Slow Stochastic that is increasing or is greater than the Slow Stochastic Signal is a bullish sign.";
     this.description = this.text + " is the 3 day moving average of the Stochastic(" + period + ").";
     this.description_lead_in = this.description + " " + this.hint; 
 };
@@ -198,7 +198,7 @@ SlowStochasticDoc.prototype.compose_literal = function(modifiers) {
 
 function SlowStochasticSignalDoc(period, n) {
     this.text = "Slow Stochastic Signal(" + period + "," + n + ")"
-    this.hint = "The Slow Stochastic that is moving above or crossing above the Slow Stochastic Signal is a bullish sign.";
+    this.hint = "The Slow Stochastic that is greater than or crossing above the Slow Stochastic Signal is a bullish sign.";
     this.description = this.text + " is the " + n + " day moving average of the Slow Stochastic(" + period + ").";
     this.description_lead_in = this.description + " " + this.hint; 
 }
@@ -226,7 +226,7 @@ SlowStochasticSignalDoc.prototype.compose_literal = function(modifiers) {
 
 function PriceDoc() {
     this.text = "Price";
-    this.hint = "Prices that are moving above or crossing above its moving averages can be considered a bullish sign.";
+    this.hint = "Prices that are greater than or crossing above its moving averages can be considered a bullish sign.";
     this.description = "Price is the price of the equity.";
     this.description_lead_in = this.description + " " + this.hint; 
 }
@@ -397,6 +397,37 @@ IsCrossingBelowDoc.prototype.compose_lead_in = function() {
 
 
 
+function DifferenceDoc(operand1, operand2) {
+    this.text = "'s difference between ";
+    this.description = this.text;
+    this.description_lead_in = this.text;
+    this.operand1 = operand1;
+    this.operand2 = operand2;
+};
+
+DifferenceDoc.prototype.compose_lead_in = function() {
+    return this.operand1.compose_lead_in() + this.description_lead_in + this.operand2.compose_literal() + " ";
+}
+
+
+
+
+
+function AbsoluteDifferenceDoc(operand1, operand2) {
+    this.text = "'s absolute difference between ";
+    this.description = this.text;
+    this.description_lead_in = this.text;
+    this.operand1 = operand1;
+    this.operand2 = operand2;
+}
+
+AbsoluteDifferenceDoc.prototype.compose_lead_in = function() {
+    return this.operand1.compose_lead_in() + this.description_lead_in + this.operand2.compose_literal() + " ";
+}
+
+
+
+
 
 function IsIncreasingDoc(operand) {
     this.text = "has increased over the previous day.";
@@ -480,7 +511,7 @@ DaysAgoDoc.prototype.compose_literal = function() {
 
 
 function SpeedDoc(operand) {
-    this.text = "absolute change of";
+    this.text = "slope's steepness of";
     this.description = this.text;
     this.description_lead_in = this.text;
     this.operand = operand;
@@ -510,9 +541,9 @@ SpeedDoc.prototype.compose_literal = function(modifiers) {
 
 
 function ChangeDoc(operand) {
-    this.text = "change";
+    this.text = "slope";
     this.description = this.text;
-    this.description_lead_in = "change in";
+    this.description_lead_in = "the value of the slope of";
     this.operand = operand;        
 };
 
