@@ -3,7 +3,7 @@ function Modifiers() {
     this.change_no_comma = "";
     this.days_ago_no_comma = "";
     this.change_no_the = "";
-    this.literal_days_ago = "its "
+    this.literal_days_ago = ""
 }
 
 Modifiers.prototype.set_days_ago = function(value) {
@@ -226,7 +226,7 @@ SlowStochasticSignalDoc.prototype.compose_literal = function(modifiers) {
 
 function PriceDoc() {
     this.text = "Price";
-    this.hint = "Prices that are greater than or crossing above its moving averages can be considered a bullish sign.";
+    this.hint = "Prices that are greater than or crossing above its moving averages (ema or sma )can be considered a bullish sign.";
     this.description = "Price is the price of the equity.";
     this.description_lead_in = this.description + " " + this.hint; 
 }
@@ -543,7 +543,7 @@ SpeedDoc.prototype.compose_literal = function(modifiers) {
 function ChangeDoc(operand) {
     this.text = "slope";
     this.description = this.text;
-    this.description_lead_in = "the value of the slope of";
+    this.description_lead_in = "the value of the slope (steepness) of";
     this.operand = operand;        
 };
 

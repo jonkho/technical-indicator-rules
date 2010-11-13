@@ -91,24 +91,24 @@ class Parser(object):
         #indicator_type = token
         
         if token == "macd":
-            long_term_ma = self.parse_number(tokenizer)
             short_term_ma = self.parse_number(tokenizer)
-            indicator = Macd(long_term_ma, short_term_ma)
-            indicator_string = "macd(%s,%s)" % (long_term_ma, short_term_ma)
+            long_term_ma = self.parse_number(tokenizer)
+            indicator = Macd(short_term_ma, long_term_ma)
+            indicator_string = "macd(%s,%s)" % (short_term_ma, long_term_ma)
     
         elif token == "macd_signal":
-            long_term_ma = self.parse_number(tokenizer)
             short_term_ma = self.parse_number(tokenizer)
+            long_term_ma = self.parse_number(tokenizer)
             period = self.parse_number(tokenizer)
-            indicator = Macd_Signal(long_term_ma, short_term_ma, period)
-            indicator_string = "macd_signal(%s,%s,%s)" % (long_term_ma, short_term_ma, period)
+            indicator = Macd_Signal(short_term_ma, long_term_ma, period)
+            indicator_string = "macd_signal(%s,%s,%s)" % (short_term_ma, long_term_ma, period)
             
         elif token == "macd_histogram":
-            long_term_ma = self.parse_number(tokenizer)
             short_term_ma = self.parse_number(tokenizer)
+            long_term_ma = self.parse_number(tokenizer)
             period = self.parse_number(tokenizer)
-            indicator = Macd_Histogram(long_term_ma, short_term_ma, period)
-            indicator_string = "macd_histogram(%s,%s,%s)" % (long_term_ma, short_term_ma, period)    
+            indicator = Macd_Histogram(short_term_ma, long_term_ma, period)
+            indicator_string = "macd_histogram(%s,%s,%s)" % (short_term_ma, long_term_ma, period)    
     
         elif token == "stochastic":
             n = self.parse_number(tokenizer)

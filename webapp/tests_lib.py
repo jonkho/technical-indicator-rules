@@ -79,7 +79,7 @@ class Macd_Test(TestCase):
         result = f(prices=prices[:-1], latest_record=("2010-03-02", 111.02))
         self.failUnlessEqual("%.6f" % result, '0.276538')   
         
-#         f2 = Ema(9, Macd(17,8))
+#         f2 = Ema(9, Macd(8,17))
 #         result = f2(past_data=prices[:-1], latest_record=("2010-03-02", 111.02))
 #         self.failUnlessEqual("%.6f" % result, '0.276538')
         
@@ -124,11 +124,11 @@ class Macd_Test(TestCase):
         
         histogram_value = result - result2
          
-        f3 = Macd_Histogram(17,8,9)
+        f3 = Macd_Histogram(8,17,9)
         result3 = f3(prices=prices[:-1], latest_record=("2010-03-02", 111.02))
         self.failUnlessEqual("%.6f" % histogram_value, "%.6f" % result3)
         
-        f4 = Histogram(Macd(17,8), Macd_Signal(17,8,9))
+        f4 = Histogram(Macd(8,17), Macd_Signal(8,17,9))
         result4 = f4(past_data=prices[:-1], latest_record=("2010-03-02", 111.02))
         self.failUnlessEqual("%.6f" % histogram_value, "%.6f" % result4)
                      
@@ -479,11 +479,11 @@ class Parser_Test(TestCase):
         prices = prices[:-1]
         dates = [record[0] for record in data]
         
-        tokenizer = Tokenizer(query_text="macd(17,8) speed >= macd(17,8) speed 1 days_ago")
+        tokenizer = Tokenizer(query_text="macd(8,17) speed >= macd(8,17) speed 1 days_ago")
         rule = parser.parse_query(tokenizer)
         self.assert_(rule != None)
-        self.failUnlessEqual(parser.indicator_operands[0][0], "macd(17,8)")
-        self.failUnlessEqual(parser.indicator_operands[1][0], "macd(17,8)")
+        self.failUnlessEqual(parser.indicator_operands[0][0], "macd(8,17)")
+        self.failUnlessEqual(parser.indicator_operands[1][0], "macd(8,17)")
         #print("test start")
         result = back_test.run(expression=rule, past_data=prices)
         #print("test end")
@@ -493,7 +493,7 @@ class Parser_Test(TestCase):
 #                       print(dates[point])
                 
                 
-        tokenizer = Tokenizer(query_text="macd(17,8) speed - macd(17,8) speed 1 days_ago >= 0")
+        tokenizer = Tokenizer(query_text="macd(8,17) speed - macd(8,17) speed 1 days_ago >= 0")
         rule = parser.parse_query(tokenizer)
         self.assert_(rule != None)
         result = back_test.run(expression=rule, past_data=prices)
@@ -501,24 +501,24 @@ class Parser_Test(TestCase):
         # for point in result:
         #       print(dates[point])
         
-        tokenizer = Tokenizer(query_text="macd(17,8) is_crossing macd_signal(17,8,9)")
+        tokenizer = Tokenizer(query_text="macd(8,17) is_crossing macd_signal(8,17,9)")
         self.failUnlessEqual(len(tokenizer.tokens), 8)
         rule = parser.parse_query(tokenizer)
-        self.failUnlessEqual(parser.indicator_operands[0][0], "macd(17,8)")
-        self.failUnlessEqual(parser.indicator_operands[1][0], "macd_signal(17,8,9)")
+        self.failUnlessEqual(parser.indicator_operands[0][0], "macd(8,17)")
+        self.failUnlessEqual(parser.indicator_operands[1][0], "macd_signal(8,17,9)")
         self.assert_(rule != None)
         
         # test negative floats
-        tokenizer = Tokenizer(query_text="macd(17,8) <= -0.523")
+        tokenizer = Tokenizer(query_text="macd(8,17) <= -0.523")
         self.failUnlessEqual(len(tokenizer.tokens), 5)
         
         # test parsing transforms
-        tokenizer = Tokenizer(query_text="macd_signal(17,8,9)->histogram >= 0")
+        tokenizer = Tokenizer(query_text="macd_signal(8,17,9)->histogram >= 0")
         parser = Parser()
         rule = parser.parse_query(tokenizer)    
         self.assert_(rule != None)
-        self.failUnlessEqual(parser.indicator_operands[0][0], "macd_signal(17,8,9)")
-        self.failUnlessEqual(parser.indicator_operands[1][0], "macd_signal(17,8,9)->histogram")
+        self.failUnlessEqual(parser.indicator_operands[0][0], "macd_signal(8,17,9)")
+        self.failUnlessEqual(parser.indicator_operands[1][0], "macd_signal(8,17,9)->histogram")
         
 
 class Transform_Test(TestCase):
@@ -551,19 +551,19 @@ class Transform_Test(TestCase):
 
 
         # These two macds queries should be mathematically identical
-        tokenizer = Tokenizer(query_text="macd_signal(17,8,9) >= 0")
+        tokenizer = Tokenizer(query_text="macd_signal(8,17,9) >= 0")
         rule = parser.parse_query(tokenizer)
         exe_box = Query_Execution_Box(data_with_flag)    
         result = exe_box.exe(rule)
         self.failUnlessEqual(result.number_of_points, 171)
         
-        tokenizer = Tokenizer(query_text="macd(17,8)->ema(9) >= 0")
+        tokenizer = Tokenizer(query_text="macd(8,17)->ema(9) >= 0")
         rule = parser.parse_query(tokenizer)
         exe_box = Query_Execution_Box(data_with_flag)   
         result = exe_box.exe(rule)
         self.failUnlessEqual(result.number_of_points, 171)
-        self.failUnlessEqual(parser.indicator_operands[0][0], "macd(17,8)")
-        self.failUnlessEqual(parser.indicator_operands[1][0], "macd(17,8)->ema(9)")
+        self.failUnlessEqual(parser.indicator_operands[0][0], "macd(8,17)")
+        self.failUnlessEqual(parser.indicator_operands[1][0], "macd(8,17)->ema(9)")
         #self.failUnlessEqual("%.6f" % parser.indicator_operands[2][1][-1], '0.276538')
         
         # These two stochastic queries should be mathematically identical
@@ -584,10 +584,10 @@ class Transform_Test(TestCase):
         
         # test service
         service = Service()
-        result = service.execute_query("GLD", "20090101", "20100301", ["macd(17,8)->ema(9) >= 0"])
+        result = service.execute_query("GLD", "20090101", "20100301", ["macd(8,17)->ema(9) >= 0"])
         self.failUnlessEqual(result.number_of_points, 197)
         
-        result2 = service.execute_query("GLD", "20090101", "20100301", ["macd_signal(17,8,9) >= 0"])
+        result2 = service.execute_query("GLD", "20090101", "20100301", ["macd_signal(8,17,9) >= 0"])
         self.failUnlessEqual(result2.number_of_points, 197)  
                     
         
@@ -611,7 +611,7 @@ class Execution_Env_Test(TestCase):
         self.failUnlessEqual(result.number_of_points, 20)               
         
         
-        tokenizer = Tokenizer(query_text="macd(17,8) speed >= macd(17,8) speed 1 days_ago")
+        tokenizer = Tokenizer(query_text="macd(8,17) speed >= macd(8,17) speed 1 days_ago")
         rule = parser.parse_query(tokenizer)
         result = exe_box.exe(rule)
         self.failUnlessEqual(result.number_of_points, 128)
@@ -623,17 +623,17 @@ class Execution_Env_Test(TestCase):
         self.failUnlessEqual(result.number_of_points, 41)
         
         #very long test
-        tokenizer = Tokenizer(query_text="macd(17,8) is_crossing macd_signal(17,8,9)")
+        tokenizer = Tokenizer(query_text="macd(8,17) is_crossing macd_signal(8,17,9)")
         rule = parser.parse_query(tokenizer)    
         result = exe_box.exe(rule)
         self.failUnlessEqual(result.number_of_points, 25)
         
-        tokenizer = Tokenizer(query_text="macd(17,8) is_crossing_above macd_signal(17,8,9)")
+        tokenizer = Tokenizer(query_text="macd(8,17) is_crossing_above macd_signal(8,17,9)")
         rule = parser.parse_query(tokenizer)    
         result = exe_box.exe(rule)
         self.failUnlessEqual(result.number_of_points, 13)
         
-        tokenizer = Tokenizer(query_text="macd(17,8) is_crossing_below macd_signal(17,8,9)")
+        tokenizer = Tokenizer(query_text="macd(8,17) is_crossing_below macd_signal(8,17,9)")
         rule = parser.parse_query(tokenizer)    
         result = exe_box.exe(rule)
         self.failUnlessEqual(result.number_of_points, 12)
@@ -683,7 +683,7 @@ class Execution_Env_Test(TestCase):
             data_with_flag.append(record)
         parser = Parser(data_with_flag)
         
-        tokenizer = Tokenizer(query_text="macd(17,8) speed >= macd(17,8) speed 1 days_ago")
+        tokenizer = Tokenizer(query_text="macd(8,17) speed >= macd(8,17) speed 1 days_ago")
         rule = parser.parse_query(tokenizer)
         exe_box = Query_Execution_Box(data)
         result_box = exe_box.exe(rule)
@@ -699,7 +699,7 @@ class Execution_Env_Test(TestCase):
         
         #fluent interface
         parser = Parser()
-        tokenizer = Tokenizer(query_text="macd(17,8) speed >= macd(17,8) speed 1 days_ago")
+        tokenizer = Tokenizer(query_text="macd(8,17) speed >= macd(8,17) speed 1 days_ago")
         expression1 = parser.parse_query(tokenizer)
         tokenizer = Tokenizer(query_text="rsi(14) is_crossing 50")
         expression2 = parser.parse_query(tokenizer)
@@ -718,7 +718,7 @@ class Execution_Env_Test(TestCase):
             data_with_flag.append(record)
     
         box = Query_Execution_Box(data_with_flag)
-        result = box("macd(17,8) speed is_increasing")("rsi(14) is_crossing 50")(None)
+        result = box("macd(8,17) speed is_increasing")("rsi(14) is_crossing 50")(None)
         self.failUnlessEqual(result.number_of_points, 23)
         
         
@@ -737,12 +737,12 @@ class Execution_Env_Test(TestCase):
         
         
         box = Query_Execution_Box(data_with_flag)
-        result = box("macd_histogram(17,8,9) >= 0")
+        result = box("macd_histogram(8,17,9) >= 0")
         self.failUnlessEqual(result.number_of_points, 172)
         
         
         box = Query_Execution_Box(data_with_flag)
-        result = box("macd_signal(17,8,9)->histogram >= 0")
+        result = box("macd_signal(8,17,9)->histogram >= 0")
         self.failUnlessEqual(result.number_of_points, 172)
 
         
@@ -756,7 +756,7 @@ class Execution_Env_Test(TestCase):
         
         exe_box = Query_Execution_Box(data)
         #print exe_box.indicators_data.keys()
-        result_box = exe_box("macd(17,8) speed >= macd(17,8) speed 1 days_ago")
+        result_box = exe_box("macd(8,17) speed >= macd(8,17) speed 1 days_ago")
         result = result_box("rsi(14) is_crossing 50")
         
         self.failUnlessEqual(result.number_of_points, 46)
@@ -764,16 +764,16 @@ class Execution_Env_Test(TestCase):
         #print(result.data)
         #print(result.indicators_data.keys())
         self.failUnlessEqual(len(result.indicators_data), 2)
-        self.failUnlessEqual(result.indicators_data.has_key(";macd(17,8);macd(17,8)"), True)
+        self.failUnlessEqual(result.indicators_data.has_key(";macd(8,17);macd(8,17)"), True)
         self.failUnlessEqual(result.indicators_data.has_key(";rsi(14)"), True)
-        self.failUnlessEqual(len(result.indicators_data[";macd(17,8);macd(17,8)"][0][-1]), 608)
-        self.failUnlessEqual(result.indicators_data[";macd(17,8);macd(17,8)"][0][-1][400][1], 0.51649808583636059)
+        self.failUnlessEqual(len(result.indicators_data[";macd(8,17);macd(8,17)"][0][-1]), 608)
+        self.failUnlessEqual(result.indicators_data[";macd(8,17);macd(8,17)"][0][-1][400][1], 0.51649808583636059)
         
 
 class Technical_Data_Test(TestCase):
     def test_technical_indicator_macd_can_be_parsed(self):
         parser = Parser()
-        tokenizer = Tokenizer("macd(17,8)")
+        tokenizer = Tokenizer("macd(8,17)")
         indicator = parser.parse_indicator(tokenizer)
         self.assert_(indicator != None)
 
@@ -782,7 +782,7 @@ class Technical_Data_Test(TestCase):
         data.reverse()
         data = data[:-1]
         indicator_history = Indicator_History()
-        result = indicator_history.process_indicator_string("macd(17,8)", data)
+        result = indicator_history.process_indicator_string("macd(8,17)", data)
         self.failUnlessEqual(len(result), 608)
         self.failUnlessEqual(result[400][1], 0.51649808583636059)
         
@@ -798,12 +798,12 @@ class Technical_Data_Test(TestCase):
 class Service_Test(TestCase):
     def test_execute_query_returns_expected_results(self):
         service = Service()
-        result = service.execute_query("GLD", "20090101", "20100301", ["macd(17,8) is_crossing macd_signal(17,8,9)"])
+        result = service.execute_query("GLD", "20090101", "20100301", ["macd(8,17) is_crossing macd_signal(8,17,9)"])
         self.failUnlessEqual(result.number_of_points, 28)
         
     def test_queries_can_be_logical_or(self):
         service = Service()
-        result, indicators_data_list = service.execute_logical_or_queries("GLD", "20100101", "20100601", [["macd(17,8) is_crossing macd_signal(17,8,9)"], ["macd(17,8) >= macd_signal(17,8,9)"], None])
+        result, indicators_data_list = service.execute_logical_or_queries("GLD", "20100101", "20100601", [["macd(8,17) is_crossing macd_signal(8,17,9)"], ["macd(8,17) >= macd_signal(8,17,9)"], None])
         
         count = 0
         for record in result:
@@ -816,8 +816,8 @@ class Service_Test(TestCase):
 class Backtester_Test(TestCase):
     def test_Given_a_flagged_history_data_designated_as_buy_points_and_a_flagged_history_data_designated_as_sell_points_Then_the_performance_can_be_backtested(self):
         service = Service()
-        buy_points = service.execute_query("GLD", "20090101", "20100801", ["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0"])
-        sell_points = service.execute_query("GLD", "20090101", "20100801", ["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient <= 0"])
+        buy_points = service.execute_query("GLD", "20090101", "20100801", ["macd(8,17) is_crossing macd_signal(8,17,9)", "macd(8,17) gradient >= 0"])
+        sell_points = service.execute_query("GLD", "20090101", "20100801", ["macd(8,17) is_crossing macd_signal(8,17,9)", "macd(8,17) gradient <= 0"])
         backtester = Backtester()
         account = Account(cash_balance=10000)
         timeline, summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)        
@@ -825,8 +825,8 @@ class Backtester_Test(TestCase):
     
     def test_Given_a_stop_loss_Then_the_strategy_should_respect_it(self):
         service = Service()
-        buy_points = service.execute_query("GLD", "20090101", "20100801", ["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0"])
-        sell_points = service.execute_query("GLD", "20090101", "20100801", ["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient <= 0"])
+        buy_points = service.execute_query("GLD", "20090101", "20100801", ["macd(8,17) is_crossing macd_signal(8,17,9)", "macd(8,17) gradient >= 0"])
+        sell_points = service.execute_query("GLD", "20090101", "20100801", ["macd(8,17) is_crossing macd_signal(8,17,9)", "macd(8,17) gradient <= 0"])
         backtester = Backtester()
         account = Account(cash_balance=10000)
         timeline, summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account, stop_loss_percent=1)        
@@ -851,49 +851,49 @@ class Utils_Test(TestCase):
     def test_given_indicators_data_when_nicks_specifications_are_applied_then_redundant_indicators_are_removed(self):
         service = Service()
         utils = Utils()
-        buy_points = service.execute_query("GLD", "20090101", "20100801", ["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0"])
+        buy_points = service.execute_query("GLD", "20090101", "20100801", ["macd(8,17) is_crossing macd_signal(8,17,9)", "macd(8,17) gradient >= 0"])
         buy_points.indicators_data = utils.convert_indicators_data_to_nicks_specifications([buy_points.indicators_data])
         
         # results of buy_points.indicators_data should be:
         # [
         #   [
-        #       ["macd(17,8)", [data]],
-        #       ["macd_signal(17,8,9)", [data]]
+        #       ["macd(8,17)", [data]],
+        #       ["macd_signal(8,17,9)", [data]]
         #   ]
         # ]
         
         self.failUnlessEqual(len(buy_points.indicators_data), 1)
         self.failUnlessEqual(len(buy_points.indicators_data[0]), 2)
-        self.failUnlessEqual(buy_points.indicators_data[0][0][0], "macd(17,8)")
-        self.failUnlessEqual(buy_points.indicators_data[0][1][0], "macd_signal(17,8,9)")
+        self.failUnlessEqual(buy_points.indicators_data[0][0][0], "macd(8,17)")
+        self.failUnlessEqual(buy_points.indicators_data[0][1][0], "macd_signal(8,17,9)")
         
         
         # now test merging two indicators_data
-        buy_points = service.execute_query("GLD", "20090101", "20100801", ["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0"])
-        sell_points = service.execute_query("GLD", "20090101", "20100801", ["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient <= 0"])
+        buy_points = service.execute_query("GLD", "20090101", "20100801", ["macd(8,17) is_crossing macd_signal(8,17,9)", "macd(8,17) gradient >= 0"])
+        sell_points = service.execute_query("GLD", "20090101", "20100801", ["macd(8,17) is_crossing macd_signal(8,17,9)", "macd(8,17) gradient <= 0"])
         
         combined_indicators_data = utils.convert_indicators_data_to_nicks_specifications([buy_points.indicators_data, sell_points.indicators_data])
         
         self.failUnlessEqual(len(combined_indicators_data), 1)
         self.failUnlessEqual(len(combined_indicators_data[0]), 2)
-        self.failUnlessEqual(combined_indicators_data[0][0][0], "macd(17,8)")
-        self.failUnlessEqual(combined_indicators_data[0][1][0], "macd_signal(17,8,9)")
+        self.failUnlessEqual(combined_indicators_data[0][0][0], "macd(8,17)")
+        self.failUnlessEqual(combined_indicators_data[0][1][0], "macd_signal(8,17,9)")
         
         # another test
-        buy_points = service.execute_query("GLD", "20090101", "20100801", ["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0"])
-        sell_points = service.execute_query("GLD", "20090101", "20100801", ["macd(17,8) is_crossing_below 0"])
+        buy_points = service.execute_query("GLD", "20090101", "20100801", ["macd(8,17) is_crossing macd_signal(8,17,9)", "macd(8,17) gradient >= 0"])
+        sell_points = service.execute_query("GLD", "20090101", "20100801", ["macd(8,17) is_crossing_below 0"])
         
         combined_indicators_data = utils.convert_indicators_data_to_nicks_specifications([buy_points.indicators_data, sell_points.indicators_data])
         
         self.failUnlessEqual(len(combined_indicators_data), 1)
         self.failUnlessEqual(len(combined_indicators_data[0]), 2)
-        self.failUnlessEqual(combined_indicators_data[0][0][0], "macd(17,8)")
-        self.failUnlessEqual(combined_indicators_data[0][1][0], "macd_signal(17,8,9)")
+        self.failUnlessEqual(combined_indicators_data[0][0][0], "macd(8,17)")
+        self.failUnlessEqual(combined_indicators_data[0][1][0], "macd_signal(8,17,9)")
         
     def test_given_two_query_results_data_Then_the_results_can_be_logically_ORed(self):
         service = Service()
-        buy_points_1 = service.execute_query("GLD", "20100101", "20100601", ["macd(17,8) is_crossing macd_signal(17,8,9)"])
-        buy_points_2 = service.execute_query("GLD", "20100101", "20100601", ["macd(17,8) >= macd_signal(17,8,9)"])
+        buy_points_1 = service.execute_query("GLD", "20100101", "20100601", ["macd(8,17) is_crossing macd_signal(8,17,9)"])
+        buy_points_2 = service.execute_query("GLD", "20100101", "20100601", ["macd(8,17) >= macd_signal(8,17,9)"])
         
         utils = Utils()
         all_buy_points = utils.logical_or([buy_points_1.data, buy_points_2.data])

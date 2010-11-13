@@ -219,7 +219,7 @@ def macd_derive_key(pre_key, long_term_ma, short_term_ma, period=None):
     return "%s;macd;long_ma=%s;short_ma=%s;signal_period=%s" % (pre_key, long_term_ma, short_term_ma, period)
 
 class Macd(object):
-    def __init__(self, long_term_ma, short_term_ma):                
+    def __init__(self, short_term_ma, long_term_ma):                
         self.long_term_ma = long_term_ma
         self.short_term_ma = short_term_ma
         
@@ -252,7 +252,7 @@ class Macd(object):
                         
 
 class Macd_Compute_All(object):
-    def __init__(self, long_term_ma, short_term_ma):
+    def __init__(self, short_term_ma, long_term_ma):
         self.long_term_ma = long_term_ma
         self.short_term_ma = short_term_ma
 
@@ -283,7 +283,7 @@ class Macd_Compute_All(object):
                 
 
 class Macd_Signal(object):
-    def __init__(self, long_term_ma, short_term_ma, period):
+    def __init__(self, short_term_ma, long_term_ma, period):
         self.long_term_ma = long_term_ma
         self.short_term_ma = short_term_ma
         self.period = period
@@ -319,14 +319,14 @@ class Macd_Signal(object):
         return formatted_data
         
 class Macd_Histogram(object):
-    def __init__(self, long_term_ma, short_term_ma, period):
+    def __init__(self, short_term_ma, long_term_ma, period):
         self.long_term_ma = long_term_ma
         self.short_term_ma = short_term_ma
         self.period = period
 
     def __call__(self, prices, latest_record, memo={}):
-        macd = Macd(self.long_term_ma, self.short_term_ma)
-        macd_signal = Macd_Signal(self.long_term_ma, self.short_term_ma, self.period)
+        macd = Macd(self.short_term_ma, self.long_term_ma)
+        macd_signal = Macd_Signal(self.short_term_ma, self.long_term_ma, self.period)
         
         histogram_bar = macd(prices, latest_record, memo) - macd_signal(prices, latest_record, memo)
         return histogram_bar

@@ -34,14 +34,14 @@ describe("Documentation", function() {
         var change_doc = new ChangeDoc(stochastic_doc);
         var greater_than_or_equal_to_doc = new IsLessThanOrEqualToDoc(change_doc, float_doc);
         
-        expect(greater_than_or_equal_to_doc.compose_lead_in()).toEqual("Stochastic(5) is the percentile of where the price ranks over the past 5 days. A lower percentile indicates a pullback is happening and an upward move could occur soon. This rule selects the days where the the value of the slope of the percentile is less than or equal to 30.");
+        expect(greater_than_or_equal_to_doc.compose_lead_in()).toEqual("Stochastic(5) is the percentile of where the price ranks over the past 5 days. A lower percentile indicates a pullback is happening and an upward move could occur soon. This rule selects the days where the the value of the slope (steepness) of the percentile is less than or equal to 30.");
     });
     
     it("should be able to construct a stochastic doc with gradient modifier on operand 1 and 2", function() {
         var change_doc = new ChangeDoc(stochastic_doc);
         var greater_than_or_equal_to_doc = new IsLessThanOrEqualToDoc(change_doc, change_doc);
         
-        expect(greater_than_or_equal_to_doc.compose_lead_in()).toEqual("Stochastic(5) is the percentile of where the price ranks over the past 5 days. A lower percentile indicates a pullback is happening and an upward move could occur soon. This rule selects the days where the the value of the slope of the percentile is less than or equal to its the value of the slope of Stochastic(5).");
+        expect(greater_than_or_equal_to_doc.compose_lead_in()).toEqual("Stochastic(5) is the percentile of where the price ranks over the past 5 days. A lower percentile indicates a pullback is happening and an upward move could occur soon. This rule selects the days where the the value of the slope (steepness) of the percentile is less than or equal to the value of the slope (steepness) of Stochastic(5).");
     });
 
 
@@ -50,7 +50,7 @@ describe("Documentation", function() {
         var days_ago_doc = new DaysAgoDoc(1, change_doc);
         var greater_than_or_equal_to_doc = new IsLessThanOrEqualToDoc(days_ago_doc, days_ago_doc);
         
-        expect(greater_than_or_equal_to_doc.compose_lead_in()).toEqual("Stochastic(5) is the percentile of where the price ranks over the past 5 days. A lower percentile indicates a pullback is happening and an upward move could occur soon. This rule selects the days where 1 day ago, the the value of the slope of the percentile is less than or equal to 1 day ago the value of the slope of Stochastic(5).");
+        expect(greater_than_or_equal_to_doc.compose_lead_in()).toEqual("Stochastic(5) is the percentile of where the price ranks over the past 5 days. A lower percentile indicates a pullback is happening and an upward move could occur soon. This rule selects the days where 1 day ago, the the value of the slope (steepness) of the percentile is less than or equal to 1 day ago the value of the slope (steepness) of Stochastic(5).");
     });
     
     
@@ -69,7 +69,7 @@ describe("Documentation", function() {
         var days_ago_doc = new DaysAgoDoc(1, change_doc);
         var greater_than_or_equal_to_doc = new IsLessThanOrEqualToDoc(float_doc, days_ago_doc);
         
-        expect(greater_than_or_equal_to_doc.compose_lead_in()).toEqual("30 is less than or equal to 1 day ago the value of the slope of Stochastic(5).");
+        expect(greater_than_or_equal_to_doc.compose_lead_in()).toEqual("30 is less than or equal to 1 day ago the value of the slope (steepness) of Stochastic(5).");
     });
     
     
@@ -77,7 +77,7 @@ describe("Documentation", function() {
         var change_doc = new ChangeDoc(stochastic_doc);
         var greater_than_or_equal_to_doc = new IsGreaterThanOrEqualToDoc(change_doc, change_doc);
         
-        expect(greater_than_or_equal_to_doc.compose_lead_in()).toEqual("Stochastic(5) is the percentile of where the price ranks over the past 5 days. A lower percentile indicates a pullback is happening and an upward move could occur soon. This rule selects the days where the the value of the slope of the percentile is greater than or equal to its the value of the slope of Stochastic(5).");
+        expect(greater_than_or_equal_to_doc.compose_lead_in()).toEqual("Stochastic(5) is the percentile of where the price ranks over the past 5 days. A lower percentile indicates a pullback is happening and an upward move could occur soon. This rule selects the days where the the value of the slope (steepness) of the percentile is greater than or equal to the value of the slope (steepness) of Stochastic(5).");
     });
     
     
@@ -126,7 +126,7 @@ describe("Documentation", function() {
         var change_doc = new ChangeDoc(transform_doc);
         var change_doc2 = new ChangeDoc(stochastic_doc);
         var is_crossing_above_doc = new IsCrossingAboveDoc(change_doc, change_doc2);
-        expect(is_crossing_above_doc.compose_lead_in()).toEqual("Stochastic(5)'s 10 day Exponential Moving Average is the 10 day Exponential Moving Average of the Stochastic(5). Indicators moving above its averages are bullish signs. This rule selects the days where the the value of the slope of the Stochastic(5)'s 10 day Exponential Moving Average has crossed above its the value of the slope of Stochastic(5).");
+        expect(is_crossing_above_doc.compose_lead_in()).toEqual("Stochastic(5)'s 10 day Exponential Moving Average is the 10 day Exponential Moving Average of the Stochastic(5). Indicators moving above its averages are bullish signs. This rule selects the days where the the value of the slope (steepness) of the Stochastic(5)'s 10 day Exponential Moving Average has crossed above the value of the slope (steepness) of Stochastic(5).");
     
     });
     
@@ -180,7 +180,7 @@ describe("Documentation", function() {
         var change_doc = new ChangeDoc(transform_doc);
         var change_doc2 = new ChangeDoc(stochastic_doc);
         var is_crossing_above_doc = new IsCrossingAboveDoc(change_doc, change_doc2);
-        expect(is_crossing_above_doc.compose_lead_in()).toEqual("Stochastic(5)'s MACD(5,14) is the MACD(5,14) of the Stochastic(5). The MACD is used to identify the start and end of trends. MACD greater than zero suggests an uptrend; MACD less than zero suggests a downtrend. A MACD that is deeply negative but is crossing strongly above the MACD Signal suggests a start of an bullish uptrend. This rule selects the days where the the value of the slope of the Stochastic(5)'s MACD(5,14) has crossed above its the value of the slope of Stochastic(5).");
+        expect(is_crossing_above_doc.compose_lead_in()).toEqual("Stochastic(5)'s MACD(5,14) is the MACD(5,14) of the Stochastic(5). The MACD is used to identify the start and end of trends. MACD greater than zero suggests an uptrend; MACD less than zero suggests a downtrend. A MACD that is deeply negative but is crossing strongly above the MACD Signal suggests a start of an bullish uptrend. This rule selects the days where the the value of the slope (steepness) of the Stochastic(5)'s MACD(5,14) has crossed above the value of the slope (steepness) of Stochastic(5).");
     
     });
     
