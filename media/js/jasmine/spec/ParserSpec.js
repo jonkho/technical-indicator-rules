@@ -32,7 +32,7 @@ describe("Tokenizer", function() {
 });  
 
 
-describe("Parser", function() {
+describe("Doc Parser", function() {
 
     beforeEach(function() {
         parser = new Parser();
