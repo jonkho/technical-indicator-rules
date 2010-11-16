@@ -25,9 +25,12 @@ comparison:
     is_increasing
     is_decreasing
     
-modifier:
+days ago:
     <number> days_ago
-    gradient    
+
+gradient:    
+    gradient
+    speed    
 
 transform:
     ->
@@ -47,7 +50,7 @@ value:
 
 
 function ActiveSyntax() {
-    var active_sets = ""
+    var active_set = ""
 }
 
 
@@ -91,11 +94,11 @@ ActiveSyntax.prototype.is_unsigned_integer = function(token) {
 
 
 ActiveSyntax.prototype.parse_phrase = function(tokenizer) {
+    this.active_set = "indicators,value"
     
     if (!tokenizer.has_tokens()) {
         return;
     }
-    
     this.parse_expression(tokenizer);  
 
 };
@@ -136,7 +139,7 @@ ActiveSyntax.prototype.parse_operand = function(tokenizer) {
         }
         
         if (this.is_modifier(token)) {
-            this.parse_modifier(tokenizer, operand);
+            this.parse_modifier(tokenizer);
             
             if (tokenizer.has_tokens()) {
                 token = tokenizer.peek();
@@ -158,8 +161,6 @@ ActiveSyntax.prototype.parse_operand = function(tokenizer) {
     else {
         this.parse_unit(tokenizer)    
     }
-    
-    return operand;
         
 }
 
@@ -172,67 +173,80 @@ ActiveSyntax.prototype.parse_indicator = function(tokenizer) {
     if (token == "macd") {
         var short_term_ma = this.parse_number(tokenizer);
         var long_term_ma = this.parse_number(tokenizer);
-        indicator = new MacdDoc(short_term_ma, long_term_ma);
-        //indicator_string = "macd(" + short_term_ma + "," + long_term_ma + ")";
+        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
     }
     
     else if (token == "macd_signal") { 
         var short_term_ma = this.parse_number(tokenizer);
         var long_term_ma = this.parse_number(tokenizer);
         var n = this.parse_number(tokenizer);
-        indicator = new MacdSignalDoc(short_term_ma, long_term_ma, n);
+        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
     }
     
     else if (token == "ema") {
         var period = this.parse_number(tokenizer);
-        indicator = new EmaDoc(period);
+        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
     }
     
     else if (token == "sma") {
         var period = this.parse_number(tokenizer);
-        indicator = new SmaDoc(period);
+        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
     }
     
     else if (token == "rsi") {
         var period = this.parse_number(tokenizer);
-        indicator = new RsiDoc(period);
+        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
     }
     
     else if (token == "stochastic") {
         var period = this.parse_number(tokenizer);
-        indicator = new StochasticDoc(period);
+        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
     }
     
     else if (token == "stochastic_signal") {
         var period = this.parse_number(tokenizer);
         var n = this.parse_number(tokenizer);
-        indicator = new StochasticSignalDoc(period, n);
+        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
     }
     
     else if (token == "slow_stochastic") {
+        
         var period = this.parse_number(tokenizer);
-        indicator = new SlowStochasticDoc(period);
+        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
     }
     
     else if (token == "slow_stochastic_signal") {
         var period = this.parse_number(tokenizer);
         var n = this.parse_number(tokenizer);
-        indicator = new SlowStochasticSignalDoc(period, n);
+        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
     }
     
     else if (token == "price") {
-        indicator = new PriceDoc();
+        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
+    }
+    
+    else {
+        this.active_set = ""
+        return;
+    }
+    
+    if (!tokenizer.has_tokens()) {
+        return;
     }
     
     token = tokenizer.peek();
     
     if (token == "->") {
         tokenizer.consume();
-        indicator = this.parse_transform(tokenizer, indicator) 
-    }
-    
-    return indicator;          
-    
+        
+        this.active_set = "transform";
+        
+        if (!tokenizer.has_tokens()) {
+            return;
+        }
+        
+        this.parse_transform(tokenizer) 
+    }          
 }
 
 
@@ -241,31 +255,34 @@ ActiveSyntax.prototype.parse_booloperator = function(tokenizer) {
     tokenizer.consume()
     
     if (booloperator == "is_increasing") {
-        return IsIncreasingDoc;
+        this.active_set = "";
     }
     
     else if (booloperator == "is_decreasing") {
-        return IsDecreasingDoc;
+        this.active_set = "";
     }
     
     else if (booloperator == "is_crossing_above") {
-        return IsCrossingAboveDoc;
+        this.active_set = "indicators,value";
     }
     
     else if (booloperator == "is_crossing_below") {
-        return IsCrossingBelowDoc;
+        this.active_set = "indicators,value";
     }
     
     else if (booloperator == "is_crossing") {
-        return IsCrossingDoc;
+        this.active_set = "indicators,value";
     }
     
     else if (booloperator == ">=") {
-        return IsGreaterThanOrEqualToDoc;
+        this.active_set = "indicators,value";
     }
     
     else if (booloperator == "<=") {
-        return IsLessThanOrEqualToDoc;
+        this.active_set = "indicators,value";
+    }
+    else {
+        this.active_set = "";
     }
 }
 
@@ -275,30 +292,39 @@ ActiveSyntax.prototype.parse_transform = function(tokenizer, indicator) {
     
     if (this.is_transform(token)) {
         var transform_indicator = this.parse_indicator(tokenizer);
-        return new TransformDoc(indicator, transform_indicator);
+        this.active_set = "arithmetic,comparison,days ago,gradient";
+    }
+    
+    else {
+        this.active_set = "";
+        return;
     }
 }
 
 
 
-ActiveSyntax.prototype.parse_modifier = function(tokenizer, operand) {
+ActiveSyntax.prototype.parse_modifier = function(tokenizer) {
     
-    var modified_operand = operand;
     var token = tokenizer.peek();
         
     if (token == "speed") {
-        modified_operand = new SpeedDoc(modified_operand);
+        this.active_set = "arithmetic,comparison,days ago";
         tokenizer.consume();
+        
+        if (!tokenizer.has_tokens()) {
+            return;
+        }
+        
         token = tokenizer.peek();
     }
 
 
     else if (token == "gradient") {
-        modified_operand = new ChangeDoc(modified_operand);
+        this.active_set = "arithmetic,comparison,days ago";
         tokenizer.consume();
         
         if (!tokenizer.has_tokens()) {
-            return modified_operand;
+            return;
         }
         
         token = tokenizer.peek();
@@ -306,24 +332,40 @@ ActiveSyntax.prototype.parse_modifier = function(tokenizer, operand) {
     }
        
     if (this.is_unsigned_integer(token)) {
-        modified_operand = this.parse_day_displacement(tokenizer, modified_operand)
+        this.active_set = "days ago";
+        this.parse_day_displacement(tokenizer);
     }
-        
-    return modified_operand
+    
+    else {
+        this.active_set = ""
+    }
 }
 
 
-ActiveSyntax.prototype.parse_day_displacement = function(tokenizer, operand) {
+ActiveSyntax.prototype.parse_day_displacement = function(tokenizer) {
 
     var number = this.parse_number(tokenizer);
+    this.active_set = "days ago";
+    
+    if (!tokenizer.has_tokens()) {
+        return;
+    }
+    
     var token = tokenizer.peek();
     tokenizer.consume();
     
     if (token == "days_ago") {
-        return new DaysAgoDoc(number, operand);
+        this.active_set = "arithmetic,comparison";
+        return;
     }
 
     else if (token == "days_later") {
+        this.active_set = "arithemtic,comparison";
+        return;
+    }
+    
+    else {
+        this.active_set = "";
         return;
     }
         
@@ -335,11 +377,15 @@ ActiveSyntax.prototype.parse_arithoperator = function(tokenizer) {
     tokenizer.consume();
     
     if (token == "-") {
-        return DifferenceDoc;
+        this.active_set = "indicators,value";
     }
     
     else if (token == "|-|") {
-        return AbsoluteDifferenceDoc;
+        this.active_set = "indicators,value";
+    }
+    
+    else {
+        this.active_set = "";
     }
 }
 

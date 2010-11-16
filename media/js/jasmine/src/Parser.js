@@ -12,6 +12,9 @@ Tokenizer.prototype.consume = function() {
 };
 
 Tokenizer.prototype.has_tokens = function() {
+    if (this.tokens == null) {
+        return false;
+    }
     return this.tokens.length > 0;
 };
 
