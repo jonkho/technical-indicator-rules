@@ -9,7 +9,7 @@
 
 {% block scripts %}
   <!--[if IE]><script language="javascript" type="text/javascript" src="/js/flotr/excanvas.js"></script><![endif]-->
-  <script language="javascript" type="text/javascript"  src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+  <script language="javascript" type="text/javascript"  src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
   <script language="javascript" type="text/javascript"  src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"></script>
   <script language="javascript" type="text/javascript" src="/js/prototype.js"></script>
   <script language="javascript" type="text/javascript" src="/js/scriptaculous.js"></script>
@@ -80,41 +80,48 @@
 
 			<div class="query_drop grid_12">
 				<div class="droppable grid_6">
-					<div id="buydrop" class="drop_header">
-						<h2 id="buy_when_header">Buy when&nbsp;</h2>
-						 <a href="" class="add_query buy_query">[+]</a>
+					<div class="buy_parameter">
+						<div id="buydrop" class="drop_header">
+							<h2 id="buy_when_header">Buy when&nbsp;</h2>
+							 <a href="" class="add_query buy_query">[+]</a>
+						</div>
+						<ul id="query" class="query_area buy_queries">
+							<li>
+								<a href="" class="rm_query">x </a>
+								<input name="buy_query_1" type="hidden" value="{{params.buy_query}}"/>
+								<p class="query_string">{{params.buy_query}}</p>
+							</li>
+						</ul>
+						<a href="" class="add_or">OR</a>
 					</div>
-					<ul id="query" class="query_area buy_queries">
-						<li>
-							<a href="" class="rm_query">x </a>
-							<input name="buy_query" type="hidden" value="{{params.buy_query}}"/>
-							<p class="query_string">{{params.buy_query}}</p>
-						</li>
-					</ul>
+
 				</div>
 				<div class="droppable grid_6">
-					<div class="drop_header">
-						<h2>Sell when&nbsp;</h2>
-						 <a href="" class="add_query sell_query">[+]</a>
-						 <div class="stop_loss_control">
-						 	<h2>Stop Loss Percent: </h2>
-							<ul >
-								<li>1</li>
-								<li>2</li>
-								<li>3</li>
-								<li>4</li>
-								<li>5</li>
-							</ul>
-							<input type="hidden" id="stop_loss_input" name="stop_loss_percent" value=""/>
-						 </div>
+					<div class="sell_parameter">
+						<div class="drop_header">
+							<h2>Sell when&nbsp;</h2>
+							 <a href="" class="add_query sell_query">[+]</a>
+							 <div class="stop_loss_control">
+								<h2>Stop Loss Percent: </h2>
+								<ul >
+									<li>1</li>
+									<li>2</li>
+									<li>3</li>
+									<li>4</li>
+									<li>5</li>
+								</ul>
+								<input type="hidden" id="stop_loss_input" name="stop_loss_percent" value=""/>
+							 </div>
+						</div>
+						<ul class="query_area sell_queries">
+							<li>
+								<a href="" class="rm_query">x </a>
+								<input name="sell_query_1" type="hidden" value="{{params.sell_query}}"/>
+								<p class="query_string">{{params.sell_query}}</p>
+							</li>
+						</ul>
+						<a href="" class="add_or">OR</a>
 					</div>
-					<ul class="query_area sell_queries">
-						<li>
-							<a href="" class="rm_query">x </a>
-							<input name="sell_query" type="hidden" value="{{params.sell_query}}"/>
-							<p class="query_string">{{params.sell_query}}</p>
-						</li>
-					</ul>
 				</div>
 			</div>
 		</div> <!-- close section -->

@@ -104,24 +104,31 @@ jQuery('document').ready(function(){
 	  chartData(js.contents);
 	  chartSummary(js.contents.summary);
 	}
+	initDropArea(jQuery('ul.buy_queries'),1);
+	initDropArea(jQuery('ul.sell_queries'),1);
 
-	/* active query area */
-	jQuery('.query_area').droppable({
-		accept: 'ul.query_bank li',
-		drop: function(event, ui){
-			var li = jQuery(ui.draggable).clone();
-			var query = jQuery(li).text();
-			if(jQuery(this).hasClass('buy_queries')){
-				jQuery('<li><a href="" class="rm_query">x</a><input name="buy_query" type="hidden" value="'+query+'"/><p class="query_string">'+query+'</p></li>').appendTo(this);
-			} else{
-				jQuery('<li><a href="" class="rm_query">x</a><input name="sell_query" type="hidden" value="'+query+'"/><p class="query_string">'+query+'</p></li>').appendTo(this);
-			}
-			//redraw flags
-			//TODO: redraw slider
-			HumbleFinance.drawFlags();
-			HumbleFinance.graphs.summary.setSelection(HFarea);
-		}	
-	});
+	function initDropArea(ele,index){
+		/* active query area */
+		jQuery(ele).droppable({
+			accept: 'ul.query_bank li',
+			drop: function(event, ui){
+				var li = jQuery(ui.draggable).clone();
+				var query = jQuery(li).text();
+				if(jQuery(this).hasClass('buy_queries')){
+					jQuery('<li><a href="" class="rm_query">x</a><input name="buy_query_'+index+'" type="hidden" value="'+query+'"/><p class="query_string">'+query+'</p></li>').appendTo(this);
+				} else{
+					jQuery('<li><a href="" class="rm_query">x</a><input name="sell_query_'+index+'" type="hidden" value="'+query+'"/><p class="query_string">'+query+'</p></li>').appendTo(this);
+				}
+				//redraw flags
+				//TODO: redraw slider
+				HumbleFinance.drawFlags();
+				HumbleFinance.graphs.summary.setSelection(HFarea);
+			}	
+		});
+	};
+
+
+
 
 	/* prepopulated queries */
 	jQuery('ul.query_bank li').draggable({revert:true,zIndex: 200});
@@ -129,18 +136,20 @@ jQuery('document').ready(function(){
 	/* remove query from query area */
 	jQuery('.rm_query').live('click',function(){
 		jQuery(this).parent('li').remove();
-		
 		HumbleFinance.graphs.summary.setSelection(HFarea);
 		HumbleFinance.drawFlags();
 		return false;
 	});
-	jQuery('.add_query').click(function(){
+
+
+	jQuery('.add_query').live('click',function(){
 		var list = jQuery(this).parent('div').next('ul');
+		var index = jQuery(this).parent().parent().siblings().length + 1;
 		var type = 'buy'
 		if(jQuery(this).hasClass('sell_query')){
 			type = 'sell';
 		}
-		jQuery('<li><a href="" class="rm_query">x</a><input name="'+type+'_query" type="hidden" value=""/><p class="query_string" style="display:none"></p><input class="query_input" type="text" value=""/><button class="modify_query" type="button">Save</button></li>').appendTo(list).find('input.query_input').focus();
+		jQuery('<li><a href="" class="rm_query">x</a><input name="'+type+'_query_'+index+'" type="hidden" value=""/><p class="query_string" style="display:none"></p><input class="query_input" type="text" value=""/><button class="modify_query" type="button">Save</button></li>').appendTo(list).find('input.query_input').focus();
 		
 		HumbleFinance.graphs.summary.setSelection(HFarea);
 		HumbleFinance.drawFlags();
@@ -178,6 +187,43 @@ jQuery('document').ready(function(){
 		
 		HumbleFinance.graphs.summary.setSelection(HFarea);
 		HumbleFinance.drawFlags();
+	});
+
+
+	//clone the drop area
+	jQuery('.add_or').live('click',function(e){
+		var orig_drop_area = jQuery(this).parent('div');
+		var or_count = 	orig_drop_area.siblings().length + 2;
+		if(or_count <= 3){ 
+			var new_drop_area = orig_drop_area.clone();
+			var query_area = new_drop_area.find('ul.query_area');
+
+			
+			query_area.children('li').remove();
+			new_drop_area.find('div.stop_loss_control').remove();
+			new_drop_area.find('a.remove_or_query').remove();
+
+			if(or_count == 3){
+				new_drop_area.find('a.add_or').remove();
+			}
+
+			initDropArea(query_area,or_count);
+			jQuery('<a href="" class="remove_or_query">x</a>').appendTo(new_drop_area.find('div.drop_header'));
+
+			orig_drop_area.parent('div').append(new_drop_area);
+			HumbleFinance.drawFlags();
+			HumbleFinance.graphs.summary.setSelection(HFarea);
+		} else{
+			alert('asdf');
+		}
+		e.preventDefault();
+	});
+
+
+	jQuery('a.remove_or_query').live('click',function(e){
+		jQuery(this).parent().parent().remove();
+
+		e.preventDefault()
 	});
 
 

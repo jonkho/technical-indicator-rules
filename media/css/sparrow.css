@@ -149,12 +149,15 @@ div.query_section div.drop_header a{
 	font-weight:normal;
 	color:#333
 }
+div.query_section div.drop_header a.remove_or_query{
+	float:right;
+}
 div.query_section div.drop_header a:hover{
 	color:#666;
 }
 div.query_section .query_area{
 	border:1px solid #C1D3D9;
-	min-height:100px;
+	min-height:85px;
 	list-style-type:none;
 	background-color:white;
 	padding-bottom:10px;
@@ -368,4 +371,9 @@ div.reference_section h3{
   padding-bottom:15px;
 }
 
-
+div.droppable div a.add_or{
+	margin-left:45%;
+	text-decoration:none;
+	font-size:1.1em;
+	color:#C8400E;
+}

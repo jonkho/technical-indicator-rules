@@ -29,7 +29,7 @@ class Api_01_Test(TestCase):
 
 
     def test_api_buy_query_results_success(self):
-        response = self.client.get("/query/", {"symbol":"gld", "start_date":"20090101", "end_date":"20100301", "buy_query":["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0"]})
+        response = self.client.get("/query/", {"symbol":"gld", "start_date":"20090101", "end_date":"20100301", "buy_query_1":["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0"]})
                 
         return_code = json.loads(response.content)
         self.failUnlessEqual(int(return_code["value"]), 3000)
@@ -61,7 +61,7 @@ class Api_01_Test(TestCase):
 
                 
     def test_api_sell_query_results_success(self):
-        response = self.client.get("/query/", {"symbol":"gld", "start_date":"20090101", "end_date":"20100301", "sell_query":["macd(17,8) is_crossing macd_signal(17,8,9)"]})
+        response = self.client.get("/query/", {"symbol":"gld", "start_date":"20090101", "end_date":"20100301", "sell_query_1":["macd(17,8) is_crossing macd_signal(17,8,9)"]})
         return_code = json.loads(response.content)
         self.failUnlessEqual(int(return_code["value"]), 3000)
         self.failUnlessEqual(len(return_code["contents"]["data"]), 291)
@@ -88,7 +88,7 @@ class Api_01_Test(TestCase):
         self.failUnlessEqual(len(return_code["contents"]["indicators_data"][0][0][1]), 291)             
                 
     def test_api_buy_sell_query_results_success(self):
-        response = self.client.get("/query/", {"symbol":"gld", "start_date":"20100228", "end_date":"20100301", "buy_query":["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0"], "sell_query":["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient <= 0"]})
+        response = self.client.get("/query/", {"symbol":"gld", "start_date":"20100228", "end_date":"20100301", "buy_query_1":["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient >= 0"], "sell_query_1":["macd(17,8) is_crossing macd_signal(17,8,9)", "macd(17,8) gradient <= 0"]})
         return_code = json.loads(response.content)
         self.failUnlessEqual(int(return_code["value"]), 3000)
         self.failUnlessEqual(len(return_code["contents"]["data"]), 1)
