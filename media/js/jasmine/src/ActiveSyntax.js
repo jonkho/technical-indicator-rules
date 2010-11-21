@@ -47,10 +47,61 @@ value:
 */
 
 
+function MacdState() {
+    var active_set = "macd,macd_signal,:value";
+}
+
+function MacdSignalState() {
+    var active_set = "macd,macd_signal,:value";
+}
+
+function StochasticState() {
+    var active_set = "stochastic,stochastic_signal,slow_stochastic,slow_stochastic_signal,:value";
+}
+
+function StochasticSignalState() {
+    var active_set = "stochastic,stochastic_signal,slow_stochastic,slow_stochastic_signal,:value";
+}
+
+function SlowStochasticState() {
+    this.active_set = "stochastic,stochastic_signal,slow_stochastic,slow_stochastic_signal,:value";
+}
+
+function SlowStochasticSignalState() {
+    this.active_set = "stochastic,stochastic_signal,slow_stochastic,slow_stochastic_signal,:value";
+}
+
+function RsiState() {
+    this.active_set = "rsi,:value";
+}
+
+function MovingAverageState() {
+    this.active_set = "ema,sma,:value";
+}
+
+function PriceState() {
+    this.active_set = "price,:value";
+}
+
+function InvalidState() {
+    this.active_set = "";
+
+}
+
+function UnboundState() {
+    this.active_set = ":arithmetic,:comparison,:days ago,:gradient,:transform";
+}
+
+
+
+
+
+
 
 
 function ActiveSyntax() {
-    var active_set = ""
+    this.active_set = ""
+    this.state = new UnboundState();
 }
 
 
@@ -94,7 +145,8 @@ ActiveSyntax.prototype.is_unsigned_integer = function(token) {
 
 
 ActiveSyntax.prototype.parse_phrase = function(tokenizer) {
-    this.active_set = "indicators,value"
+    this.active_set = "indicators,value";
+    this.state = new UnboundState();
     
     if (!tokenizer.has_tokens()) {
         return;
@@ -166,69 +218,70 @@ ActiveSyntax.prototype.parse_operand = function(tokenizer) {
 
 
 ActiveSyntax.prototype.parse_indicator = function(tokenizer) {
-    
+
+    this.active_set = this.state.active_set;
     var token = tokenizer.peek();
     tokenizer.consume();
     
     if (token == "macd") {
         var short_term_ma = this.parse_number(tokenizer);
         var long_term_ma = this.parse_number(tokenizer);
-        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
+        this.state = new MacdState();
     }
     
     else if (token == "macd_signal") { 
         var short_term_ma = this.parse_number(tokenizer);
         var long_term_ma = this.parse_number(tokenizer);
         var n = this.parse_number(tokenizer);
-        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
+        this.state = new MacdSignalState();
     }
     
     else if (token == "ema") {
         var period = this.parse_number(tokenizer);
-        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
+        this.state = new And(new MovingAverageState(), new PriceState())
     }
     
     else if (token == "sma") {
         var period = this.parse_number(tokenizer);
-        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
+        this.state = new And(new MovingAverageState(), new PriceState())
     }
     
     else if (token == "rsi") {
         var period = this.parse_number(tokenizer);
-        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
+        this.state = new RsiState();
     }
     
     else if (token == "stochastic") {
         var period = this.parse_number(tokenizer);
-        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
+        this.state = new StochasticState();
     }
     
     else if (token == "stochastic_signal") {
         var period = this.parse_number(tokenizer);
         var n = this.parse_number(tokenizer);
-        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
+        this.state = new StochasticSignalState()
     }
     
     else if (token == "slow_stochastic") {
-        
         var period = this.parse_number(tokenizer);
-        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
+        this.state = new SlowStochasticState();
     }
     
     else if (token == "slow_stochastic_signal") {
         var period = this.parse_number(tokenizer);
         var n = this.parse_number(tokenizer);
-        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
+        this.state = new SlowStochasticSignalState();
     }
     
     else if (token == "price") {
-        this.active_set = "arithmetic,comparison,days ago,gradient,transform";
+        this.state = new And(new MovingAverageState(), new PriceState())
     }
     
     else {
-        this.active_set = ""
+        this.state = new InvalidState();
         return;
     }
+   
     
     if (!tokenizer.has_tokens()) {
         return;
@@ -239,7 +292,7 @@ ActiveSyntax.prototype.parse_indicator = function(tokenizer) {
     if (token == "->") {
         tokenizer.consume();
         
-        this.active_set = "transform";
+        this.active_set = ":transform_indicators";
         
         if (!tokenizer.has_tokens()) {
             return;
@@ -263,23 +316,28 @@ ActiveSyntax.prototype.parse_booloperator = function(tokenizer) {
     }
     
     else if (booloperator == "is_crossing_above") {
-        this.active_set = "indicators,value";
+        this.active_set = this.state.active_set;
+        this.state = new UnboundState(); 
     }
     
     else if (booloperator == "is_crossing_below") {
-        this.active_set = "indicators,value";
+        this.active_set = this.state.active_set;
+        this.state = new UnboundState();
     }
     
     else if (booloperator == "is_crossing") {
-        this.active_set = "indicators,value";
+        this.active_set = this.state.active_set;
+        this.state = new UnboundState();
     }
     
     else if (booloperator == ">=") {
-        this.active_set = "indicators,value";
+        this.active_set = this.state.active_set;
+        this.state = new UnboundState();
     }
     
     else if (booloperator == "<=") {
-        this.active_set = "indicators,value";
+        this.active_set = this.state.active_set;
+        this.state = new UnboundState();
     }
     else {
         this.active_set = "";
@@ -287,12 +345,11 @@ ActiveSyntax.prototype.parse_booloperator = function(tokenizer) {
 }
 
 
-ActiveSyntax.prototype.parse_transform = function(tokenizer, indicator) {
+ActiveSyntax.prototype.parse_transform = function(tokenizer) {
     var token = tokenizer.peek();
     
     if (this.is_transform(token)) {
-        var transform_indicator = this.parse_indicator(tokenizer);
-        this.active_set = "arithmetic,comparison,days ago,gradient";
+        this.parse_transform_indicator(tokenizer);
     }
     
     else {
@@ -302,13 +359,46 @@ ActiveSyntax.prototype.parse_transform = function(tokenizer, indicator) {
 }
 
 
+ActiveSyntax.prototype.parse_transform_indicator = function(tokenizer) {
+    var token = tokenizer.peek();
+    tokenizer.consume();
+    
+    if (token == "macd") {
+        var short_term_ma = this.parse_number(tokenizer);
+        var long_term_ma = this.parse_number(tokenizer);
+        this.active_set = ":days ago,:gradient,:comparison,:arithmetic";
+    }
+    
+    else if (token == "macd_signal") { 
+        var short_term_ma = this.parse_number(tokenizer);
+        var long_term_ma = this.parse_number(tokenizer);
+        var n = this.parse_number(tokenizer);
+        this.active_set = ":days ago,:gradient,:comparison,:arithmetic";
+    }
+    
+    else if (token == "ema") {
+        var period = this.parse_number(tokenizer);
+        this.active_set = ":days ago,:gradient,:comparison,:arithmetic";
+
+    }
+    
+    else if (token == "sma") {
+        var period = this.parse_number(tokenizer);
+        this.active_set = ":days ago,:gradient,:comparison,:arithmetic";
+    }    
+    
+    if (!tokenizer.has_tokens()) {
+        return;
+    }
+}
+
 
 ActiveSyntax.prototype.parse_modifier = function(tokenizer) {
     
     var token = tokenizer.peek();
         
     if (token == "speed") {
-        this.active_set = "arithmetic,comparison,days ago";
+        this.active_set = ":arithmetic,:comparison,:days ago";
         tokenizer.consume();
         
         if (!tokenizer.has_tokens()) {
@@ -320,7 +410,7 @@ ActiveSyntax.prototype.parse_modifier = function(tokenizer) {
 
 
     else if (token == "gradient") {
-        this.active_set = "arithmetic,comparison,days ago";
+        this.active_set = ":arithmetic,:comparison,:days ago";
         tokenizer.consume();
         
         if (!tokenizer.has_tokens()) {
@@ -332,7 +422,7 @@ ActiveSyntax.prototype.parse_modifier = function(tokenizer) {
     }
        
     if (this.is_unsigned_integer(token)) {
-        this.active_set = "days ago";
+        this.active_set = ":days ago";
         this.parse_day_displacement(tokenizer);
     }
     
@@ -345,7 +435,7 @@ ActiveSyntax.prototype.parse_modifier = function(tokenizer) {
 ActiveSyntax.prototype.parse_day_displacement = function(tokenizer) {
 
     var number = this.parse_number(tokenizer);
-    this.active_set = "days ago";
+    this.active_set = ":days ago";
     
     if (!tokenizer.has_tokens()) {
         return;
@@ -355,12 +445,12 @@ ActiveSyntax.prototype.parse_day_displacement = function(tokenizer) {
     tokenizer.consume();
     
     if (token == "days_ago") {
-        this.active_set = "arithmetic,comparison";
+        this.active_set = ":arithmetic,:comparison";
         return;
     }
 
     else if (token == "days_later") {
-        this.active_set = "arithemtic,comparison";
+        this.active_set = ":arithemtic,:comparison";
         return;
     }
     
@@ -377,11 +467,13 @@ ActiveSyntax.prototype.parse_arithoperator = function(tokenizer) {
     tokenizer.consume();
     
     if (token == "-") {
-        this.active_set = "indicators,value";
+        this.active_set = this.state.active_set;
+        this.state = new UnboundState();
     }
     
     else if (token == "|-|") {
-        this.active_set = "indicators,value";
+        this.active_set = this.state.active_set;
+        this.state = new UnboundState();
     }
     
     else {
