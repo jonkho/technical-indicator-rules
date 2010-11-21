@@ -222,7 +222,8 @@ jQuery('document').ready(function(){
 
 	jQuery('a.remove_or_query').live('click',function(e){
 		jQuery(this).parent().parent().remove();
-
+    HumbleFinance.drawFlags();
+		HumbleFinance.graphs.summary.setSelection(HFarea);
 		e.preventDefault()
 	});
 
