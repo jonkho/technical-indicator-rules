@@ -30,7 +30,7 @@ def __request(symbol, stat):
     return urllib.urlopen(url).read().strip().strip('"')
 
 def get_quote(symbol):
-    values = __request(symbol,'d2ohgb3vl1').split(',')
+    values = __request(symbol,'d2ohgk1vl1').split(',')
     return values
 #       data = {}
 #       data["date"] = values[0]

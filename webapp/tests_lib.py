@@ -584,10 +584,13 @@ class Transform_Test(TestCase):
         
         # test service
         service = Service()
-        result = service.execute_query("GLD", "20090101", "20100301", ["macd(8,17)->ema(9) >= 0"])
+        ticker_data = service.get_ticker_data("GLD", "20090101", "20100301")
+        result = service.execute_query_on_ticker_data(ticker_data, "20090101", ["macd(8,17)->ema(9) >= 0"])
+        #result = service.execute_query("GLD", "20090101", "20100301", ["macd(8,17)->ema(9) >= 0"])
         self.failUnlessEqual(result.number_of_points, 197)
         
-        result2 = service.execute_query("GLD", "20090101", "20100301", ["macd_signal(8,17,9) >= 0"])
+        result2 = service.execute_query_on_ticker_data(ticker_data, "20090101", ["macd_signal(8,17,9) >= 0"])
+        #result2 = service.execute_query("GLD", "20090101", "20100301", ["macd_signal(8,17,9) >= 0"])
         self.failUnlessEqual(result2.number_of_points, 197)  
                     
         
@@ -810,7 +813,19 @@ class Service_Test(TestCase):
             if record[-1]:
                 count += 1
         
-        self.failUnlessEqual(count, 63)   
+        self.failUnlessEqual(count, 63)  
+        
+    def test_live_data_point_is_not_requested(self):
+        service = Service()
+        ticker_data = service.get_ticker_data("GLD", "20090101", "20100301")
+        result = service.live_data_point_is_requested(ticker_data, "20100301", "20100301")
+        self.failUnlessEqual(result, False)
+
+    def test_live_data_point_is_requested(self):
+        service = Service()
+        ticker_data = service.get_ticker_data("GLD", "20100101", "20100926")
+        result = service.live_data_point_is_requested(ticker_data, "20100927", "20100927")
+        self.failUnlessEqual(result, True)                  
 
 
 class Backtester_Test(TestCase):

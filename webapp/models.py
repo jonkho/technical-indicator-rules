@@ -1,11 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User, UserManager
 import sys, traceback
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from parser import *
 from webapp.quotes import *
 import copy
 # Create your models here.
+
+
+
+
 
 class Email_Collector(models.Model):
     email = models.EmailField()
@@ -13,16 +17,9 @@ class Email_Collector(models.Model):
 
 
 class Utils(object):
+
     def convert_indicators_data_to_nicks_specifications(self, indicators_data_list):
         indicator_data_list = []    
-        
-#         if indicators_data2 == None:
-#             for phrase_indicator_key, indicator_record in indicators_data.items():
-#                 indicator_data_list.append(indicator_record)
-#                  
-#             return indicator_data_list
-#         
-#         else:
         combined_indicators_data = {}
         
         for indicators_data in indicators_data_list:
@@ -30,14 +27,12 @@ class Utils(object):
             for phrase_indicator_key, indicator_record in indicators_data.items():
                 combined_indicators_data[phrase_indicator_key] = indicator_record
             
-#             for phrase_indicator_key, indicator_record in indicators_data2.items():
-#                 combined_indicators_data[phrase_indicator_key] = indicator_record
-            
         for phrase_indicator_key, indicator_record in combined_indicators_data.items():
             if not self.key_is_a_composing_member_of_another_key(phrase_indicator_key, combined_indicators_data):
                 indicator_data_list.append(indicator_record)
              
         return indicator_data_list
+     
        
     def key_is_a_composing_member_of_another_key(self, key_to_be_tested, key_value_dict):
         for key, value in key_value_dict.items():
@@ -47,7 +42,6 @@ class Utils(object):
                 return True
         
         return False                 
-           
                                              
 
     def one_year_earlier(self, start_date):
@@ -311,9 +305,10 @@ class Service(object):
         list_of_query_result_data = []
         
         # execute all the queries the create the list of query boxes
+        ticker_data = self.get_ticker_data(symbol, start_date, end_date)
         for query in queries:
             if query != None:    
-                result = self.execute_query(symbol, start_date, end_date, query, memo)
+                result = self.execute_query_on_ticker_data(ticker_data, start_date, query, memo)
                 list_of_query_result.append(result)
                 list_of_query_result_data.append(result.data)
             
@@ -329,24 +324,29 @@ class Service(object):
             
         return all_points, list_of_indicators_data    
        
-            
-                  
 
-    def execute_query(self, symbol, start_date, end_date, query, memo=None):
-
-        # get the extra runway data
+       
+    def get_ticker_data(self, symbol, start_date, end_date):
         utils = Utils()
         runway_start_date = utils.one_year_earlier(start_date)
         runway_data = get_historical_prices(symbol=symbol, start_date=runway_start_date, end_date=end_date)
         runway_data.reverse()
         runway_data = runway_data[:-1]
-
-    
-        # add the extra flag for each record
+        
+        if self.live_data_point_is_requested(runway_data, end_date):
+            runway_data = self.append_live_data_point(runway_data, symbol)
+                
         data_with_flag = []
         for record in runway_data:
             record.append(None)
             data_with_flag.append(record)
+        
+        return data_with_flag                       
+                  
+
+    def execute_query_on_ticker_data(self, ticker_data, start_date, query, memo=None):
+        
+        data_with_flag = copy.deepcopy(ticker_data)
             
             
         # execute the query
@@ -358,6 +358,68 @@ class Service(object):
               
         
         # remove the runway from the result query data
+        utils = Utils()
+        box.data = utils.remove_runway(box.data, start_date)
+        
+        
+        # remove the runway from the result indicators data
+        for phrase_indicator_key, indicator_record in box.indicators_data.items():
+            for indicator_string_data_pair in indicator_record:
+                indicator_string_data_pair[-1] = utils.remove_runway(indicator_string_data_pair[-1], start_date)   
+                
+                
+        # convert the box data boolean flags to integer flags
+        box.data = utils.convert_query_flags_to_integer(box.data)
+        
+        return box
+        
+    def live_data_point_is_requested(self, ticker_data, end_date, today=None):
+        if not today:
+            today = date.today
+        else:
+            today = date(int(today[:4]), int(today[4:6]), int(today[6:8]))
+            
+        ticker_end_date = date(int(ticker_data[-1][0][:4]), int(ticker_data[-1][0][5:7]), int(ticker_data[-1][0][8:10]))
+        end_date_date = date(int(end_date[:4]), int(end_date[4:6]), int(end_date[6:8]))
+        
+        
+        if ticker_end_date == today:
+            return False
+        
+        if ticker_end_date != today and end_date_date == today:
+            return True
+                
+        return False
+
+    def append_live_data_point(self, data, symbol):
+        live_data_point = get_quote(symbol)
+        
+        if live_data_point[0] == "-":
+            return data
+        
+        else:
+            live_price = live_data_point[5][live_data_point[5].find(">")+1:live_data_point[5].find("</b>")]
+            live_record = [live_data_point[0], live_data_point[1], live_data_point[2],live_data_point[3],live_data_point[4],live_price,live_data_point[6],live_data_point[7]]
+            data.append(live_record)
+            return data
+                 
+    
+
+    def execute_query(self, symbol, start_date, end_date, query, memo=None):
+
+        data_with_flag = self.get_ticker_data(symbol, start_date, end_date)
+            
+            
+        # execute the query
+        box = Query_Execution_Box(data_with_flag, memo=memo)
+        
+        
+        for phrase in query:
+            box = box(phrase) 
+              
+        
+        # remove the runway from the result query data
+        utils = Utils()
         box.data = utils.remove_runway(box.data, start_date)
         
         
