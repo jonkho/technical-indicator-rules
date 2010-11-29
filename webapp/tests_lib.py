@@ -54,7 +54,7 @@ class Ema_Test(TestCase):
 
 
 # Test Data Format: 
-#  0    1    2    3   4      5    6    7
+#  0    1    2    3   4      5    6    
 #Date,Open,High,Low,Close,Volume,Adj Close
                 
 class Macd_Test(TestCase):

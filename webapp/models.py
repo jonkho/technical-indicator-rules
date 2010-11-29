@@ -353,6 +353,7 @@ class Service(object):
         runway_data = runway_data[:-1]
         
         if self.live_data_point_is_requested(runway_data, end_date):
+            print "here"
             runway_data = self.append_live_data_point(runway_data, symbol)
                 
         data_with_flag = []
@@ -393,8 +394,11 @@ class Service(object):
         return box
         
     def live_data_point_is_requested(self, ticker_data, end_date, today=None):
+        
         if not today:
-            today = date.today
+            print "today"
+            today = date.today()
+        
         else:
             today = date(int(today[:4]), int(today[4:6]), int(today[6:8]))
             
@@ -403,11 +407,16 @@ class Service(object):
         
         
         if ticker_end_date == today:
+            print "one"
             return False
         
-        if ticker_end_date != today and end_date_date == today:
+        print(end_date_date)
+        print(today)
+        if end_date_date == today:
+            print "two"
             return True
                 
+        print "three"        
         return False
 
     def append_live_data_point(self, data, symbol):
@@ -418,7 +427,7 @@ class Service(object):
         
         else:
             live_price = live_data_point[5][live_data_point[5].find(">")+1:live_data_point[5].find("</b>")]
-            live_record = [live_data_point[0], live_data_point[1], live_data_point[2],live_data_point[3],live_data_point[4],live_price,live_data_point[6],live_data_point[7]]
+            live_record = [live_data_point[0], live_data_point[1], live_data_point[2], live_data_point[3], live_price, live_price, live_data_point[6]]
             data.append(live_record)
             return data
                  
