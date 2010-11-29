@@ -353,7 +353,6 @@ class Service(object):
         runway_data = runway_data[:-1]
         
         if self.live_data_point_is_requested(runway_data, end_date):
-            print "here"
             runway_data = self.append_live_data_point(runway_data, symbol)
                 
         data_with_flag = []
@@ -420,7 +419,7 @@ class Service(object):
             return data
         
         else:
-            live_price = live_data_point[5][live_data_point[5].find(">")+1:live_data_point[5].find("</b>")]
+            live_price = live_data_point[4][live_data_point[4].find(">")+1:live_data_point[4].find("</b>")]
             live_record = [live_data_point[0], live_data_point[1], live_data_point[2], live_data_point[3], live_price, live_data_point[5], live_data_point[6]]
             data.append(live_record)
             return data
