@@ -7,6 +7,25 @@ from webapp.quotes import *
 import copy
 # Create your models here.
 
+class Account(User):
+    sms = models.CharField(max_length=255, null=True, unique=True)
+        
+class Strategy(models.Model):
+    name = models.CharField(max_length=255, unique=True, null=True)
+    stop_loss = models.IntegerField(null=True)
+    trailing_stop = models.IntegerField(null=True)
+    buy_query = models.TextField(null=True)
+    sell_query = models.TextField(null=True)    
+    
+class Symbol(models.Model):
+    account = models.ForeignKey(Account)
+    string = models.CharField(max_length=10, unique=True)
+    strategy = models.ManyToManyField(Strategy)          
+    
+ 
+   
+    
+        
 
 
 
@@ -555,7 +574,7 @@ class Backtester(object):
             return 0
             
         
-class Account(object):
+class TradingAccount(object):
     def __init__(self, cash_balance=0, number_of_shares=0):
         self.cash_balance = float(cash_balance)
         self.number_of_shares = float(number_of_shares)

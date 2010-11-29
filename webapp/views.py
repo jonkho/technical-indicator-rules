@@ -51,7 +51,7 @@ def demo(request):
     buy_points = service.execute_query(symbol, "20090101", "20100301",['rsi(14) is_crossing 50'])
     sell_points = service.execute_query(symbol, "20090101", "20100301", ['rsi(14) >= 70'], memo=buy_points.memo)
     backtester = Backtester()
-    account = Account(cash_balance=10000)
+    account = TradingAccount(cash_balance=10000)
     timeline, account_summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)
     
     # FIX: need to merge with sell points as well
@@ -138,7 +138,7 @@ def query_data(request):
 			    buy_indicators_data_list.append(indicators_data)
 
             backtester = Backtester()
-            account = Account(cash_balance=10000)
+            account = TradingAccount(cash_balance=10000)
             timeline, account_summary = backtester.execute_long_strategy(all_buy_points, all_sell_points, account, stop_loss_percent)
 	 
             indicators_data = utils.convert_indicators_data_to_nicks_specifications(buy_indicators_data_list)

@@ -834,7 +834,7 @@ class Backtester_Test(TestCase):
         buy_points = service.execute_query("GLD", "20090101", "20100801", ["macd(8,17) is_crossing macd_signal(8,17,9)", "macd(8,17) gradient >= 0"])
         sell_points = service.execute_query("GLD", "20090101", "20100801", ["macd(8,17) is_crossing macd_signal(8,17,9)", "macd(8,17) gradient <= 0"])
         backtester = Backtester()
-        account = Account(cash_balance=10000)
+        account = TradingAccount(cash_balance=10000)
         timeline, summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)        
         self.failUnlessEqual(summary["strategy_value"], "11639.67")
     
@@ -843,7 +843,7 @@ class Backtester_Test(TestCase):
         buy_points = service.execute_query("GLD", "20090101", "20100801", ["macd(8,17) is_crossing macd_signal(8,17,9)", "macd(8,17) gradient >= 0"])
         sell_points = service.execute_query("GLD", "20090101", "20100801", ["macd(8,17) is_crossing macd_signal(8,17,9)", "macd(8,17) gradient <= 0"])
         backtester = Backtester()
-        account = Account(cash_balance=10000)
+        account = TradingAccount(cash_balance=10000)
         timeline, summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account, stop_loss_percent=1)        
         self.failUnlessEqual(summary["strategy_value"], "11778.17")    
         
