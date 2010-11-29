@@ -112,6 +112,6 @@ class test_bed(TestCase):
                 
     
 
-#from tests_web_api_01 import *
-#from tests_lib import *
+from tests_web_api_01 import *
+from tests_lib import *
 from tests_model import *
