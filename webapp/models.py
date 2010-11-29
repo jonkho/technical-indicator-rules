@@ -396,7 +396,6 @@ class Service(object):
     def live_data_point_is_requested(self, ticker_data, end_date, today=None):
         
         if not today:
-            print "today"
             today = date.today()
         
         else:
@@ -407,16 +406,11 @@ class Service(object):
         
         
         if ticker_end_date == today:
-            print "one"
             return False
         
-        print(end_date_date)
-        print(today)
         if end_date_date == today:
-            print "two"
             return True
-                
-        print "three"        
+                       
         return False
 
     def append_live_data_point(self, data, symbol):
