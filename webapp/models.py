@@ -421,7 +421,7 @@ class Service(object):
         
         else:
             live_price = live_data_point[5][live_data_point[5].find(">")+1:live_data_point[5].find("</b>")]
-            live_record = [live_data_point[0], live_data_point[1], live_data_point[2], live_data_point[3], live_price, live_price, live_data_point[6]]
+            live_record = [live_data_point[0], live_data_point[1], live_data_point[2], live_data_point[3], live_price, live_data_point[5], live_data_point[6]]
             data.append(live_record)
             return data
                  
