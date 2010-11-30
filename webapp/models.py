@@ -403,7 +403,6 @@ class Service(object):
         ticker_end_date = date(int(ticker_data[-1][0][:4]), int(ticker_data[-1][0][5:7]), int(ticker_data[-1][0][8:10]))
         end_date_date = date(int(end_date[:4]), int(end_date[4:6]), int(end_date[6:8]))
         
-        
         if ticker_end_date == today:
             return False
         
@@ -420,7 +419,8 @@ class Service(object):
         
         else:
             live_price = live_data_point[4][live_data_point[4].find(">")+1:live_data_point[4].find("</b>")]
-            live_record = [live_data_point[0], live_data_point[1], live_data_point[2], live_data_point[3], live_price, live_data_point[5], live_data_point[6]]
+            live_date = datetime.strptime(live_data_point[0], "%m/%d/%Y\"")
+            live_record = [str(live_date.date()), live_data_point[1], live_data_point[2], live_data_point[3], live_price, live_data_point[5], live_data_point[6]]
             data.append(live_record)
             return data
                  
