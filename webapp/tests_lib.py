@@ -836,7 +836,7 @@ class Backtester_Test(TestCase):
         backtester = Backtester()
         account = TradingAccount(cash_balance=10000)
         timeline, summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account)        
-        self.failUnlessEqual(summary["strategy_value"], "11639.67")
+        self.failUnlessEqual(summary["strategy_value"], "11627.42")
     
     def test_Given_a_stop_loss_Then_the_strategy_should_respect_it(self):
         service = Service()
@@ -845,7 +845,7 @@ class Backtester_Test(TestCase):
         backtester = Backtester()
         account = TradingAccount(cash_balance=10000)
         timeline, summary = backtester.execute_long_strategy(buy_points.data, sell_points.data, account, stop_loss_percent=1)        
-        self.failUnlessEqual(summary["strategy_value"], "11778.17")    
+        self.failUnlessEqual(summary["strategy_value"], "11742.82")    
         
 class Utils_Test(TestCase):
     def test_one_year_earlier_should_return_a_date_one_year_earlier(self):
