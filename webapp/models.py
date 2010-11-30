@@ -585,23 +585,14 @@ class TradingAccount(object):
         
     def buy_at_price(self, price, date):
         price = float(price)
-        
-        if self.cash_balance <= 10000:
-            self.number_of_shares = self.cash_balance / price
-            self.cash_balance = 0
-            self.trade_history.append([date, "bought", '%.2f' % price, '%.2f' % self.number_of_shares, '%.2f' % self.cash_balance, '%.2f' % self.value(price)])
-            return self.cash_balance, self.number_of_shares
-            
-        else:
-            self.number_of_shares = 10000 / price
-            self.cash_balance = self.cash_balance - 10000
-            self.trade_history.append([date, "bought", '%.2f' % price, '%.2f' % self.number_of_shares, '%.2f' % self.cash_balance, '%.2f' % self.value(price)])
-            return self.cash_balance, self.number_of_shares
-                
+        self.number_of_shares = self.cash_balance / price
+        self.cash_balance = 0
+        self.trade_history.append([date, "bought", '%.2f' % price, '%.2f' % self.number_of_shares, '%.2f' % self.cash_balance, '%.2f' % self.value(price)])
+        return self.cash_balance, self.number_of_shares
     
     def sell_at_price(self, price, date):
         price = float(price)
-        self.cash_balance = self.cash_balance + (self.number_of_shares * price)
+        self.cash_balance = self.number_of_shares * price
         self.number_of_shares = 0
         self.trade_history.append([date, "sold", '%.2f' % price, '%.2f' % self.number_of_shares, '%.2f' % self.cash_balance, '%.2f' % self.value(price)])
         return self.cash_balance,  self.number_of_shares
