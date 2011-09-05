@@ -52,7 +52,7 @@ function chartData(rawJson) {
       bgData[l] = [rawJsonData.length - delta, delta];
     }
     
-    for (i = 0; i < bgData.lenth; i++) {
+    for (i = 0; i < bgData.length; i++) {
       var bg = bgData[i];
     }
 
